@@ -80,10 +80,10 @@ Dans un autre terminal :
 
 ## 🧩 Utilisation
 
-Crée un compte ou connecte-toi.
-Lance un quiz pour tester tes connaissances.
-Obtiens ton score à la fin du quiz.
-(À venir) Consulte le classement des meilleurs joueurs.
+Crée un compte ou connecte-toi.       
+Lance un quiz pour tester tes connaissances.     
+Obtiens ton score à la fin du quiz.     
+(À venir) Consulte le classement des meilleurs joueurs.     
 
 --- 
 
