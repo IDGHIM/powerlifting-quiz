@@ -68,10 +68,10 @@ Créer un fichier .env dans le dossier server avec les variables suivantes :
 
 ### Lancement
 
-Dans un terminal : 
+Dans un terminal :       
 `cd server`       
 `npm run dev`      
-Dans un autre terminal : 
+Dans un autre terminal :         
 `cd client`       
 `npm start`
 
