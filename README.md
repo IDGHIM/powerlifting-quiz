@@ -61,7 +61,7 @@ powerlifting-quiz/
 
 ### Configuration
 
-Créer un fichier .env dans le dossier server avec les variables suivantes :
+Créer un fichier .env dans le dossier server avec les variables suivantes :     
 `PORT=5000`     
 `MONGO_URI=ton_uri_mongodb`       
 `JWT_SECRET=ton_secret_jwt`
