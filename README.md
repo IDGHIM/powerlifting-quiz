@@ -46,34 +46,34 @@ powerlifting-quiz/
 
 1. Cloner le dépôt
 
-`git clone https://github.com/ton-utilisateur/powerlifting-quiz.git    
-cd powerlifting-quiz`
+`git clone https://github.com/ton-utilisateur/powerlifting-quiz.git`     
+`cd powerlifting-quiz`
 
 2. Installer les dépendances front-end
 
-`cd client     
-npm install`
+`cd client`       
+`npm install`
 
 3. Installer les dépendances back-end
 
-`cd ../server     
-npm install`
+`cd ../server`         
+`npm install`
 
 ### Configuration
 
 Créer un fichier .env dans le dossier server avec les variables suivantes :
-`PORT=5000    
-MONGO_URI=ton_uri_mongodb     
-JWT_SECRET=ton_secret_jwt`
+`PORT=5000`     
+`MONGO_URI=ton_uri_mongodb`       
+`JWT_SECRET=ton_secret_jwt`
 
 ### Lancement
 
 Dans un terminal : 
-`cd server    
-npm run dev`
+`cd server`       
+`npm run dev`
 Dans un autre terminal : 
-`cd client    
-npm start`
+`cd client`       
+`npm start`
 
 ---
 
