@@ -16,7 +16,7 @@ Bienvenue dans **Powerlifting Quiz**, une application web interactive dédiée a
 
 ## 🛠️ Technologies utilisées
 
-- **Front-end :** React, TypeScript, React Router, Axios
+- **Front-end :** React, TypeScript, React Router, Axios  
 - **Back-end :** Node.js, Express, TypeScript, MongoDB, Mongoose
 - **Authentification :** JSON Web Tokens (JWT)
 - **Outils de développement :** Docker (optionnel), ESLint, Prettier
@@ -26,11 +26,11 @@ Bienvenue dans **Powerlifting Quiz**, une application web interactive dédiée a
 ## 📁 Structure du projet
 
 powerlifting-quiz/
-├── client/            # 🎨 Front-end React
-├── server/            # 🖥️ Back-end Node.js
-├── docker-compose.yml # 🐳 (Optionnel) Configuration Docker
-├── README.md          # 📝 Documentation du projet 
-└── .gitignore         # 🚫 Fichiers ignorés par Git
+├── client/            # 🎨 Front-end React  
+├── server/            # 🖥️ Back-end Node.js  
+├── docker-compose.yml # 🐳 (Optionnel) Configuration Docker  
+├── README.md          # 📝 Documentation du projet   
+└── .gitignore         # 🚫 Fichiers ignorés par Git  
 
 ---
 
@@ -91,4 +91,14 @@ Obtiens ton score à la fin du quiz.
 Ce projet est sous licence XX. Voir le fichier ()[] pour plus de détails.
 
 --- 
+
+## 📫 Contact
+
+- GitHub: [@idghim](https://github.com/idghim)  
+- freeCodeCamp: [My Profile](https://www.freecodecamp.org/IchemD)
+- Mail : [Email](ichemdghim@gmail.com)
+
+---
+
+⭐ *Merci d'avoir consulté ce projet ! N'hésitez pas à laisser une étoile si vous l'avez trouvé utile ou inspirant.*
 
