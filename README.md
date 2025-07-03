@@ -25,7 +25,7 @@ Bienvenue dans **Powerlifting Quiz**, une application web interactive dédiée a
 
 ## 📁 Structure du projet
 
-powerlifting-quiz/
+powerlifting-quiz/    
 ├── client/            # 🎨 Front-end React  
 ├── server/            # 🖥️ Back-end Node.js  
 ├── docker-compose.yml # 🐳 (Optionnel) Configuration Docker  
