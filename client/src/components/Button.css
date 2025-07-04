@@ -1,0 +1,15 @@
+.custom-button {
+  background-color: #e10600; /* couleur SBD */
+  color: #fff;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  margin: 1rem 0;
+  transition: background-color 0.3s ease;
+}
+
+.custom-button:hover {
+  background-color: #a50000; /* couleur plus foncée au survol */
+}

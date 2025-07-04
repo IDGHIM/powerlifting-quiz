@@ -1,6 +1,8 @@
+import './Footer.css';
+
 const Footer = () => {
   return (
-    <footer className="p-4 border-t text-center mt-8">
+    <footer className="footer">
       <p>© {new Date().getFullYear()} PowerQuiz. Tous droits réservés.</p>
     </footer>
   );

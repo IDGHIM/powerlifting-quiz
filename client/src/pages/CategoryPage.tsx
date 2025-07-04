@@ -1,26 +1,22 @@
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import Button from '../components/Button.tsx';
+import './CategoryPage.css';
 
-const categories = [
-  { name: 'Règles officielles IPF', path: '/quiz?category=ipf' },
-  { name: 'Techniques de mouvements', path: '/quiz?category=technique' },
-  { name: 'Stratégies en compétitions', path: '/quiz?category=strategie' },
-  { name: 'Anatomie et biomécanique', path: '/quiz?category=anatomie' },
-  { name: 'Culture powerlifting', path: '/quiz?category=culture' },
-];
-
-const CategoryPage = () => {
+const CategoryPage: React.FC = () => {
   const navigate = useNavigate();
 
+  const handleSelectCategory = (category: string) => {
+    navigate(`/quiz?category=${category}`);
+  };
+
   return (
-    <div>
-      <h2>Choisissez une catégorie</h2>
-      <ul>
-        {categories.map((cat) => (
-          <li key={cat.name}>
-            <button onClick={() => navigate(cat.path)}>{cat.name}</button>
-          </li>
-        ))}
-      </ul>
+    <div className="category-page">
+      <h1>Choisissez une catégorie</h1>
+      <div className="category-buttons">
+        <Button text="Culture Powerlifting" onClick={() => handleSelectCategory('culture')} />
+        <Button text="Technique de Mouvement" onClick={() => handleSelectCategory('technique')} />
+      </div>
     </div>
   );
 };

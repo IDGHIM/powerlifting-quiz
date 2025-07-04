@@ -1,22 +1,20 @@
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar.tsx';
-import Footer from './components/Footer.tsx';
 import HomePage from './pages/HomePage.tsx';
-import CategoryPage from './pages/CategoryPage.tsx';
+import QuizPage from './features/quiz/QuizPage.tsx';
+import CategoriesPage from './pages/CategoryPage.tsx';
+import Layout from './components/Layout.tsx';
 
-const App = () => {
+const App: React.FC = () => {
   return (
     <Router>
-      <div className="flex flex-col min-h-screen">
-        <Navbar />
-        <main className="flex-grow p-4">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/categories" element={<CategoryPage />} />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/categories" element={<CategoriesPage />} />
+          <Route path="/quiz" element={<QuizPage />} />
+        </Routes>
+      </Layout>
     </Router>
   );
 };

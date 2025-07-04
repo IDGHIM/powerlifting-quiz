@@ -1,0 +1,81 @@
+body {
+  margin: 0;
+  font-family: 'Arial Black', sans-serif;
+  background-color: #000; /* Fond noir dominant */
+  color: #fff; /* Texte blanc */
+}
+
+.navbar {
+  background-color: #e10600; /* Rouge SBD */
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar h1 {
+  font-size: 2rem;
+  margin: 0;
+}
+
+.navbar a {
+  color: #fff;
+  text-decoration: none;
+  margin-left: 1rem;
+  font-weight: bold;
+}
+
+section#powerlifting {
+  padding: 3rem 2rem;
+  text-align: center;
+}
+
+section#powerlifting h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+section#powerlifting p {
+  font-size: 1.2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+section#quiz {
+  background-color: #1a1a1a;
+  padding: 3rem 2rem;
+  text-align: center;
+}
+
+section#quiz h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+section#quiz p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+section#quiz button {
+  background-color: #e10600; /* Rouge SBD */
+  color: #fff;
+  padding: 1rem 2rem;
+  border: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+section#quiz button:hover {
+  background-color: #b20000; /* Rouge plus foncé */
+}
+
+footer {
+  background-color: #121212;
+  padding: 1rem 2rem;
+  text-align: center;
+  color: #777;
+  font-size: 0.9rem;
+}

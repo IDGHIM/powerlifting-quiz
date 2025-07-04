@@ -1,5 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import './HomePage.css'; 
+import Navbar from '../components/Navbar.tsx'; 
+import Footer from '../components/Footer.tsx'; 
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
@@ -10,7 +13,6 @@ const HomePage: React.FC = () => {
 
   return (
     <div>
-
       {/* Section de présentation */}
       <section id="powerlifting">
         <h1>Bienvenue sur Powerlifting Quiz</h1>
@@ -26,7 +28,7 @@ const HomePage: React.FC = () => {
         <p>Sélectionnez un quiz !</p>
         <button onClick={handleStartQuiz}>Commencer le Quiz</button>
       </section>
-
+      
     </div>
   );
 };
