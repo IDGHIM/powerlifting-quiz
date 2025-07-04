@@ -7,7 +7,7 @@ const Navbar = () => {
       <h1>PowerQuiz</h1>
       <div className="nav-links">
         <Link to="/">Accueil</Link>
-        <Link to="/quiz">Quiz</Link>
+        <Link to="/categories">Quiz</Link>
         <Link to="/about">À propos</Link>
       </div>
     </nav>
