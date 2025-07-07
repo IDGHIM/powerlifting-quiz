@@ -21,9 +21,14 @@ const CategoryPage: React.FC = () => {
             onClick={() => handleSelectCategory('culture')}
           />
           <Button
-            text="Technique de Mouvement"
+            text="Règles IPF"
             className="category-button"
-            onClick={() => handleSelectCategory('technique')}
+            onClick={() => handleSelectCategory('Règlement')}
+          />
+          <Button
+            text="Anatomie & Biomécanique"
+            className="category-button"
+            onClick={() => handleSelectCategory('Biomécanique')}
           />
         </div>
       </section>

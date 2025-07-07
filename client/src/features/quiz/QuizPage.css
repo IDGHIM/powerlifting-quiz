@@ -36,6 +36,7 @@
   background-color: var(--sbd-black);
   border-radius: 1rem;
   padding: 2rem;
+  margin: auto;
   max-width: 600px;
   width: 100%;
   box-shadow: 0 0 10px var(--sbd-red);

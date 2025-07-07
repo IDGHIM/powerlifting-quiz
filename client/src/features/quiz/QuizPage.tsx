@@ -40,7 +40,7 @@ const QuizPage: React.FC = () => {
       } else {
         setShowResult(true);
       }
-    }, 500);
+    }, 1000);
   };
 
   return (
