@@ -1,5 +1,3 @@
-// client/src/data/quizData.ts
-
 export type Question = {
   question: string;
   options: string[];

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { quizDatabase, Question } from '../../data/quizData.ts';
 import './QuizPage.css';
+import Badge from '../../components/badges.tsx';
 
 const QuizPage: React.FC = () => {
   const location = useLocation();
@@ -78,6 +79,7 @@ const QuizPage: React.FC = () => {
           <div className="quiz-result">
             <h2>Quiz terminé !</h2>
             <p>Votre score : {score} / {quizData.length}</p>
+             <Badge scorePercentage={(score / quizData.length) * 100} />
           </div>
         )}
       </div>

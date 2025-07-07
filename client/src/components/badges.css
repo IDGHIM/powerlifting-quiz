@@ -1,0 +1,61 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 30px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: white;
+  border: 3px solid transparent;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: badgeEntrance 0.8s ease;
+}
+
+.badge:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
+}
+
+.badge-icon {
+  font-size: 1.8rem;
+}
+
+/* Badge Niveau 0 - 25% */
+.badge-low {
+  background: linear-gradient(45deg, #555, #333);
+  border-color: #888;
+}
+
+/* Badge Niveau 25 - 50% */
+.badge-medium {
+  background: linear-gradient(45deg, #f5a623, #d48806);
+  border-color: #f5a623;
+}
+
+/* Badge Niveau 50 - 75% */
+.badge-good {
+  background: linear-gradient(45deg, #e10600, #a50000);
+  border-color: #e10600;
+}
+
+/* Badge Niveau 75 - 100% */
+.badge-excellent {
+  background: linear-gradient(45deg, #ffd700, #f5c400);
+  border-color: #ffd700;
+}
+
+/* Animation d'entrée */
+@keyframes badgeEntrance {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) rotate(-15deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
