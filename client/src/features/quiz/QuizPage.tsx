@@ -18,7 +18,12 @@ const QuizPage: React.FC = () => {
 
   // Gestion de l'absence de catégorie ou catégorie non trouvée
   if (!quizData) {
-    return <div><h2>Catégorie non trouvée</h2><p>Veuillez choisir une catégorie valide.</p></div>;
+    return (
+      <div>
+        <h2>Catégorie non trouvée</h2>
+        <p>Veuillez choisir une catégorie valide.</p>
+      </div>
+    );
   }
 
   const currentQuestion = quizData[currentQuestionIndex];
@@ -39,31 +44,43 @@ const QuizPage: React.FC = () => {
   };
 
   return (
-    <div className="quiz-container">
-      <h1>Quiz : {category}</h1>
-      <p>Ici, tu vas répondre à un quiz sur : {category}</p>
+    
+      <div className="quiz-container">
+        <h1>Quiz : {category}</h1>
+        <p>Ici, tu vas répondre à un quiz sur : {category}</p>
 
-      {!showResult ? (
-        <div className="quiz-card">
-          <h2>Question {currentQuestionIndex + 1} / {quizData.length}</h2>
-          <p>{currentQuestion.question}</p>
-          {currentQuestion.options.map((option, index) => (
-            <button
-              key={index}
-              onClick={() => handleAnswer(option)}
-              className={`quiz-option ${selectedOption ? option === currentQuestion.answer ? 'correct' : option === selectedOption ? 'incorrect' : '' : ''}`}
-            >
-              {option}
-            </button>
-          ))}
-        </div>
-      ) : (
-        <div className="quiz-result">
-          <h2>Quiz terminé !</h2>
-          <p>Votre score : {score} / {quizData.length}</p>
-        </div>
-      )}
-    </div>
+        {!showResult ? (
+          <div className="quiz-card">
+            <h2>Question {currentQuestionIndex + 1} / {quizData.length}</h2>
+            <p>{currentQuestion.question}</p>
+            <div className="quiz-options">
+              {currentQuestion.options.map((option, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleAnswer(option)}
+                  className={`quiz-option ${
+                    selectedOption
+                      ? option === currentQuestion.answer
+                        ? 'correct'
+                        : option === selectedOption
+                        ? 'incorrect'
+                        : ''
+                      : ''
+                  }`}
+                  disabled={!!selectedOption} // désactive après sélection
+                >
+                  {option}
+                </button>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div className="quiz-result">
+            <h2>Quiz terminé !</h2>
+            <p>Votre score : {score} / {quizData.length}</p>
+          </div>
+        )}
+      </div>
   );
 };
 

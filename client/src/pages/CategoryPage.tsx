@@ -12,11 +12,21 @@ const CategoryPage: React.FC = () => {
 
   return (
     <div className="category-page">
-      <h1>Choisissez une catégorie</h1>
-      <div className="category-buttons">
-        <Button text="Culture Powerlifting" onClick={() => handleSelectCategory('culture')} />
-        <Button text="Technique de Mouvement" onClick={() => handleSelectCategory('technique')} />
-      </div>
+      <section className="category-section">
+        <h1 className="category-title">Choisissez une catégorie</h1>
+        <div className="category-buttons">
+          <Button
+            text="Culture Powerlifting"
+            className="category-button"
+            onClick={() => handleSelectCategory('culture')}
+          />
+          <Button
+            text="Technique de Mouvement"
+            className="category-button"
+            onClick={() => handleSelectCategory('technique')}
+          />
+        </div>
+      </section>
     </div>
   );
 };

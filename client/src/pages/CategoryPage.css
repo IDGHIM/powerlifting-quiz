@@ -1,20 +1,184 @@
+:root {
+  --sbd-red: #E30613;
+  --sbd-dark-red: #8B0C14;
+  --sbd-black: #1C1C1C;
+  --sbd-gray: #A7A9AC;
+  --sbd-white: #F5F5F5;
+
+  --transition-speed: 0.3s;
+  --box-radius: 16px;
+  --shadow-glow: 0 0 15px var(--sbd-red);
+  --font-primary: 'Impact', 'Arial Black', sans-serif;
+}
+
+/* Page Container */
 .category-page {
+  min-height: 100vh;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  padding: 2rem;
+  padding: 3rem;
+  background: linear-gradient(-45deg, var(--sbd-black), var(--sbd-dark-red), var(--sbd-red), var(--sbd-gray));
+  background-size: 400% 400%;
+  animation: gradientShift 20s ease infinite;
+  position: relative;
+  overflow: hidden;
+  animation: fadeIn 1.5s ease;
+  font-family: var(--font-primary);
+  color: var(--sbd-white);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  user-select: none;
+  box-sizing: border-box;
 }
 
-.category-page h1 {
-  color: #e10600;
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
+/* Overlay Sportif avec texture métal brossé */
+.category-page::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: repeating-radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.07) 0px,
+    transparent 8px,
+    transparent 12px
+  );
+  z-index: 0;
+  animation: pulse 6s ease-in-out infinite;
+  pointer-events: none;
+  filter: brightness(0.8) contrast(1.2);
+  mix-blend-mode: screen;
 }
 
+/* Section Conteneur */
+.category-section {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+  padding: 5rem 4rem;
+  border-radius: var(--box-radius);
+  box-shadow:
+    inset 0 0 15px #e3061311,
+    0 8px 25px rgba(227, 6, 19, 0.85);
+  border: 2px solid var(--sbd-red);
+  max-width: 480px;
+  width: 100%;
+  user-select: none;
+  transition: box-shadow 0.3s ease;
+}
+
+.category-section:hover {
+  box-shadow:
+    inset 0 0 25px #ff0000cc,
+    0 10px 30px #ff2b2bcc;
+}
+
+/* Titre */
+.category-title {
+  font-size: 3.6rem;
+  color: var(--sbd-red);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-bottom: 4rem;
+  font-weight: 900;
+  text-shadow:
+    1px 1px 4px var(--sbd-dark-red),
+    0 0 15px var(--sbd-red);
+  animation: fadeDown 1.2s ease;
+  user-select: text;
+}
+
+/* Container des Boutons */
 .category-buttons {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  width: 100%;
-  max-width: 400px;
+  gap: 2.5rem;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (min-width: 600px) {
+  .category-buttons {
+    flex-direction: row;
+  }
+}
+
+/* Style des Boutons */
+.category-button {
+  background: linear-gradient(145deg, var(--sbd-red), var(--sbd-dark-red));
+  color: var(--sbd-white);
+  border: 2px solid var(--sbd-white);
+  padding: 1.6rem 4rem;
+  font-size: 1.7rem;
+  font-weight: 900;
+  border-radius: var(--box-radius);
+  cursor: pointer;
+  transition:
+    background-color var(--transition-speed),
+    transform var(--transition-speed),
+    box-shadow var(--transition-speed),
+    border-color var(--transition-speed);
+  box-shadow:
+    0 0 8px var(--sbd-red),
+    inset 0 0 10px var(--sbd-red);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  user-select: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.category-button::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.15), transparent 70%);
+  transform: rotate(45deg);
+  transition: opacity 0.5s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.category-button:hover::before {
+  opacity: 1;
+}
+
+.category-button:hover {
+  background: linear-gradient(145deg, var(--sbd-dark-red), var(--sbd-red));
+  border-color: var(--sbd-white);
+  transform: translateY(-6px) scale(1.05);
+  box-shadow:
+    0 0 20px var(--sbd-red),
+    inset 0 0 15px var(--sbd-red);
+}
+
+/* Animations Globales */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.05); }
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes fadeDown {
+  0% { opacity: 0; transform: translateY(-30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
