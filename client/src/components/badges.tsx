@@ -1,6 +1,6 @@
 import React from 'react';
 import './badges.css';
-import { FaMedal, FaTrophy, FaStar, FaCrown } from 'react-icons/fa';
+import { FaMedal, FaTrophy, FaStar, FaCrown, FaDumbbell } from 'react-icons/fa';
 
 interface BadgeProps {
   scorePercentage: number;
@@ -37,10 +37,15 @@ const Badge: React.FC<BadgeProps> = ({ scorePercentage }) => {
     badgeText = 'Solide';
     badgeIcon = <FaStar className="badge-icon" />;
     // playSound(solidSound);
-  } else {
+  } else if (scorePercentage < 90) {
     badgeClass = 'badge-excellent';
     badgeText = 'Champion';
     badgeIcon = <FaCrown className="badge-icon" />;
+    // playSound(championSound);
+  } else {
+    badgeClass = 'badge-powerlifting';
+    badgeText = 'Powerlifting';
+    badgeIcon = <FaDumbbell className="badge-icon" />;
     // playSound(championSound);
   }
 

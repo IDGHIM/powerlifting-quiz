@@ -2,7 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage.tsx';
 import QuizPage from './features/quiz/QuizPage.tsx';
-import CategoriesPage from './pages/CategoryPage.tsx';
+import ResultPage from './pages/ResultPage.tsx';
+import CategoryPage from './pages/CategoryPage.tsx';
 import Layout from './components/Layout.tsx';
 
 const App: React.FC = () => {
@@ -11,8 +12,9 @@ const App: React.FC = () => {
       <Layout>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/categories" element={<CategoriesPage />} />
+          <Route path="/categories" element={<CategoryPage />} />
           <Route path="/quiz" element={<QuizPage />} />
+          <Route path="/result" element={<ResultPage />} />
         </Routes>
       </Layout>
     </Router>

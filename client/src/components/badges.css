@@ -42,10 +42,41 @@
   border-color: #e10600;
 }
 
-/* Badge Niveau 75 - 100% */
+/* Badge Niveau 75 - 90% */
 .badge-excellent {
   background: linear-gradient(45deg, #ffd700, #f5c400);
   border-color: #ffd700;
+  color: #1c1c1c;
+}
+
+/* Badge Niveau 90%+ Powerlifting */
+.badge-powerlifting {
+  background: linear-gradient(45deg, #3a3a3a, #1c1c1c);
+  border-color: #e30613;
+  color: #e30613;
+  box-shadow:
+    0 0 10px #e30613,
+    inset 0 0 8px #8b0c14;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-shadow:
+    0 0 6px #e30613,
+    0 0 12px #8b0c14;
+}
+
+/* Force la couleur et ajoute glow sur l’icône haltère */
+.badge-powerlifting .badge-icon {
+  color: #e30613;
+  filter: drop-shadow(0 0 6px #8b0c14);
+  transition: color 0.3s ease, filter 0.3s ease;
+}
+
+/* Animation au hover sur le badge Powerlifting pour l’icône */
+.badge-powerlifting:hover .badge-icon {
+  color: #ff2a2a;
+  filter: drop-shadow(0 0 12px #ff2a2a);
+  transform: scale(1.2);
+  transition: transform 0.3s ease, color 0.3s ease, filter 0.3s ease;
 }
 
 /* Animation d'entrée */

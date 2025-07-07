@@ -1,23 +1,20 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { quizDatabase, Question } from '../../data/quizData.ts';
 import './QuizPage.css';
-import Badge from '../../components/badges.tsx';
 
 const QuizPage: React.FC = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
   const category = queryParams.get('category');
 
-  // Sélection des questions selon la catégorie
   const quizData = quizDatabase[category as string];
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [score, setScore] = useState(0);
-  const [showResult, setShowResult] = useState(false);
 
-  // Gestion de l'absence de catégorie ou catégorie non trouvée
   if (!quizData) {
     return (
       <div>
@@ -31,58 +28,53 @@ const QuizPage: React.FC = () => {
 
   const handleAnswer = (option: string) => {
     setSelectedOption(option);
-    if (option === currentQuestion.answer) {
-      setScore(score + 1);
-    }
+
+    const isCorrect = option === currentQuestion.answer;
+    const newScore = isCorrect ? score + 1 : score;
+
     setTimeout(() => {
       if (currentQuestionIndex + 1 < quizData.length) {
         setCurrentQuestionIndex(currentQuestionIndex + 1);
         setSelectedOption(null);
+        setScore(newScore);
       } else {
-        setShowResult(true);
+        navigate('/result', {
+          state: { score: newScore, total: quizData.length, category }
+        });
       }
     }, 1000);
   };
 
   return (
-    
-      <div className="quiz-container">
-        <h1>Quiz : {category}</h1>
-        <p>Ici, tu vas répondre à un quiz sur : {category}</p>
+    <div className="quiz-container">
+      <h1>Quiz : {category}</h1>
+      <p>Ici, tu vas répondre à un quiz sur : {category}</p>
 
-        {!showResult ? (
-          <div className="quiz-card">
-            <h2>Question {currentQuestionIndex + 1} / {quizData.length}</h2>
-            <p>{currentQuestion.question}</p>
-            <div className="quiz-options">
-              {currentQuestion.options.map((option, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleAnswer(option)}
-                  className={`quiz-option ${
-                    selectedOption
-                      ? option === currentQuestion.answer
-                        ? 'correct'
-                        : option === selectedOption
-                        ? 'incorrect'
-                        : ''
-                      : ''
-                  }`}
-                  disabled={!!selectedOption} // désactive après sélection
-                >
-                  {option}
-                </button>
-              ))}
-            </div>
-          </div>
-        ) : (
-          <div className="quiz-result">
-            <h2>Quiz terminé !</h2>
-            <p>Votre score : {score} / {quizData.length}</p>
-             <Badge scorePercentage={(score / quizData.length) * 100} />
-          </div>
-        )}
+      <div className="quiz-card">
+        <h2>Question {currentQuestionIndex + 1} / {quizData.length}</h2>
+        <p>{currentQuestion.question}</p>
+        <div className="quiz-options">
+          {currentQuestion.options.map((option, index) => (
+            <button
+              key={index}
+              onClick={() => handleAnswer(option)}
+              className={`quiz-option ${
+                selectedOption
+                  ? option === currentQuestion.answer
+                    ? 'correct'
+                    : option === selectedOption
+                    ? 'incorrect'
+                    : ''
+                  : ''
+              }`}
+              disabled={!!selectedOption}
+            >
+              {option}
+            </button>
+          ))}
+        </div>
       </div>
+    </div>
   );
 };
 
