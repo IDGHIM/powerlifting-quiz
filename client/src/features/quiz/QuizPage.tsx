@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { quizDatabase, Question } from '../../data/quizData.ts';
+import Timer from '../../components/Timer.tsx';
 import './QuizPage.css';
 
 const shuffleArray = <T,>(array: T[]): T[] => {
@@ -12,6 +13,7 @@ const QuizPage: React.FC = () => {
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
   const category = queryParams.get('category');
+  const mode = queryParams.get('mode') || 'classic'; // 'classic' ou 'timer'
 
   const rawQuizData = quizDatabase[category as string];
 
@@ -19,6 +21,7 @@ const QuizPage: React.FC = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [score, setScore] = useState(0);
+  const [quizFinished, setQuizFinished] = useState(false);
 
   useEffect(() => {
     if (rawQuizData) {
@@ -31,6 +34,13 @@ const QuizPage: React.FC = () => {
     }
   }, [rawQuizData]);
 
+  const handleTimeUp = () => {
+    setQuizFinished(true);
+    navigate('/result', {
+      state: { score, total: quizData.length, category, mode },
+    });
+  };
+
   if (!rawQuizData) {
     return (
       <div>
@@ -41,32 +51,57 @@ const QuizPage: React.FC = () => {
   }
 
   if (quizData.length === 0) return <p>Chargement du quiz...</p>;
+  if (quizFinished) return null;
 
   const currentQuestion = quizData[currentQuestionIndex];
 
   const handleAnswer = (option: string) => {
-    setSelectedOption(option);
-
     const isCorrect = option === currentQuestion.answer;
-    const newScore = isCorrect ? score + 1 : score;
+    if (isCorrect) setScore((prev) => prev + 1);
 
-    setTimeout(() => {
+    if (mode === 'classic') {
+      setSelectedOption(option);
+      setTimeout(() => {
+        if (currentQuestionIndex + 1 < quizData.length) {
+          setCurrentQuestionIndex((prev) => prev + 1);
+          setSelectedOption(null);
+        } else {
+          navigate('/result', {
+            state: {
+              score: isCorrect ? score + 1 : score,
+              total: quizData.length,
+              category,
+              mode,
+            },
+          });
+        }
+      }, 1000);
+    } else {
+      // Mode timer : avance directement sans pause
       if (currentQuestionIndex + 1 < quizData.length) {
-        setCurrentQuestionIndex(currentQuestionIndex + 1);
-        setSelectedOption(null);
-        setScore(newScore);
+        setCurrentQuestionIndex((prev) => prev + 1);
       } else {
+        setQuizFinished(true);
         navigate('/result', {
-          state: { score: newScore, total: quizData.length, category }
+          state: {
+            score: isCorrect ? score + 1 : score,
+            total: quizData.length,
+            category,
+            mode,
+          },
         });
       }
-    }, 1000);
+    }
   };
 
   return (
     <div className="quiz-container">
       <h1>Quiz : {category}</h1>
-      <p>Ici, tu vas répondre à un quiz sur : {category}</p>
+      <p>Mode sélectionné : <strong>{mode === 'timer' ? 'Contre-la-montre' : 'Classique'}</strong></p>
+
+      {mode === 'timer' && (
+        <Timer duration={60} onTimeUp={handleTimeUp} />
+      )}
 
       <div className="quiz-card">
         <h2>Question {currentQuestionIndex + 1} / {quizData.length}</h2>
@@ -77,7 +112,7 @@ const QuizPage: React.FC = () => {
               key={index}
               onClick={() => handleAnswer(option)}
               className={`quiz-option ${
-                selectedOption
+                mode === 'classic' && selectedOption
                   ? option === currentQuestion.answer
                     ? 'correct'
                     : option === selectedOption
@@ -85,7 +120,7 @@ const QuizPage: React.FC = () => {
                     : ''
                   : ''
               }`}
-              disabled={!!selectedOption}
+              disabled={mode === 'classic' && !!selectedOption}
             >
               {option}
             </button>
