@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../components/Button.tsx';
-import './CategoryPage.css';
 
 const CategoryPage: React.FC = () => {
   const navigate = useNavigate();

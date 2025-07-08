@@ -1,5 +1,5 @@
 import React from 'react';
-import './badges.css';
+import './Badges.css';
 import { FaMedal, FaTrophy, FaStar, FaCrown, FaDumbbell } from 'react-icons/fa';
 
 interface BadgeProps {

@@ -1,7 +1,6 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Badge from './../components/badges.tsx';
-import './ResultPage.css';
+import Badge from '../components/Badges.tsx'
 
 const ResultPage: React.FC = () => {
   const location = useLocation();
