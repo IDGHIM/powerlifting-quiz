@@ -1,9 +1,11 @@
 .navbar {
   background-color: #e10600;
+  height: 80px; /* hauteur de la navbar */
   padding: 1rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 }
 
 .navbar h1 {
@@ -21,3 +23,13 @@
 .nav-links a:hover {
   text-decoration: underline;
 }
+
+.logo {
+  position: absolute;
+  top: 20px; /* dépasse de 20px au-dessus de la navbar */
+  left: 2rem; /* espace à gauche comme le padding */
+  height: 80px; /* un peu plus grand que la navbar */
+  cursor: pointer;
+  z-index: 10; /* pour être au-dessus */
+}
+
