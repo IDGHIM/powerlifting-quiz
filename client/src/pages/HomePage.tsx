@@ -1,8 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './HomePage.css';
-import Navbar from '../components/Navbar.tsx';
-import Footer from '../components/Footer.tsx';
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();

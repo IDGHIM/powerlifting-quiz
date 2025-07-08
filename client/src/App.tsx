@@ -4,6 +4,7 @@ import HomePage from './pages/HomePage.tsx';
 import QuizPage from './features/quiz/QuizPage.tsx';
 import ResultPage from './pages/ResultPage.tsx';
 import CategoryPage from './pages/CategoryPage.tsx';
+import AboutPage from './pages/AboutPage.tsx';
 import Layout from './components/Layout.tsx';
 
 const App: React.FC = () => {
@@ -12,6 +13,7 @@ const App: React.FC = () => {
       <Layout>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/about" element={<AboutPage />} />
           <Route path="/categories" element={<CategoryPage />} />
           <Route path="/quiz" element={<QuizPage />} />
           <Route path="/result" element={<ResultPage />} />
