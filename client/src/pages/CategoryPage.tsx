@@ -10,7 +10,7 @@ const CategoryPage: React.FC = () => {
     setSelectedCategory(category);
   };
 
-  const handleModeSelect = (mode: 'classic' | 'timer') => {
+  const handleModeSelect = (mode: 'classic' | 'timer' | '2players') => {
     if (!selectedCategory) return;
     navigate(`/quiz?category=${selectedCategory}&mode=${mode}`);
   };
@@ -51,6 +51,11 @@ const CategoryPage: React.FC = () => {
                 text="⏱️ Contre-la-montre"
                 className="mode-button timer"
                 onClick={() => handleModeSelect('timer')}
+              />
+              <Button
+                text="👥 2 Joueurs"
+                className="mode-button two-players"
+                onClick={() => handleModeSelect('2players')}
               />
             </div>
           </>

@@ -1,0 +1,122 @@
+:root {
+  --iron-gray: #4b4b4b;
+  --plate-red: #d32f2f;
+  --chalk-white: #f5f5f5;
+  --rubber-black: #121212;
+  --platform-wood: #8b6e4a;
+
+  --energy-orange: #ff6f00;
+  --deep-blue: #003366;
+  --metallic-silver: #b0b0b0;
+
+  --dark-shadow: #2a2a2a;
+  --light-shadow: #d9d9d9;
+
+  --font-title: 'Impact', 'Arial Black', sans-serif;
+  --font-body: 'Roboto', sans-serif;
+
+  --border-radius: 12px;
+  --transition-speed: 0.3s;
+}
+
+/* Conteneur principal du quiz */
+.quiz-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1rem 2rem;
+  background-color: var(--iron-gray);
+  border-radius: var(--border-radius);
+  box-shadow: 0 0 20px var(--dark-shadow);
+  color: var(--chalk-white);
+  text-align: center;
+}
+
+/* Titre principal */
+.quiz-container > h1 {
+  font-family: var(--font-title);
+  font-size: 2.25rem;
+  margin-bottom: 0.3rem;
+  color: var(--plate-red);
+}
+
+/* Description du mode */
+.quiz-container > p {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  color: var(--energy-orange);
+}
+
+/* Carte contenant la question */
+.quiz-card {
+  background-color: var(--platform-wood);
+  padding: 2rem;
+  border-radius: var(--border-radius);
+  box-shadow: 0 0 15px var(--metallic-silver);
+  text-align: left;
+}
+
+/* Titre question */
+.quiz-card > h2 {
+  font-family: var(--font-title);
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+  color: var(--deep-blue);
+}
+
+/* Texte de la question */
+.quiz-card > p {
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+  color: var(--chalk-white);
+}
+
+/* Conteneur des options */
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Boutons options */
+.quiz-option {
+  background-color: var(--metallic-silver);
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 0.75rem 1rem;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: black;
+  transition: background-color var(--transition-speed), color var(--transition-speed);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Désactivation du bouton */
+.quiz-option:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Option sélectionnée correcte */
+.quiz-option.correct {
+  background-color: #4caf50; /* vert */
+  color: white;
+  box-shadow: 0 0 10px #4caf50;
+}
+
+/* Option sélectionnée incorrecte */
+.quiz-option.incorrect {
+  background-color: #e53935; /* rouge */
+  color: white;
+  box-shadow: 0 0 10px #e53935;
+}
+
+/* Effet hover uniquement sur boutons actifs */
+.quiz-option:not(:disabled):hover {
+  background-color: var(--plate-red);
+  color: white;
+  transform: scale(1.05);
+  box-shadow: 0 0 15px var(--plate-red);
+  transition: all 0.3s ease;
+}
