@@ -1,0 +1,71 @@
+/* Boutons de catégorie */
+.category-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.category-button {
+  padding: 0.75rem 1.5rem;
+  background-color: #e0e0e0;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.category-button:hover {
+  background-color: #d0d0d0;
+}
+
+.category-button.active {
+  background-color: #4a90e2;
+  color: white;
+  font-weight: bold;
+}
+
+/* Boutons de mode */
+.mode-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.mode-button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.mode-button.classic {
+  background-color: #6ab04c;
+  color: white;
+}
+
+.mode-button.classic:hover {
+  background-color: #4e8a30;
+}
+
+.mode-button.timer {
+  background-color: #f39c12;
+  color: white;
+}
+
+.mode-button.timer:hover {
+  background-color: #b2700b;
+}
+
+.mode-button.two-players {
+  background-color: #2980b9;
+  color: white;
+}
+
+.mode-button.two-players:hover {
+  background-color: #1b4f72;
+}

@@ -1,0 +1,82 @@
+:root {
+  /* Couleurs fortes & dynamiques */
+  --power-black: #1a1a1a;          /* Noir profond */
+  --power-red: #d72631;            /* Rouge vif */
+  
+  /* Tons métalliques & gris */
+  --metallic-steel: #4a4e69;       /* Acier foncé */
+  --silver-gray: #9a8c98;          /* Gris argenté */
+  
+  /* Couleurs neutres pour équilibre */
+  --off-white: #f5f5f5;            /* Blanc cassé */
+  --charcoal-black: #22223b;       /* Noir charbon */
+}
+
+/* Bouton Commencer le Quiz */
+.start-button {
+  display: inline-block;
+  margin: 2rem auto 0; /* auto horizontal pour centrage */
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background-color: var(--power-red);
+  color: var(--off-white);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+  box-shadow: 0 4px 6px rgba(215, 38, 49, 0.5);
+}
+
+/* Hover, Active, Focus */
+.start-button:hover {
+  background-color: #b31f27;
+  transform: scale(1.05);
+}
+
+.start-button:active {
+  transform: scale(0.97);
+}
+
+.start-button:focus {
+  outline: 3px solid var(--highlight-yellow);
+  outline-offset: 3px;
+}
+
+/* =========================
+   BOUTONS EXTÉRIEURS
+========================= */
+.outside-button {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.outside-button button {
+  background-color: var(--power-red);
+  color: var(--off-white);
+  border: none;
+  padding: 12px 24px;
+  font-weight: 700;
+  border-radius: 6px;
+  box-shadow: 0 4px 6px rgba(215, 38, 49, 0.5);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.outside-button button:hover {
+  background-color: #b31f27;
+  transform: scale(1.05);
+}
+
+.outside-button button:active {
+  transform: scale(0.97);
+}
+
+.outside-button button:focus {
+  outline: 3px solid var(--highlight-yellow);
+  outline-offset: 3px;
+}

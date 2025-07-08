@@ -66,6 +66,8 @@ const QuizPage: React.FC = () => {
   const currentQuestion = quizData[currentQuestionIndex];
 
   const handleAnswer = (option: string) => {
+    if (selectedOption) return; // éviter double clic
+
     const isCorrect = option === currentQuestion.answer;
 
     if (mode === '2players') {
@@ -83,7 +85,6 @@ const QuizPage: React.FC = () => {
         setHasPlayer2Answered(true);
       }
 
-      // Si les deux ont répondu
       if (hasPlayer1Answered && currentPlayer === 2) {
         setTimeout(() => {
           const nextIndex = currentQuestionIndex + 1;
@@ -106,22 +107,25 @@ const QuizPage: React.FC = () => {
               },
             });
           }
-        }, 500); // petit délai pour fluidité
+        }, 500);
       }
 
+      setSelectedOption(option);
       return;
     }
 
-    // Modes 1 joueur : classique ou timer
+    // Mode 1 joueur
+    setSelectedOption(option);
+
     if (isCorrect) setScore((prev) => prev + 1);
 
     if (mode === 'classic') {
-      setSelectedOption(option);
       setTimeout(() => {
         if (currentQuestionIndex + 1 < quizData.length) {
           setCurrentQuestionIndex((prev) => prev + 1);
           setSelectedOption(null);
         } else {
+          setQuizFinished(true);
           navigate('/result', {
             state: {
               score: isCorrect ? score + 1 : score,
@@ -135,6 +139,7 @@ const QuizPage: React.FC = () => {
     } else {
       if (currentQuestionIndex + 1 < quizData.length) {
         setCurrentQuestionIndex((prev) => prev + 1);
+        setSelectedOption(null);
       } else {
         setQuizFinished(true);
         navigate('/result', {
@@ -160,21 +165,21 @@ const QuizPage: React.FC = () => {
 
   if (mode === '2players' && !namesEntered) {
     return (
-      <div className={styles['quiz-container']}>
+      <div className="quiz-container">
         <h2>Entrez les noms des joueurs</h2>
         <input
           type="text"
           placeholder="Nom Joueur 1"
           value={player1Name}
           onChange={(e) => setPlayer1Name(e.target.value)}
-          className={styles['input-name']}
+          className="input-name"
         />
         <input
           type="text"
           placeholder="Nom Joueur 2"
           value={player2Name}
           onChange={(e) => setPlayer2Name(e.target.value)}
-          className={styles['input-name']}
+          className="input-name"
         />
         <button
           onClick={() => {
@@ -184,7 +189,7 @@ const QuizPage: React.FC = () => {
               alert('Veuillez entrer les deux noms');
             }
           }}
-          className={styles['start-button']}
+          className="start-button"
         >
           Commencer le quiz
         </button>
@@ -196,7 +201,7 @@ const QuizPage: React.FC = () => {
   if (quizFinished) return null;
 
   return (
-    <div className={styles['quiz-container']}>
+    <div className="quiz-container">
       <h1>Quiz : {category}</h1>
       <p>
         Mode sélectionné :{' '}
@@ -212,41 +217,54 @@ const QuizPage: React.FC = () => {
       {mode === 'timer' && <Timer duration={60} onTimeUp={handleTimeUp} />}
 
       {mode === '2players' && (
-  <>
-    <h3 className={styles['player-turn']}>
-      👉 {currentPlayer === 1 ? player1Name : player2Name}, à toi de répondre !
-    </h3>
-    <div className={styles['scores']}>
-      <p>
-        🟦 {player1Name}: {scores[1]} pts
-      </p>
-      <p>
-        🟥 {player2Name}: {scores[2]} pts
-      </p>
-    </div>
-  </>
-)}
-      <div className={styles['quiz-card']}>
+        <>
+          <h3 className="player-turn">
+            👉 {currentPlayer === 1 ? player1Name : player2Name}, à toi de répondre !
+          </h3>
+          <div className="scores">
+            <p>
+              🟦 {player1Name}: {scores[1]} pts
+            </p>
+            <p>
+              🟥 {player2Name}: {scores[2]} pts
+            </p>
+          </div>
+        </>
+      )}
+
+      <div className="quiz-card">
         <h2>
           Question {currentQuestionIndex + 1} / {quizData.length}
         </h2>
         <p>{currentQuestion.question}</p>
-        <div className={styles['quiz-options']}>
-          {currentQuestion.options.map((option, index) => (
-            <button
-              key={index}
-              onClick={() => handleAnswer(option)}
-              className={styles['quiz-option']}
-              disabled={
-                (mode === '2players' &&
-                  ((currentPlayer === 1 && hasPlayer1Answered) ||
-                    (currentPlayer === 2 && hasPlayer2Answered))) ||
-                (mode === 'classic' && !!selectedOption)
+        <div className="quiz-options">
+          {currentQuestion.options.map((option, index) => {
+            let optionClass = 'quiz-option';
+
+            if (selectedOption) {
+              if (option === currentQuestion.answer) {
+                optionClass += ' correct';
+              } else if (option === selectedOption) {
+                optionClass += ' wrong';
               }
-            >
-              {option}
-            </button>
-          ))}
+            }
+
+            return (
+              <button
+                key={index}
+                onClick={() => handleAnswer(option)}
+                className={optionClass}
+                disabled={
+                  (mode === '2players' &&
+                    ((currentPlayer === 1 && hasPlayer1Answered) ||
+                      (currentPlayer === 2 && hasPlayer2Answered))) ||
+                  (mode === 'classic' && !!selectedOption)
+                }
+              >
+                {option}
+              </button>
+            );
+          })}
         </div>
       </div>
     </div>

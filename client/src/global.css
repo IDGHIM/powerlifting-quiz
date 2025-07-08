@@ -1,205 +1,147 @@
 :root {
-  --iron-gray: #4b4b4b;
-  --plate-red: #d32f2f;
-  --chalk-white: #f5f5f5;
-  --rubber-black: #121212;
-  --platform-wood: #8b6e4a;
+  /* Couleurs fortes & dynamiques */
+  --power-black: #1a1a1a;
+  --power-red: #d72631;
 
-  --energy-orange: #ff6f00;
-  --deep-blue: #003366;
-  --metallic-silver: #b0b0b0;
+  /* Tons métalliques & gris */
+  --metallic-steel: #4a4e69;
+  --silver-gray: #9a8c98;
 
-  --dark-shadow: #2a2a2a;
-  --light-shadow: #d9d9d9;
+  /* Couleurs neutres pour équilibre */
+  --off-white: #f5f5f5;
+  --charcoal-black: #22223b;
 
-  --font-title: 'Impact', 'Arial Black', sans-serif;
-  --font-body: 'Roboto', sans-serif;
-
-  --border-radius: 12px;
-  --transition-speed: 0.3s;
+  /* Accent compétition */
+  --highlight-yellow: #ffd400;
 }
 
-body {
-  margin: 0;
-  font-family: var(--font-body);
-  background-color: var(--rubber-black);
-  color: var(--chalk-white);
-  line-height: 1.6;
-}
-
-h1, h2, h3 {
-  font-family: var(--font-title);
-  color: var(--plate-red);
-  text-transform: uppercase;
-}
-
-p {
-  font-size: 1rem;
-}
-
-button {
-  cursor: pointer;
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: var(--border-radius);
-  background-color: var(--energy-orange);
-  color: white;
-  font-weight: bold;
-  transition: background-color var(--transition-speed), transform var(--transition-speed);
-}
-
-button:hover {
-  background-color: var(--plate-red);
-  transform: scale(1.05);
-}
-
-/* Section base layout */
+/* =========================
+   STRUCTURE DE BASE
+========================= */
 section {
   padding: 2rem;
-  margin: auto;
-  max-width: 800px;
-  background-color: var(--iron-gray);
-  border-radius: var(--border-radius);
-  box-shadow: 0 0 15px rgba(0,0,0,0.3);
-}
-
-/* HomePage */
-.section-presentation,
-.section-quiz {
   margin-bottom: 2rem;
+  background-color: var(--charcoal-black);
+  border-left: 6px solid var(--power-red);
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
 }
 
-.title {
-  font-size: 2.5rem;
-  color: var(--plate-red);
+/* =========================
+   BLOCS SECTIONS
+========================= */
+.section-presentation,
+.section-quiz,
+.section-about,
+.category-section {
+  background-color: var(--off-white);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(34, 34, 59, 0.15);
+  padding: 2rem;
 }
 
-.subtitle {
-  font-size: 1.75rem;
-  color: var(--deep-blue);
-}
-
-.description {
-  font-size: 1.1rem;
-  color: var(--chalk-white);
-}
-
-/* CategoryPage */
-.category-page {
-  text-align: center;
-}
-
+/* =========================
+   TITRES PRINCIPAUX
+========================= */
+.title,
 .category-title {
-  color: var(--plate-red);
+  font-size: 2.5rem;
+  font-weight: 900;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: var(--power-red);
+  text-shadow: 2px 2px 4px var(--metallic-steel);
+  position: relative;
 }
 
-.category-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin: 1.5rem 0;
+.title::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 4px;
+  background-color: var(--highlight-yellow);
+  margin: 0.5rem auto 0;
 }
 
-.category-button {
-  background-color: var(--metallic-silver);
-  color: black;
-  border: 2px solid transparent;
-}
-
-.category-button.active {
-  border-color: var(--plate-red);
-  background-color: var(--plate-red);
-  color: white;
-}
-
+/* =========================
+   SOUS-TITRES
+========================= */
+.subtitle,
 .mode-title {
-  margin-top: 2rem;
-  font-size: 1.5rem;
-  color: var(--energy-orange);
-}
-
-.mode-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.mode-button.classic {
-  background-color: var(--deep-blue);
-}
-
-.mode-button.timer {
-  background-color: var(--energy-orange);
-}
-
-/* QuizPage */
-.quiz-container {
+  font-size: 1.4rem;
+  font-weight: 600;
   text-align: center;
+  color: var(--silver-gray);
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
 }
 
-.quiz-card {
-  margin-top: 2rem;
-  background-color: var(--platform-wood);
+/* =========================
+   PARAGRAPHES DE TEXTE
+========================= */
+.description {
+  font-size: 1rem;
+  line-height: 1.6;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+  color: var(--charcoal-black);
+  text-transform: none;
+}
+
+/* =========================
+   CONTENEURS QUIZ & RÉSULTATS
+========================= */
+.result-container,
+.quiz-container,
+.category-page {
+  max-width: 900px;
+  margin: 0 auto;
   padding: 2rem;
-  border-radius: var(--border-radius);
-  box-shadow: 0 0 10px var(--metallic-silver);
-}
-
-.quiz-options {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-top: 1.5rem;
-}
-
-.quiz-option {
-  background-color: var(--metallic-silver);
-  color: black;
-  font-weight: bold;
-}
-
-.quiz-option.correct {
-  background-color: #4caf50;
-  color: white;
-}
-
-.quiz-option.incorrect {
-  background-color: #e53935;
-  color: white;
-}
-
-/* AboutPage */
-.section-about {
-  background-color: var(--iron-gray);
   text-align: center;
+  background-color: var(--off-white);
+  border-radius: 10px;
+  box-shadow: 0 6px 15px rgba(34, 34, 59, 0.1);
+  color: var(--charcoal-black);
 }
 
-.section-about .title {
-  color: var(--plate-red);
+.result-container h1,
+.quiz-container h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: var(--power-red);
+  text-shadow: 1px 1px 2px var(--charcoal-black);
 }
 
-.section-about .description {
-  margin-top: 1rem;
+.result-container p,
+.quiz-container p {
   font-size: 1.1rem;
+  margin-bottom: 1rem;
 }
 
-/* ResultPage */
-.result-container {
-  background-color: var(--platform-wood);
-  padding: 2rem;
+/* =========================
+   SCORES & JOUEURS
+========================= */
+.scores {
+  display: flex;
+  justify-content: space-around;
+  margin: 1rem 0;
+  padding: 1rem;
+  background-color: var(--metallic-steel);
+  border-radius: 10px;
+  color: var(--off-white);
+  font-size: 1.3rem;
+  font-weight: bold;
   text-align: center;
-  border-radius: var(--border-radius);
-  box-shadow: 0 0 10px var(--deep-blue);
-  margin-top: 2rem;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.4);
 }
 
-.outside-button {
-  margin-top: 2rem;
-  text-align: center;
+.player-turn {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: var(--highlight-yellow);
 }
 
-.outside-button button {
-  background-color: var(--plate-red);
-  color: white;
-}
+

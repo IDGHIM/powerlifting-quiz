@@ -1,0 +1,97 @@
+/* Conteneur principal du quiz */
+.quiz-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+/* Nom des joueurs (2 joueurs) */
+.input-name {
+  display: block;
+  width: 80%;
+  max-width: 300px;
+  margin: 0.5rem auto 1rem auto;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  outline-offset: 2px;
+  transition: border-color 0.3s ease;
+}
+
+.input-name:focus {
+  border-color: #4a90e2;
+}
+
+
+/* Titre du tour */
+.player-turn {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+/* Scores */
+.scores {
+  display: flex;
+  justify-content: space-around;
+  margin: 1rem 0 2rem 0;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+/* Carte quiz */
+.quiz-card {
+  background-color: #f9f9f9;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 1rem;
+}
+
+/* Options */
+.quiz-options {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Boutons options */
+.quiz-option {
+  padding: 1rem 1.5rem;
+  font-size: 1.1rem;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  background-color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.quiz-option:hover:not(:disabled) {
+  background-color: #e0e7ff;
+  border-color: #4a90e2;
+}
+
+/* Option correcte */
+.correct {
+  background-color: #d4edda; /* vert clair */
+  border-color: #28a745; /* vert */
+  color: #155724;
+  cursor: default;
+}
+
+/* Option incorrecte */
+.wrong {
+  background-color: #f8d7da; /* rouge clair */
+  border-color: #dc3545; /* rouge */
+  color: #721c24;
+  cursor: default;
+}
+
+/* Boutons désactivés */
+.quiz-option:disabled {
+  cursor: not-allowed;
+  opacity: 0.8;
+}

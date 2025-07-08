@@ -1,0 +1,40 @@
+.result-container h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.result-container h2 {
+  font-size: 1.5rem;
+  margin-top: 2rem;
+  font-weight: 700;
+  color: #333;
+}
+
+/* Paragraphes */
+.result-container p {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+/* Section des scores par joueur */
+.result-container > div {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Bouton en dehors du container */
+.outside-button button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1.1rem;
+  background-color: #4a90e2;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.outside-button button:hover {
+  background-color: #357abd;
+}
