@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { quizDatabase, Question } from '../../data/quizData.ts';
 import './QuizPage.css';
+
+const shuffleArray = <T,>(array: T[]): T[] => {
+  return [...array].sort(() => Math.random() - 0.5);
+};
 
 const QuizPage: React.FC = () => {
   const location = useLocation();
@@ -9,13 +13,25 @@ const QuizPage: React.FC = () => {
   const queryParams = new URLSearchParams(location.search);
   const category = queryParams.get('category');
 
-  const quizData = quizDatabase[category as string];
+  const rawQuizData = quizDatabase[category as string];
 
+  const [quizData, setQuizData] = useState<Question[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [score, setScore] = useState(0);
 
-  if (!quizData) {
+  useEffect(() => {
+    if (rawQuizData) {
+      const shuffledQuestions = shuffleArray(rawQuizData).slice(0, 20);
+      const randomizedQuiz = shuffledQuestions.map((q) => ({
+        ...q,
+        options: shuffleArray(q.options),
+      }));
+      setQuizData(randomizedQuiz);
+    }
+  }, [rawQuizData]);
+
+  if (!rawQuizData) {
     return (
       <div>
         <h2>Catégorie non trouvée</h2>
@@ -23,6 +39,8 @@ const QuizPage: React.FC = () => {
       </div>
     );
   }
+
+  if (quizData.length === 0) return <p>Chargement du quiz...</p>;
 
   const currentQuestion = quizData[currentQuestionIndex];
 
