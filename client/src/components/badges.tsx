@@ -58,3 +58,4 @@ const Badge: React.FC<BadgeProps> = ({ scorePercentage }) => {
 };
 
 export default Badge;
+// 

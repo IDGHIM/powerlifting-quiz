@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Badge from '../components/Badges.tsx';
+import Badges from '../components/Badges.tsx';
 
 interface LocationState {
   // Pour 1 joueur
@@ -63,14 +63,14 @@ const ResultPage: React.FC = () => {
             <p>
               {player1Name} : {player1Score} / {total} bonnes réponses
             </p>
-            <Badge scorePercentage={player1Percentage} />
+            <Badges scorePercentage={player1Percentage} />
           </div>
 
           <div>
             <p>
               {player2Name} : {player2Score} / {total} bonnes réponses
             </p>
-            <Badge scorePercentage={player2Percentage} />
+            <Badges scorePercentage={player2Percentage} />
           </div>
 
           <h2>{winnerText}</h2>
@@ -92,7 +92,7 @@ const ResultPage: React.FC = () => {
         <p>
           Tu as obtenu {score} / {total} bonnes réponses.
         </p>
-        <Badge scorePercentage={percentage} />
+        <Badges scorePercentage={percentage} />
       </div>
       <div className="outside-button">
         <button onClick={() => navigate('/')}>Rejouer</button>
