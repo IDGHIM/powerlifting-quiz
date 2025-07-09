@@ -5,7 +5,7 @@ export type Question = {
   category: string;
   difficulty: 'easy' | 'medium' | 'hard';
 };
-
+ 
 export const quizDatabase: Record<string, Question[]> = {
   culture: [
   { question: "Qui est considéré comme le 'GOAT' (Greatest Of All Time) du powerlifting ?", answers: ["Ed Coan", "Ray Williams", "John Haack"], correctAnswer: "Ed Coan", difficulty: 'medium', category: "culture" },
