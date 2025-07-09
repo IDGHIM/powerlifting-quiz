@@ -1,20 +1,10 @@
-import express from 'express';
-import cors from 'cors';
-
-const app = express();
-const port = process.env.PORT || 5000;
-
-// Activer CORS pour autoriser les requêtes frontend (localhost:3000 par ex.)
-app.use(cors());
-
-// Définition du type Question
-interface Question {
+export type Question = {
   question: string;
   answers: string[];
   correctAnswer: string;
   category: string;
   difficulty?: 'easy' | 'medium' | 'hard';
-}
+};
 
 const quizDatabase: Record<string, Question[]> = {
    culture: [
@@ -175,25 +165,3 @@ biomecanique: [
    // ➕ Ajoute ici toutes les questions de biomécanique
 ],
 };
-
-app.get('/api/quiz', (req, res) => {
-  const rawCategory = req.query.category;
-
-  if (!rawCategory || typeof rawCategory !== 'string') {
-    return res.status(400).json({ error: 'Paramètre category requis' });
-  }
-
-  const category = rawCategory.trim().toLowerCase();
-
-  console.log('Category reçue:', rawCategory);
-  console.log('Category normalisée:', category);
-  console.log('Catégories disponibles:', Object.keys(quizDatabase));
-
-  const questions = quizDatabase[category];
-
-  if (!questions) {
-    return res.status(404).json({ error: 'Catégorie non trouvée' });
-  }
-
-  res.json(questions);
-});
