@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { quizDatabase, Question } from '../../data/quizData.ts';
+import { quizDatabase, Question } from '../../../../server/src/data/quizData.ts';
 import Timer from '../../components/Timer.tsx';
 import './QuizPage.css';
 
