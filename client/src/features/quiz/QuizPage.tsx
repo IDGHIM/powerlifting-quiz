@@ -37,7 +37,7 @@ const QuizPage: React.FC = () => {
       try {
         const res = await fetch(`http://localhost:5000/api/quiz?category=${category}`);
         if (!res.ok) throw new Error('Erreur lors du chargement du quiz');
-        const data = await res.json();
+        const data = await res.json() as Question[];
 
         const shuffled = shuffleArray(data).slice(0, 20);
         const randomized = shuffled.map((q: Question) => ({
