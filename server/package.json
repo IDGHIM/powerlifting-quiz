@@ -1,31 +1,24 @@
 {
-  "name": "powerlifting-quiz-client",
+  "name": "powerlifting-quiz-server",
   "version": "1.0.0",
   "private": true,
-  "dependencies": {
-    "axios": "^1.10.0",
-    "mongoose": "^8.16.2",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-router-dom": "^6.22.0"
-  },
+  "main": "dist/server.js",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "import": "ts-node scripts/importQuiz.ts"
+    "start": "ts-node src/server.ts",
+    "dev": "nodemon src/server.ts",
+    "import": "ts-node src/scripts/ImportQuiz.ts",
+    "build": "tsc"
   },
-  "main": "index.js",
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "dependencies": {
+    "dotenv": "^16.6.1",
+    "express": "^4.18.2",
+    "mongoose": "^8.16.2"
+  },
   "devDependencies": {
-    "@types/axios": "^0.9.36",
-    "@types/mongoose": "^5.11.96",
-    "@types/node": "^24.0.12",
-    "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.6",
-    "@types/react-router-dom": "^5.3.3",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.4.2",
+    "nodemon": "^3.0.3",
+    "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   }
 }

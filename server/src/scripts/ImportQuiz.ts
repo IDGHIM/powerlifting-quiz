@@ -1,24 +1,25 @@
-import 'dotenv/config';
+import dotenv from 'dotenv';
+dotenv.config();
+
 import connectDB from '../config/db';
-import QuestionModel from '../models/Question';
+import { Question } from '../models/Question';
 import { quizDatabase } from '../data/quizData';
 
-const importQuiz = async () => {
-  await connectDB();
+const importData = async () => {
+  try {
+    await connectDB();
 
-  // Vider la collection si besoin
-  await QuestionModel.deleteMany();
+    await Question.deleteMany(); // facultatif
 
-  for (const [category, questions] of Object.entries(quizDatabase)) {
-    const docs = questions.map((q) => ({
-      ...q,
-      category,
-    }));
-    await QuestionModel.insertMany(docs);
+    const allQuestions = Object.values(quizDatabase).flat();
+    await Question.insertMany(allQuestions);
+
+    console.log('✅ Données importées avec succès');
+    process.exit();
+  } catch (err) {
+    console.error('❌ Erreur lors de l\'importation des données', err);
+    process.exit(1);
   }
-
-  console.log('✅ Quiz importé avec succès dans MongoDB Atlas');
-  process.exit();
 };
 
-importQuiz();
+importData();
