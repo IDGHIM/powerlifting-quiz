@@ -64,7 +64,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  // Register (accept role with default 'user')
   const register = async (username: string, password: string, role: 'user' | 'admin' = 'user') => {
     await axios.post('http://localhost:5000/register', { username, password, role });
   };

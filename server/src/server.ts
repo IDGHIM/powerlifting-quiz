@@ -3,7 +3,7 @@ import cors from 'cors';
 import mongoose, { Document, Model } from 'mongoose';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-
+import dotenv from 'dotenv';
 const app = express();
 const port = process.env.PORT || 5000;
 const JWT_SECRET = process.env.JWT_SECRET || 'secret_jwt_clé';
@@ -68,16 +68,13 @@ function authenticateToken(req: any, res: any, next: any) {
 // --- Routes Auth ---
 
 // Enregistrement
-app.post('/register', async (req, res) => {
+app.post('/api/register', async (req, res) => {
   try {
     const { username, password, role } = req.body;
 
     if (!username || !password) {
       return res.status(400).json({ message: 'Champs requis : username, password' });
     }
-
-    const existing = await UserModel.findOne({ username });
-    if (existing) return res.status(400).json({ message: 'Utilisateur déjà existant' });
 
     const passwordHash = await bcrypt.hash(password, 10);
     const newUser = new UserModel({ username, passwordHash, role: role || 'user' });
@@ -91,7 +88,8 @@ app.post('/register', async (req, res) => {
 });
 
 // Connexion
-app.post('/login', async (req, res) => {
+app.post('/api/login', async (req, res) => {
+  console.log('🔐 Tentative de connexion');
   try {
     const { username, password } = req.body;
 
@@ -152,11 +150,14 @@ app.get('/api/quiz', async (req, res) => {
 });
 
 // --- Connexion à Mongo + lancement serveur ---
+dotenv.config();
+const mongoUri: string = process.env.MONGO_URI || 'mongodb://localhost:27017/quizapp';
+
 mongoose
-  .connect('mongodb://localhost:27017/quizdb')
+  .connect(mongoUri)
   .then(() => {
     console.log('✅ MongoDB connecté');
-
+  console.log(app._router.stack);
     // Affichage des routes définies
     app._router.stack.forEach((middleware: any) => {
       if (middleware.route) { // routes enregistrées

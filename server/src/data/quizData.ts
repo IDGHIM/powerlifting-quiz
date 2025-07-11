@@ -166,3 +166,13 @@ biomecanique: [
   ],
   // ➕ Tu peux ajouter d'autres catégories : équipement, historique, etc.
 };
+
+export type auth = {
+  username: string;
+  password: string;
+};
+
+export const auth: auth = {
+  username: "admin",
+  password: "admin",
+};

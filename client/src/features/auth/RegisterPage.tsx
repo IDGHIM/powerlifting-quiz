@@ -10,7 +10,6 @@ const RegisterPage: React.FC = () => {
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
 
-  // Remplace ta fonction handleSubmit ici
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
