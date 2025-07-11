@@ -8,12 +8,12 @@ const shuffleArray = <T,>(array: T[]): T[] => {
   return [...array].sort(() => Math.random() - 0.5);
 };
 
-const categories = ['culture', 'reglement', 'biomecanique']; // tes 3 catégories
-
 const QuizPage: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
+
   const mode = new URLSearchParams(location.search).get('mode') || 'classic';
+  const category = new URLSearchParams(location.search).get('category') || 'culture';
 
   const [quizData, setQuizData] = useState<Question[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -33,21 +33,13 @@ const QuizPage: React.FC = () => {
   const [consecutiveCorrect, setConsecutiveCorrect] = useState(0);
 
   useEffect(() => {
-    const fetchAllCategories = async () => {
+    const fetchCategoryQuestions = async () => {
       try {
-        const results = await Promise.all(
-          categories.map((cat) =>
-            fetch(`http://localhost:5000/api/quiz?category=${encodeURIComponent(cat)}`).then((res) => {
-              if (!res.ok) throw new Error(`Erreur chargement catégorie ${cat}`);
-              return res.json() as Promise<Question[]>;
-            })
-          )
-        );
+        const res = await fetch(`http://localhost:5000/api/quiz?category=${encodeURIComponent(category)}`);
+        if (!res.ok) throw new Error(`Erreur chargement catégorie ${category}`);
+        const data = (await res.json()) as Question[];
 
-        const allQuestions = results.flat();
-
-        const shuffled = shuffleArray(allQuestions).slice(0, 20);
-
+        const shuffled = shuffleArray(data).slice(0, 20);
         const randomized = shuffled.map((q: Question) => ({
           ...q,
           answers: shuffleArray(q.answers),
@@ -59,8 +51,8 @@ const QuizPage: React.FC = () => {
       }
     };
 
-    fetchAllCategories();
-  }, []);
+    fetchCategoryQuestions();
+  }, [category]);
 
   useEffect(() => {
     if (quizData.length > 0 && !quizFinished && mode === 'timer') {
@@ -73,8 +65,8 @@ const QuizPage: React.FC = () => {
     navigate('/result', {
       state:
         mode === '2players'
-          ? { scores, total: quizData.length, player1Name, player2Name, categories, mode }
-          : { score, total: quizData.length, categories, mode },
+          ? { scores, total: quizData.length, player1Name, player2Name, category, mode }
+          : { score, total: quizData.length, category, mode },
     });
   };
 
@@ -106,7 +98,7 @@ const QuizPage: React.FC = () => {
         setHasPlayer2Answered(true);
       }
 
-      // Attendre que les 2 joueurs aient répondu pour passer à la question suivante
+      // Attendre que les 2 joueurs aient répondu
       if (hasPlayer1Answered && currentPlayer === 2) {
         setTimeout(() => {
           const nextIndex = currentQuestionIndex + 1;
@@ -119,7 +111,7 @@ const QuizPage: React.FC = () => {
           } else {
             setQuizFinished(true);
             navigate('/result', {
-              state: { scores, total: quizData.length, categories, mode, player1Name, player2Name },
+              state: { scores, total: quizData.length, category, mode, player1Name, player2Name },
             });
           }
         }, 500);
@@ -148,14 +140,14 @@ const QuizPage: React.FC = () => {
         } else {
           setQuizFinished(true);
           navigate('/result', {
-            state: { score, total: quizData.length, categories, mode },
+            state: { score, total: quizData.length, category, mode },
           });
         }
       }, 1000);
       return;
     }
 
-    // Classic
+    // Mode classique
     setSelectedOption(option);
     if (isCorrect) setScore((prev) => prev + 1);
 
@@ -169,7 +161,7 @@ const QuizPage: React.FC = () => {
           state: {
             score: isCorrect ? score + 1 : score,
             total: quizData.length,
-            categories,
+            category,
             mode,
           },
         });
@@ -180,7 +172,7 @@ const QuizPage: React.FC = () => {
   if (quizData.length === 0) return <p>Chargement du quiz...</p>;
   if (quizFinished) return null;
 
-  // Gestion des noms joueurs 2 joueurs
+  // Saisie des noms pour le mode 2 joueurs
   if (mode === '2players' && !namesEntered) {
     return (
       <div className="quiz-container">
@@ -217,14 +209,14 @@ const QuizPage: React.FC = () => {
 
   return (
     <div className="quiz-container">
-      <h1>Quiz : {categories.join(', ')}</h1>
+      <h1>Quiz : {category}</h1>
       <p>
         Mode sélectionné :{' '}
         <strong>
           {mode === 'timer'
             ? 'Contre-la-montre'
             : mode === '2players'
-            ? 'Joueur 1 vs Joueur 2 (répondent à la même question)'
+            ? 'Joueur 1 vs Joueur 2'
             : 'Classique'}
         </strong>
       </p>

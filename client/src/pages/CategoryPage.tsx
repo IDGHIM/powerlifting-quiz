@@ -30,12 +30,12 @@ const CategoryPage: React.FC = () => {
           <Button
             text="Règles IPF"
             className={`category-button ${selectedCategory === 'Règlement' ? 'active' : ''}`}
-            onClick={() => handleCategoryClick('Règlement')}
+            onClick={() => handleCategoryClick('reglement')}
           />
           <Button
             text="Anatomie & Biomécanique"
             className={`category-button ${selectedCategory === 'Biomécanique' ? 'active' : ''}`}
-            onClick={() => handleCategoryClick('Biomécanique')}
+            onClick={() => handleCategoryClick('biomecanique')}
           />
         </div>
 
