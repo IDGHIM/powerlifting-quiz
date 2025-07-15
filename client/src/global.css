@@ -15,133 +15,301 @@
   --highlight-yellow: #ffd400;
 }
 
-/* =========================
-   STRUCTURE DE BASE
-========================= */
-section {
-  padding: 2rem;
-  margin-bottom: 2rem;
-  background-color: var(--charcoal-black);
-  border-left: 6px solid var(--power-red);
-  border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+/* Reset & base */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--off-white);
+  color: var(--power-black);
+  line-height: 1.6;
 }
 
-/* =========================
-   BLOCS SECTIONS
-========================= */
+/* Sections communes */
 .section-presentation,
 .section-quiz,
-.section-about,
-.category-section {
-  background-color: var(--off-white);
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(34, 34, 59, 0.15);
-  padding: 2rem;
-}
-
-/* =========================
-   TITRES PRINCIPAUX
-========================= */
-.title,
-.category-title {
-  font-size: 2.5rem;
-  font-weight: 900;
-  margin-bottom: 1rem;
+.category-section,
+.section-about {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem 1rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(26, 26, 26, 0.1);
   text-align: center;
+}
+
+/* Titres */
+.title,
+.category-title,
+.section-about .title {
+  font-size: 2.5rem;
+  font-weight: 700;
   color: var(--power-red);
-  text-shadow: 2px 2px 4px var(--metallic-steel);
-  position: relative;
+  margin-bottom: 1rem;
 }
 
-.title::after {
-  content: '';
-  display: block;
-  width: 60px;
-  height: 4px;
-  background-color: var(--highlight-yellow);
-  margin: 0.5rem auto 0;
-}
-
-/* =========================
-   SOUS-TITRES
-========================= */
+/* Sous-titres */
 .subtitle,
 .mode-title {
-  font-size: 1.4rem;
+  font-size: 1.8rem;
   font-weight: 600;
-  text-align: center;
-  color: var(--silver-gray);
-  margin-top: 0.5rem;
-  margin-bottom: 1.5rem;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-}
-
-/* =========================
-   PARAGRAPHES DE TEXTE
-========================= */
-.description {
-  font-size: 1rem;
-  line-height: 1.6;
-  max-width: 800px;
-  margin: 0 auto;
-  text-align: center;
-  color: var(--charcoal-black);
-  text-transform: none;
-}
-
-/* =========================
-   CONTENEURS QUIZ & RÉSULTATS
-========================= */
-.result-container,
-.quiz-container,
-.category-page {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-  background-color: var(--off-white);
-  border-radius: 10px;
-  box-shadow: 0 6px 15px rgba(34, 34, 59, 0.1);
-  color: var(--charcoal-black);
-}
-
-.result-container h1,
-.quiz-container h1 {
-  font-size: 2rem;
+  color: var(--metallic-steel);
   margin-bottom: 1rem;
-  color: var(--power-red);
-  text-shadow: 1px 1px 2px var(--charcoal-black);
 }
 
-.result-container p,
-.quiz-container p {
+/* Paragraphes */
+.description,
+.section-about .description {
   font-size: 1.1rem;
-  margin-bottom: 1rem;
+  color: var(--charcoal-black);
+  max-width: 700px;
+  margin: 0 auto 2rem auto;
+  line-height: 1.6;
+  white-space: pre-line;
 }
 
-/* =========================
-   SCORES & JOUEURS
-========================= */
-.scores {
-  display: flex;
-  justify-content: space-around;
-  margin: 1rem 0;
-  padding: 1rem;
-  background-color: var(--metallic-steel);
-  border-radius: 10px;
-  color: var(--off-white);
-  font-size: 1.3rem;
-  font-weight: bold;
+/* Conteneurs texte / boutons */
+.content-text {
+  max-width: 720px;
+  margin: 0 auto 2.5rem auto;
   text-align: center;
-  box-shadow: inset 0 0 5px rgba(0,0,0,0.4);
 }
 
-.player-turn {
-  font-weight: bold;
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
-  color: var(--highlight-yellow);
+.content-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
 }
 
+/* Boutons communs */
+.start-button,
+.category-button,
+.mode-button,
+form button[type="submit"] {
+  display: inline-block;
+  border: none;
+  border-radius: 25px;
+  padding: 0.75rem 2.5rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+  box-shadow: 0 6px 12px rgba(215, 38, 49, 0.4);
+  text-align: center;
+  user-select: none;
+  margin: 0.3rem;
+  min-width: 180px;
+  background-color: var(--power-red);
+  color: var(--off-white);
+}
 
+/* Bouton démarrer quiz & AboutPage & Login */
+.start-button,
+form button[type="submit"] {
+  margin: 0 auto;
+  display: block;
+  border-radius: 30px;
+  padding: 0.85rem 3rem;
+  box-shadow: 0 7px 15px rgba(215, 38, 49, 0.45);
+  font-size: 1.3rem;
+  width: 100%;
+  max-width: 300px;
+}
+
+.start-button:hover,
+.start-button:focus,
+form button[type="submit"]:hover,
+form button[type="submit"]:focus {
+  background-color: var(--highlight-yellow);
+  color: var(--power-black);
+  box-shadow: 0 9px 20px rgba(255, 212, 0, 0.7);
+  outline: none;
+}
+
+/* Boutons catégories */
+.category-button {
+  background-color: var(--metallic-steel);
+  color: var(--off-white);
+  box-shadow: 0 4px 8px rgba(74, 78, 105, 0.5);
+  min-width: 200px;
+  padding: 0.75rem 1.5rem;
+}
+
+.category-button:hover,
+.category-button:focus {
+  background-color: var(--power-red);
+  color: var(--off-white);
+  box-shadow: 0 6px 12px rgba(215, 38, 49, 0.6);
+  outline: none;
+}
+
+.category-button.active {
+  background-color: var(--highlight-yellow);
+  color: var(--power-black);
+  box-shadow: 0 6px 12px rgba(255, 212, 0, 0.8);
+}
+
+/* Boutons modes */
+.mode-button {
+  color: var(--off-white);
+  box-shadow: 0 4px 10px rgba(26, 26, 26, 0.3);
+  min-width: 180px;
+  padding: 0.75rem 1.5rem;
+}
+
+.mode-button.classic {
+  background-color: var(--power-red);
+}
+
+.mode-button.timer {
+  background-color: var(--highlight-yellow);
+  color: var(--power-black);
+}
+
+.mode-button.two-players {
+  background-color: var(--metallic-steel);
+}
+
+.mode-button:hover,
+.mode-button:focus {
+  filter: brightness(1.1);
+  outline: none;
+}
+
+/* Category & Mode buttons containers */
+.category-buttons,
+.mode-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+/* LoginPage specific styles */
+form {
+  max-width: 400px;
+  margin: 3rem auto;
+  padding: 2.5rem 2rem;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(26, 26, 26, 0.12);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+form h2 {
+  color: var(--power-red);
+  font-size: 2.2rem;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+}
+
+form input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  margin-bottom: 1.2rem;
+  border: 2px solid var(--metallic-steel);
+  border-radius: 6px;
+  font-size: 1rem;
+  color: var(--power-black);
+  transition: border-color 0.3s ease;
+}
+
+form input:focus {
+  border-color: var(--power-red);
+  outline: none;
+}
+
+form p {
+  margin-top: 1rem;
+  color: var(--power-red);
+  font-weight: 600;
+  font-size: 1rem;
+  text-align: center;
+}
+
+/* Animation au clic */
+button:active,
+.start-button:active,
+.category-button:active,
+.mode-button:active,
+form button[type="submit"]:active {
+  animation: click-scale 0.2s ease forwards;
+}
+
+@keyframes click-scale {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 6px 12px rgba(215, 38, 49, 0.4);
+  }
+  50% {
+    transform: scale(0.95);
+    box-shadow: 0 3px 6px rgba(215, 38, 49, 0.2);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 6px 12px rgba(215, 38, 49, 0.4);
+  }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .section-presentation,
+  .section-quiz,
+  .category-section,
+  .section-about {
+    margin: 1rem;
+    padding: 1.5rem 1rem;
+  }
+
+  .title,
+  .category-title,
+  .section-about .title {
+    font-size: 2rem;
+  }
+
+  .subtitle,
+  .mode-title {
+    font-size: 1.5rem;
+  }
+
+  .description,
+  .section-about .description {
+    font-size: 1rem;
+    max-width: 100%;
+  }
+
+  .start-button,
+  .category-button,
+  .mode-button,
+  form button[type="submit"] {
+    font-size: 1rem;
+    padding: 0.6rem 1.8rem;
+    min-width: auto;
+    margin: 0.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  form {
+    margin: 2rem 1rem;
+    padding: 2rem 1.5rem;
+  }
+
+  form h2 {
+    font-size: 1.8rem;
+  }
+
+  form input {
+    font-size: 0.95rem;
+  }
+
+  form button[type="submit"] {
+    font-size: 1.1rem;
+    padding: 0.75rem 2rem;
+  }
+}

@@ -94,12 +94,15 @@ const QuizPage: React.FC = () => {
       if (currentPlayer === 1) {
         setHasPlayer1Answered(true);
         setCurrentPlayer(2);
-      } else {
-        setHasPlayer2Answered(true);
+        setSelectedOption(option);
+        return; // On attend la réponse du joueur 2
       }
 
-      // Attendre que les 2 joueurs aient répondu
-      if (hasPlayer1Answered && currentPlayer === 2) {
+      if (currentPlayer === 2) {
+        setHasPlayer2Answered(true);
+        setSelectedOption(option);
+
+        // Après que les deux joueurs aient répondu, passer à la question suivante
         setTimeout(() => {
           const nextIndex = currentQuestionIndex + 1;
           if (nextIndex < quizData.length) {
@@ -117,7 +120,6 @@ const QuizPage: React.FC = () => {
         }, 500);
       }
 
-      setSelectedOption(option);
       return;
     }
 

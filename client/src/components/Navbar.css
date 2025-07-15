@@ -1,35 +1,122 @@
+:root {
+  /* Couleurs fortes & dynamiques */
+  --power-black: #1a1a1a;
+  --power-red: #d72631;
+
+  /* Tons métalliques & gris */
+  --metallic-steel: #4a4e69;
+  --silver-gray: #9a8c98;
+
+  /* Couleurs neutres pour équilibre */
+  --off-white: #f5f5f5;
+  --charcoal-black: #22223b;
+
+  /* Accent compétition */
+  --highlight-yellow: #ffd400;
+}
+
 .navbar {
-  background-color: #e10600;
-  height: 80px; /* hauteur de la navbar */
+  background-color: var(--power-red);
+  height: 80px;
   padding: 1rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: relative;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-.navbar h1 {
-  color: #fff;
-  font-size: 2rem;
+/* Logo sans arrondi */
+.logo {
+  height: 80px;
+  width: auto;
+  object-fit: contain;
+  transition: transform 0.3s;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+}
+
+/* Liens principaux */
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
 }
 
 .nav-links a {
-  color: #fff;
+  color: var(--off-white);
   text-decoration: none;
-  margin-left: 1rem;
   font-weight: bold;
+  font-size: 1.1rem;
+  position: relative;
+  padding: 0.5rem 0;
+  transition: color 0.3s;
+}
+
+/* Underline animé */
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background-color: var(--highlight-yellow);
+  transition: width 0.3s;
 }
 
 .nav-links a:hover {
-  text-decoration: underline;
+  color: var(--highlight-yellow);
 }
 
-.logo {
-  position: absolute;
-  top: 20px; /* dépasse de 20px au-dessus de la navbar */
-  left: 2rem; /* espace à gauche comme le padding */
-  height: 80px; /* un peu plus grand que la navbar */
-  cursor: pointer;
-  z-index: 10; /* pour être au-dessus */
+.nav-links a:hover::after {
+  width: 100%;
 }
 
+/* Espace Auth */
+.nav-auth {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.nav-auth a {
+  color: var(--off-white);
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.5rem;
+  border-radius: 6px;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.nav-auth a:hover {
+  background: var(--highlight-yellow);
+  color: var(--power-black);
+  transform: scale(1.1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+    gap: 1rem;
+  }
+
+  .logo {
+    height: 70px;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .nav-auth {
+    gap: 1.5rem;
+  }
+}
