@@ -1,25 +1,65 @@
+:root {
+  /* Couleurs fortes & dynamiques */
+  --power-black: #1a1a1a;
+  --power-red: #d72631;
+
+  /* Tons métalliques & gris */
+  --metallic-steel: #4a4e69;
+  --silver-gray: #9a8c98;
+
+  /* Couleurs neutres pour équilibre */
+  --off-white: #f5f5f5;
+  --charcoal-black: #22223b;
+
+  /* Accent compétition */
+  --highlight-yellow: #ffd400;
+}
+
 .timer-container {
-  margin-bottom: 1.5rem;
+  background-color: var(--power-black);
+  color: var(--off-white);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 1.4rem;
+  border-radius: 14px;
+  padding: 20px 28px;
+  max-width: 340px;
+  margin: 24px auto;
+  box-shadow: 0 0 15px var(--power-red);
+  user-select: none;
+  text-align: center;
+  letter-spacing: 1.05px;
 }
 
 .timer-text {
-  font-size: 1.1rem;
-  font-weight: 500;
-  color: #e63946;
-  margin-bottom: 0.5rem;
-  text-align: center;
+  margin-bottom: 14px;
+  font-weight: 600;
+  text-shadow: 0 0 6px var(--highlight-yellow);
+}
+
+.timer-text strong {
+  color: var(--highlight-yellow);
+  text-shadow: 0 0 10px var(--highlight-yellow);
 }
 
 .timer-bar-container {
-  width: 100%;
-  height: 10px;
-  background-color: #f1f1f1;
-  border-radius: 5px;
+  background-color: var(--metallic-steel);
+  border-radius: 14px;
+  height: 26px;
   overflow: hidden;
+  box-shadow: inset 0 3px 8px var(--silver-gray);
 }
 
 .timer-bar-fill {
   height: 100%;
-  background-color: #e63946;
-  transition: width 1s linear;
+  background: linear-gradient(
+    90deg,
+    var(--power-red) 0%,
+    var(--highlight-yellow) 70%,
+    var(--highlight-yellow) 100%
+  );
+  border-radius: 14px;
+  transition: width 0.4s ease-in-out;
+  box-shadow:
+    0 0 12px var(--power-red),
+    inset 0 0 10px var(--highlight-yellow);
 }

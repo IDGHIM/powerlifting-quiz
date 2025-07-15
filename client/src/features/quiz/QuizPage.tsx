@@ -237,6 +237,10 @@ const QuizPage: React.FC = () => {
         </>
       )}
 
+      {consecutiveCorrect >= 2 && (
+        <p className="combo-message">🔥 {consecutiveCorrect} bonnes réponses consécutives !</p>
+      )}
+
       <div className="quiz-card">
         <h2>
           Question {currentQuestionIndex + 1} / {quizData.length}
@@ -245,9 +249,13 @@ const QuizPage: React.FC = () => {
         <div className="quiz-options">
           {currentQuestion.answers.map((option, index) => {
             let optionClass = 'quiz-option';
+
             if (selectedOption) {
               if (option === currentQuestion.correctAnswer) {
                 optionClass += ' correct';
+                if (consecutiveCorrect >= 2) {
+                  optionClass += ' combo-flash';
+                }
               } else if (option === selectedOption) {
                 optionClass += ' wrong';
               }

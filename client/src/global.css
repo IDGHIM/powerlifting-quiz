@@ -108,7 +108,7 @@ form button[type="submit"] {
 /* Bouton démarrer quiz & AboutPage & Login */
 .start-button,
 form button[type="submit"] {
-  margin: 0 auto;
+  margin: 0 auto 1.5rem auto;
   display: block;
   border-radius: 30px;
   padding: 0.85rem 3rem;
@@ -311,5 +311,94 @@ form button[type="submit"]:active {
   form button[type="submit"] {
     font-size: 1.1rem;
     padding: 0.75rem 2rem;
+  }
+}
+
+/* RESULT PAGE CSS - Intégré sans modification */
+
+.result-container {
+  max-width: 700px;
+  margin: 3rem auto 2rem auto;
+  padding: 2rem 1.5rem;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 6px 15px rgba(26, 26, 26, 0.15);
+  text-align: center;
+  color: var(--power-black);
+}
+
+.result-container h1 {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: var(--power-red);
+  margin-bottom: 1.5rem;
+}
+
+.result-score {
+  font-size: 4rem;
+  font-weight: 900;
+  color: var(--highlight-yellow);
+  margin: 1rem 0 2rem 0;
+}
+
+.result-message {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--metallic-steel);
+  margin-bottom: 2rem;
+}
+
+.result-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.result-buttons button {
+  background-color: var(--power-red);
+  color: var(--off-white);
+  border: none;
+  padding: 0.9rem 2.8rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 7px 15px rgba(215, 38, 49, 0.45);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+  min-width: 180px;
+}
+
+.result-buttons button:hover,
+.result-buttons button:focus {
+  background-color: var(--highlight-yellow);
+  color: var(--power-black);
+  box-shadow: 0 9px 20px rgba(255, 212, 0, 0.7);
+  outline: none;
+}
+
+@media (max-width: 600px) {
+  .result-container {
+    margin: 2rem 1rem 1.5rem 1rem;
+    padding: 1.5rem 1rem;
+  }
+
+  .result-container h1 {
+    font-size: 2rem;
+  }
+
+  .result-score {
+    font-size: 3rem;
+  }
+
+  .result-message {
+    font-size: 1.1rem;
+  }
+
+  .result-buttons button {
+    font-size: 1rem;
+    padding: 0.7rem 2rem;
+    min-width: auto;
+    margin: 0.3rem;
   }
 }

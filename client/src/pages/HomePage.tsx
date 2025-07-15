@@ -23,7 +23,6 @@ const HomePage: React.FC = () => {
       {/* Section quiz */}
       <section id="quiz" className="section-quiz">
         <h2 className="subtitle">Testez vos connaissances</h2>
-        <p className="description">Sélectionnez un quiz !</p>
         <button className="start-button" onClick={handleStartQuiz}>Commencer le Quiz</button>
       </section>
 
