@@ -31,6 +31,7 @@ const QuizPage: React.FC = () => {
 
   const [questionStartTime, setQuestionStartTime] = useState<Date | null>(null);
   const [consecutiveCorrect, setConsecutiveCorrect] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
     const fetchCategoryQuestions = async () => {
@@ -80,7 +81,7 @@ const QuizPage: React.FC = () => {
   };
 
   const handleAnswer = (option: string) => {
-    if (selectedOption) return;
+    if (selectedOption || isPaused) return;
 
     const isCorrect = option === currentQuestion.correctAnswer;
     const now = new Date();
@@ -95,14 +96,13 @@ const QuizPage: React.FC = () => {
         setHasPlayer1Answered(true);
         setCurrentPlayer(2);
         setSelectedOption(option);
-        return; // On attend la réponse du joueur 2
+        return;
       }
 
       if (currentPlayer === 2) {
         setHasPlayer2Answered(true);
         setSelectedOption(option);
 
-        // Après que les deux joueurs aient répondu, passer à la question suivante
         setTimeout(() => {
           const nextIndex = currentQuestionIndex + 1;
           if (nextIndex < quizData.length) {
@@ -149,7 +149,6 @@ const QuizPage: React.FC = () => {
       return;
     }
 
-    // Mode classique
     setSelectedOption(option);
     if (isCorrect) setScore((prev) => prev + 1);
 
@@ -174,35 +173,13 @@ const QuizPage: React.FC = () => {
   if (quizData.length === 0) return <p>Chargement du quiz...</p>;
   if (quizFinished) return null;
 
-  // Saisie des noms pour le mode 2 joueurs
   if (mode === '2players' && !namesEntered) {
     return (
       <div className="quiz-container">
         <h2>Entrez les noms des joueurs</h2>
-        <input
-          type="text"
-          placeholder="Nom Joueur 1"
-          value={player1Name}
-          onChange={(e) => setPlayer1Name(e.target.value)}
-          className="input-name"
-        />
-        <input
-          type="text"
-          placeholder="Nom Joueur 2"
-          value={player2Name}
-          onChange={(e) => setPlayer2Name(e.target.value)}
-          className="input-name"
-        />
-        <button
-          onClick={() => {
-            if (player1Name.trim() && player2Name.trim()) {
-              setNamesEntered(true);
-            } else {
-              alert('Veuillez entrer les deux noms');
-            }
-          }}
-          className="start-button"
-        >
+        <input type="text" placeholder="Nom Joueur 1" value={player1Name} onChange={(e) => setPlayer1Name(e.target.value)} className="input-name" />
+        <input type="text" placeholder="Nom Joueur 2" value={player2Name} onChange={(e) => setPlayer2Name(e.target.value)} className="input-name" />
+        <button onClick={() => { if (player1Name.trim() && player2Name.trim()) setNamesEntered(true); else alert('Veuillez entrer les deux noms'); }} className="start-button">
           Commencer le quiz
         </button>
       </div>
@@ -212,24 +189,18 @@ const QuizPage: React.FC = () => {
   return (
     <div className="quiz-container">
       <h1>Quiz : {category}</h1>
-      <p>
-        Mode sélectionné :{' '}
-        <strong>
-          {mode === 'timer'
-            ? 'Contre-la-montre'
-            : mode === '2players'
-            ? 'Joueur 1 vs Joueur 2'
-            : 'Classique'}
-        </strong>
-      </p>
+      <p>Mode sélectionné : <strong>{mode === 'timer' ? 'Contre-la-montre' : mode === '2players' ? 'Joueur 1 vs Joueur 2' : 'Classique'}</strong></p>
 
-      {mode === 'timer' && <Timer duration={60} onTimeUp={handleTimeUp} />}
+      {mode === 'timer' && (
+        <>
+          <Timer duration={60} onTimeUp={handleTimeUp} isPaused={isPaused} />
+          <button className="pause-button" onClick={() => setIsPaused(!isPaused)}>{isPaused ? 'Reprendre' : 'Pause'}</button>
+        </>
+      )}
 
       {mode === '2players' && (
         <>
-          <h3 className="player-turn">
-            👉 {currentPlayer === 1 ? player1Name : player2Name}, à toi de répondre !
-          </h3>
+          <h3 className="player-turn">👉 {currentPlayer === 1 ? player1Name : player2Name}, à toi de répondre !</h3>
           <div className="scores">
             <p>🟦 {player1Name}: {scores[1]} pts</p>
             <p>🟥 {player2Name}: {scores[2]} pts</p>
@@ -241,35 +212,23 @@ const QuizPage: React.FC = () => {
         <p className="combo-message">🔥 {consecutiveCorrect} bonnes réponses consécutives !</p>
       )}
 
-      <div className="quiz-card">
-        <h2>
-          Question {currentQuestionIndex + 1} / {quizData.length}
-        </h2>
+      <div className={`quiz-card ${isPaused ? 'disabled' : ''}`}>
+        <h2>Question {currentQuestionIndex + 1} / {quizData.length}</h2>
         <p>{currentQuestion.question}</p>
         <div className="quiz-options">
           {currentQuestion.answers.map((option, index) => {
             let optionClass = 'quiz-option';
-
             if (selectedOption) {
-              if (option === currentQuestion.correctAnswer) {
-                optionClass += ' correct';
-                if (consecutiveCorrect >= 2) {
-                  optionClass += ' combo-flash';
-                }
-              } else if (option === selectedOption) {
-                optionClass += ' wrong';
-              }
+              if (option === currentQuestion.correctAnswer) optionClass += ' correct';
+              else if (option === selectedOption) optionClass += ' wrong';
             }
-
+            if (isPaused) optionClass += ' paused';
             return (
               <button
                 key={index}
                 onClick={() => handleAnswer(option)}
                 className={optionClass}
-                disabled={
-                  selectedOption !== null ||
-                  (mode === '2players' && ((currentPlayer === 1 && hasPlayer1Answered) || (currentPlayer === 2 && hasPlayer2Answered)))
-                }
+                disabled={selectedOption !== null || isPaused || (mode === '2players' && ((currentPlayer === 1 && hasPlayer1Answered) || (currentPlayer === 2 && hasPlayer2Answered)))}
               >
                 {option}
               </button>
@@ -278,17 +237,38 @@ const QuizPage: React.FC = () => {
         </div>
       </div>
 
-      {mode === 'classic' && (
-        <p>
-          Score actuel : <strong>{score}</strong>
-        </p>
-      )}
+      <div className="next-button-container">
+        <button
+          className="next-button"
+          onClick={() => {
+            if (isPaused) return;
+            if (currentQuestionIndex + 1 < quizData.length) {
+              setCurrentQuestionIndex((prev) => prev + 1);
+              setSelectedOption(null);
+              setConsecutiveCorrect(0);
+              if (mode === '2players') {
+                setCurrentPlayer(1);
+                setHasPlayer1Answered(false);
+                setHasPlayer2Answered(false);
+              }
+              if (mode === 'timer') setQuestionStartTime(new Date());
+            } else {
+              setQuizFinished(true);
+              navigate('/result', {
+                state: mode === '2players'
+                  ? { scores, total: quizData.length, player1Name, player2Name, category, mode }
+                  : { score, total: quizData.length, category, mode },
+              });
+            }
+          }}
+          disabled={isPaused}
+        >
+          Question suivante
+        </button>
+      </div>
 
-      {mode === 'timer' && (
-        <p>
-          Score actuel : <strong>{Math.floor(score)}</strong> (temps et combo pris en compte)
-        </p>
-      )}
+      {mode === 'classic' && <p>Score actuel : <strong>{score}</strong></p>}
+      {mode === 'timer' && <p>Score actuel : <strong>{Math.floor(score)}</strong> (temps et combo pris en compte)</p>}
     </div>
   );
 };
