@@ -1,28 +1,19 @@
 {
   "compilerOptions": {
-    /* Langue et environnement */
-    "target": "es2016",                          
-    "module": "commonjs",                        
-    "moduleResolution": "node",                  
-    "lib": ["esnext"],                           
-    "esModuleInterop": true,                     
-    "resolveJsonModule": true,                   
-    "allowSyntheticDefaultImports": true,        
-    
-    /* Répertoire de sortie */
-    "rootDir": "./src",                          
-    "outDir": "./dist",                          
-
-    /* Types et compatibilité Node.js */
-    "types": ["node"],                           
-
-    /* Qualité de code */
-    "strict": true,                              
-    "skipLibCheck": true,                        
-    "forceConsistentCasingInFileNames": true,    
-
-    /* Base pour imports absolus */
-    "baseUrl": "./src"                           
+    "target": "ES2022",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "lib": ["esnext"],
+    "strict": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "types": ["node"],
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": "./src"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
