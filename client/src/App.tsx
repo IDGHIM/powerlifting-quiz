@@ -6,6 +6,7 @@ import QuizPage from './features/quiz/QuizPage.tsx';
 import ResultPage from './pages/ResultPage.tsx';
 import CategoryPage from './pages/CategoryPage.tsx';
 import AboutPage from './pages/AboutPage.tsx';
+import RankPage from './features/ranking/RankPage.tsx';
 import LoginPage from './features/auth/LoginPage.tsx';
 import RegisterPage from './features/auth/RegisterPage.tsx';
 import AdminPage from './pages/AdminPage.tsx';
@@ -29,6 +30,7 @@ const App: React.FC = () => {
             <Route path="/categories" element={<CategoryPage />} />
             <Route path="/quiz" element={<QuizPage />} />
             <Route path="/result" element={<ResultPage />} />
+            <Route path="/ranking" element={<RankPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
 
