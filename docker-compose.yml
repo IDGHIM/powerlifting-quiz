@@ -1,4 +1,3 @@
-version: '3.8'
 
 services:
   mongo:
@@ -9,9 +8,9 @@ services:
     volumes:
       - mongo-data:/data/db
 
-  backend:
-    build: ./backend
-    container_name: backend
+  server:
+    build: ./server
+    container_name: server
     ports:
       - "5000:5000"
     environment:
@@ -19,13 +18,13 @@ services:
     depends_on:
       - mongo
 
-  frontend:
-    build: ./frontend
-    container_name: frontend
+  client:
+    build: ./client
+    container_name: client
     ports:
       - "3000:80"
     depends_on:
-      - backend
+      - server
 
 volumes:
   mongo-data:
