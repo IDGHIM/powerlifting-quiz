@@ -4,21 +4,22 @@ import mongoose, { Document, Model } from 'mongoose';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+
 const app = express();
 const port = process.env.PORT || 5000;
-const JWT_SECRET = process.env.JWT_SECRET || 'secret_jwt_clé';
+const JWT_SECRET = process.env.JWT_SECRET || 'secret_jwt_clé'; // Clé secrète pour JWT
 
-// Middlewares
-app.use(cors());
-app.use(express.json());
+// Middlewares globaux
+app.use(cors()); // Autorise les requêtes cross-origin
+app.use(express.json()); // Parse le JSON dans le body des requêtes
 
-// Middleware de log simple
+// Middleware de logging simple : affiche méthode + URL pour chaque requête
 app.use((req, res, next) => {
   console.log(`👉 ${req.method} ${req.url}`);
   next();
 });
 
-// --- Schéma Question ---
+// --- Schéma Mongoose pour les questions de quiz ---
 interface IQuestion extends Document {
   question: string;
   answers: string[];
@@ -37,7 +38,7 @@ const questionSchema = new mongoose.Schema<IQuestion>({
 
 const QuestionModel: Model<IQuestion> = mongoose.model<IQuestion>('Question', questionSchema);
 
-// --- Schéma User ---
+// --- Schéma Mongoose pour les utilisateurs ---
 interface IUser extends Document {
   username: string;
   passwordHash: string;
@@ -45,37 +46,41 @@ interface IUser extends Document {
 }
 
 const userSchema = new mongoose.Schema<IUser>({
-  username: { type: String, required: true, unique: true },
-  passwordHash: { type: String, required: true },
-  role: { type: String, enum: ['user', 'admin'], default: 'user' },
+  username: { type: String, required: true, unique: true }, // username unique
+  passwordHash: { type: String, required: true }, // mot de passe haché
+  role: { type: String, enum: ['user', 'admin'], default: 'user' }, // rôle utilisateur/admin
 });
 
 const UserModel: Model<IUser> = mongoose.model<IUser>('User', userSchema);
 
-// --- Middleware Auth JWT ---
+// --- Middleware d'authentification JWT ---
 function authenticateToken(req: any, res: any, next: any) {
   const authHeader = req.headers['authorization'];
-  const token = authHeader?.split(' ')[1];
+  const token = authHeader?.split(' ')[1]; // Extraire le token Bearer
+
   if (!token) return res.status(401).json({ message: 'Token manquant' });
 
+  // Vérifier la validité du token JWT
   jwt.verify(token, JWT_SECRET, (err: any, user: any) => {
     if (err) return res.status(403).json({ message: 'Token invalide' });
-    req.user = user;
+    req.user = user; // Ajouter l'utilisateur décodé à la requête
     next();
   });
 }
 
-// --- Routes Auth ---
+// --- Routes d'authentification ---
 
-// Enregistrement
+// Enregistrement d'un nouvel utilisateur
 app.post('/api/register', async (req, res) => {
   try {
     const { username, password, role } = req.body;
 
+    // Validation des champs obligatoires
     if (!username || !password) {
       return res.status(400).json({ message: 'Champs requis : username, password' });
     }
 
+    // Hashage du mot de passe avec bcrypt
     const passwordHash = await bcrypt.hash(password, 10);
     const newUser = new UserModel({ username, passwordHash, role: role || 'user' });
     await newUser.save();
@@ -87,18 +92,21 @@ app.post('/api/register', async (req, res) => {
   }
 });
 
-// Connexion
+// Connexion utilisateur
 app.post('/api/login', async (req, res) => {
   console.log('🔐 Tentative de connexion');
   try {
     const { username, password } = req.body;
 
+    // Recherche utilisateur par username
     const user = await UserModel.findOne({ username });
     if (!user) return res.status(401).json({ message: 'Identifiants invalides' });
 
+    // Comparaison du mot de passe avec le hash stocké
     const isValid = await bcrypt.compare(password, user.passwordHash);
     if (!isValid) return res.status(401).json({ message: 'Mot de passe incorrect' });
 
+    // Création du token JWT signé avec username et rôle, expirant dans 1h
     const token = jwt.sign(
       { username: user.username, role: user.role },
       JWT_SECRET,
@@ -112,7 +120,7 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
-// Route protégée (admin)
+// Route protégée accessible uniquement aux admins
 app.get('/api/admin-data', authenticateToken, (req: any, res) => {
   if (req.user.role !== 'admin') {
     return res.status(403).json({ message: 'Accès réservé aux admins' });
@@ -120,24 +128,28 @@ app.get('/api/admin-data', authenticateToken, (req: any, res) => {
   res.json({ secret: 'Voici des données secrètes pour admin' });
 });
 
-// Quiz : récupérer les questions
+// Récupérer les questions selon la catégorie passée en query
 app.get('/api/quiz', async (req, res) => {
   try {
     const rawCategory = req.query.category;
 
+    // Validation du paramètre category
     if (!rawCategory || typeof rawCategory !== 'string') {
       return res.status(400).json({ error: 'Paramètre category requis' });
     }
 
     const category = rawCategory.trim().toLowerCase();
 
+    // Affiche les catégories disponibles en base (debug)
     const allCategories = await QuestionModel.distinct('category');
     console.log('📚 Catégories disponibles en base :', allCategories);
 
+    // Recherche des questions correspondant à la catégorie (insensible à la casse)
     const questions = await QuestionModel.find({
       category: { $regex: `^${category}$`, $options: 'i' },
     });
 
+    // Si aucune question trouvée pour la catégorie
     if (!questions.length) {
       return res.status(404).json({ error: `Catégorie '${category}' non trouvée` });
     }
@@ -149,16 +161,18 @@ app.get('/api/quiz', async (req, res) => {
   }
 });
 
-// --- Connexion à Mongo + lancement serveur ---
+// --- Connexion à MongoDB + démarrage du serveur ---
+
 dotenv.config();
 const mongoUri: string = process.env.MONGO_URI || 'mongodb://localhost:27017/quizapp';
 
+// Connexion à la base MongoDB
 mongoose
   .connect(mongoUri)
   .then(() => {
     console.log('✅ MongoDB connecté');
-  console.log(app._router.stack);
-    // Affichage des routes définies
+
+    // Affichage des routes enregistrées (utile pour debug)
     app._router.stack.forEach((middleware: any) => {
       if (middleware.route) { // routes enregistrées
         const methods = Object.keys(middleware.route.methods).map(m => m.toUpperCase()).join(', ');
@@ -166,6 +180,7 @@ mongoose
       }
     });
 
+    // Démarrage du serveur Express
     app.listen(port, () => {
       console.log(`🚀 Serveur démarré sur http://localhost:${port}`);
     });

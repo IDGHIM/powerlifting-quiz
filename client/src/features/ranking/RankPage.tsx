@@ -1,22 +1,34 @@
 import React, { useState, useEffect } from "react";
 import './RankPage.css';
+
+// Composant principal pour afficher la page de classement
 const RankPage: React.FC = () => {
+  // État pour la catégorie sélectionnée (par défaut : Culture)
   const [selectedCategory, setSelectedCategory] = useState("Culture");
+
+  // État pour le mode de jeu sélectionné (par défaut : Classique)
   const [selectedMode, setSelectedMode] = useState("Classique");
+
+  // État pour stocker la liste des utilisateurs (classement)
   const [users, setUsers] = useState<any[]>([]);
 
+  // Hook useEffect pour charger les données à chaque fois que la catégorie ou le mode change
   useEffect(() => {
-    // Ici récupérer les données depuis une base de données via une API
-    // Exemple : fetch(`/api/rankings?category=${selectedCategory}&mode=${selectedMode}`)
+    // TODO: Remplacer cette partie par un vrai appel API pour récupérer les classements
+    // Exemple d'appel API à implémenter plus tard :
+    // fetch(`/api/rankings?category=${selectedCategory}&mode=${selectedMode}`)
     //   .then(res => res.json())
     //   .then(data => setUsers(data));
-    setUsers([]); // Remplacer plus tard par l'appel API
+
+    // Actuellement, on vide la liste car il n'y a pas encore de backend
+    setUsers([]);
   }, [selectedCategory, selectedMode]);
 
   return (
     <div className="rank-page">
       <h1>Classement des Joueurs</h1>
 
+      {/* Sélection de la catégorie */}
       <div>
         <label>
           Catégorie:
@@ -30,6 +42,7 @@ const RankPage: React.FC = () => {
           </select>
         </label>
 
+        {/* Sélection du mode de jeu */}
         <label>
           Mode de Jeu:
           <select
@@ -43,6 +56,7 @@ const RankPage: React.FC = () => {
         </label>
       </div>
 
+      {/* Tableau pour afficher les résultats */}
       <table>
         <thead>
           <tr>
@@ -53,6 +67,7 @@ const RankPage: React.FC = () => {
         </thead>
         <tbody>
           {users.length > 0 ? (
+            // Affichage des utilisateurs s'il y en a
             users.map((user, index) => (
               <tr key={user.id}>
                 <td>{index + 1}</td>
@@ -61,6 +76,7 @@ const RankPage: React.FC = () => {
               </tr>
             ))
           ) : (
+            // Message par défaut s'il n'y a pas d'utilisateur
             <tr>
               <td colSpan={3}>Aucun joueur trouvé</td>
             </tr>

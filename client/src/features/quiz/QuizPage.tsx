@@ -1,28 +1,47 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Timer from '../../components/Timer.tsx';
-import './QuizPage.css';
+//import './QuizPage.css';
 import { Question } from '../../../../types/Quiz.ts';
 
+// Fonction utilitaire pour mélanger un tableau (questions ou réponses)
 const shuffleArray = <T,>(array: T[]): T[] => {
   return [...array].sort(() => Math.random() - 0.5);
 };
 
+// Fonction de calcul du score en fonction du temps, de la difficulté et du combo
+const calculateScore = (
+  timeTakenMs: number | null,
+  difficulty: string,
+  consecutive: number
+) => {
+  const baseScore = 10;
+  // Si mode timer, pénalise en fonction du temps écoulé
+  const timeScore = timeTakenMs !== null ? Math.max(0, baseScore - timeTakenMs / 1000) : baseScore;
+  // Multiplicateur selon la difficulté
+  const difficultyMultiplier = difficulty === 'easy' ? 1 : difficulty === 'medium' ? 2 : 3;
+  // Bonus pour bonnes réponses consécutives
+  const comboBonus = consecutive > 1 ? consecutive - 1 : 0;
+  return (timeScore + comboBonus) * difficultyMultiplier;
+};
+
+// Composant principal de la page Quiz
 const QuizPage: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  // Récupération des paramètres de mode et catégorie depuis l'URL
   const mode = new URLSearchParams(location.search).get('mode') || 'classic';
   const category = new URLSearchParams(location.search).get('category') || 'culture';
 
+  // États principaux liés au quiz
   const [quizData, setQuizData] = useState<Question[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [selectedOptionP1, setSelectedOptionP1] = useState<string | null>(null);
-  const [selectedOptionP2, setSelectedOptionP2] = useState<string | null>(null);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
-  const [score, setScore] = useState(0);
+  const [score, setScore] = useState<number>(0);
   const [quizFinished, setQuizFinished] = useState(false);
 
+  // États pour le mode 2 joueurs
   const [player1Name, setPlayer1Name] = useState('');
   const [player2Name, setPlayer2Name] = useState('');
   const [namesEntered, setNamesEntered] = useState(false);
@@ -31,257 +50,162 @@ const QuizPage: React.FC = () => {
   const [hasPlayer1Answered, setHasPlayer1Answered] = useState(false);
   const [hasPlayer2Answered, setHasPlayer2Answered] = useState(false);
 
+  // États liés au système de temps et combo
   const [questionStartTime, setQuestionStartTime] = useState<Date | null>(null);
   const [consecutiveCorrect, setConsecutiveCorrect] = useState(0);
+  const [consecutiveCorrectP1, setConsecutiveCorrectP1] = useState(0);
+  const [consecutiveCorrectP2, setConsecutiveCorrectP2] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
+  // Effet qui récupère les questions au chargement de la page
   useEffect(() => {
-    const fetchCategoryQuestions = async () => {
+    const fetchQuestions = async () => {
       try {
         const res = await fetch(`http://localhost:5000/api/quiz?category=${encodeURIComponent(category)}`);
-        if (!res.ok) throw new Error(`Erreur chargement catégorie ${category}`);
+        if (!res.ok) throw new Error('Erreur chargement questions');
         const data = (await res.json()) as Question[];
-
-        const shuffled = shuffleArray(data).slice(0, 20);
-        const randomized = shuffled.map((q: Question) => ({
-          ...q,
-          answers: shuffleArray(q.answers),
-        }));
-
-        setQuizData(randomized);
-      } catch (error) {
-        console.error(error);
+        // Mélange des questions et des réponses
+        const shuffled = shuffleArray(data).slice(0, 20).map(q => ({ ...q, answers: shuffleArray(q.answers) }));
+        setQuizData(shuffled);
+      } catch (err) {
+        console.error(err);
       }
     };
-
-    fetchCategoryQuestions();
+    fetchQuestions();
   }, [category]);
 
+  // Initialise le timer au chargement de chaque nouvelle question en mode timer
   useEffect(() => {
     if (quizData.length > 0 && !quizFinished && mode === 'timer') {
       setQuestionStartTime(new Date());
     }
   }, [currentQuestionIndex, quizData, quizFinished, mode]);
 
-  const handleTimeUp = () => {
-    setQuizFinished(true);
-    navigate('/result', {
-      state:
-        mode === '2players'
-          ? { scores, total: quizData.length, player1Name, player2Name, category, mode }
-          : { score, total: quizData.length, category, mode },
-    });
-  };
-
-  const currentQuestion = quizData[currentQuestionIndex];
-
-  const calculateScore = (timeTakenMs: number, difficulty: string, consecutive: number) => {
-    const timeScore = Math.max(0, 10 - timeTakenMs / 1000);
-    const difficultyMultiplier = difficulty === 'easy' ? 1 : difficulty === 'medium' ? 2 : 3;
-    const comboBonus = consecutive > 1 ? consecutive - 1 : 0;
-    return (timeScore + comboBonus) * difficultyMultiplier;
-  };
-
+  // Gère la logique de réponse à une question
   const handleAnswer = (option: string) => {
     if (selectedOption || isPaused) return;
-
+    const currentQuestion = quizData[currentQuestionIndex];
     const isCorrect = option === currentQuestion.correctAnswer;
     const now = new Date();
-    const timeTakenMs = questionStartTime ? now.getTime() - questionStartTime.getTime() : 0;
+    const timeTaken = questionStartTime ? now.getTime() - questionStartTime.getTime() : null;
 
+    // Gestion spécifique du mode 2 joueurs
     if (mode === '2players') {
       if (currentPlayer === 1) {
         if (isCorrect) {
-          setScores((prev) => ({ ...prev, 1: prev[1] + 1 }));
+          const points = calculateScore(null, currentQuestion.difficulty || 'easy', consecutiveCorrectP1 + 1);
+          setScores(prev => ({ ...prev, 1: prev[1] + points }));
+          setConsecutiveCorrectP1(prev => prev + 1);
+        } else {
+          setConsecutiveCorrectP1(0);
         }
         setHasPlayer1Answered(true);
-        setSelectedOptionP1(option);
         setCurrentPlayer(2);
         return;
       }
-
       if (currentPlayer === 2) {
         if (isCorrect) {
-          setScores((prev) => ({ ...prev, 2: prev[2] + 1 }));
+          const points = calculateScore(null, currentQuestion.difficulty || 'easy', consecutiveCorrectP2 + 1);
+          setScores(prev => ({ ...prev, 2: prev[2] + points }));
+          setConsecutiveCorrectP2(prev => prev + 1);
+        } else {
+          setConsecutiveCorrectP2(0);
         }
         setHasPlayer2Answered(true);
-        setSelectedOptionP2(option);
-
         setTimeout(() => {
-          const nextIndex = currentQuestionIndex + 1;
-          if (nextIndex < quizData.length) {
-            setCurrentQuestionIndex(nextIndex);
-            setCurrentPlayer(1);
-            setHasPlayer1Answered(false);
-            setHasPlayer2Answered(false);
-            setSelectedOptionP1(null);
-            setSelectedOptionP2(null);
-          } else {
-            setQuizFinished(true);
-            navigate('/result', {
-              state: { scores, total: quizData.length, category, mode, player1Name, player2Name },
-            });
-          }
+          nextQuestion();
+          setCurrentPlayer(1);
+          setHasPlayer1Answered(false);
+          setHasPlayer2Answered(false);
         }, 500);
         return;
       }
-    }
-
-    if (mode === 'timer') {
+    } else {
+      // Mode solo ou timer
       if (isCorrect) {
-        const points = calculateScore(timeTakenMs, currentQuestion.difficulty || 'easy', consecutiveCorrect + 1);
-        setScore((prev) => prev + points);
-        setConsecutiveCorrect((prev) => prev + 1);
+        const points = calculateScore(
+          mode === 'timer' ? timeTaken : null,
+          currentQuestion.difficulty || 'easy',
+          consecutiveCorrect + 1
+        );
+        setScore(prev => prev + points);
+        setConsecutiveCorrect(prev => prev + 1);
       } else {
         setConsecutiveCorrect(0);
       }
-
       setSelectedOption(option);
-      setTimeout(() => {
-        if (currentQuestionIndex + 1 < quizData.length) {
-          setCurrentQuestionIndex((prev) => prev + 1);
-          setSelectedOption(null);
-          setQuestionStartTime(new Date());
-        } else {
-          setQuizFinished(true);
-          navigate('/result', {
-            state: { score, total: quizData.length, category, mode },
-          });
-        }
-      }, 1000);
-      return;
+      setTimeout(() => nextQuestion(), 1000);
     }
-
-    setSelectedOption(option);
-    if (isCorrect) setScore((prev) => prev + 1);
-    setTimeout(() => {
-      if (currentQuestionIndex + 1 < quizData.length) {
-        setCurrentQuestionIndex((prev) => prev + 1);
-        setSelectedOption(null);
-      } else {
-        setQuizFinished(true);
-        navigate('/result', {
-          state: {
-            score: isCorrect ? score + 1 : score,
-            total: quizData.length,
-            category,
-            mode,
-          },
-        });
-      }
-    }, 1000);
   };
 
+  // Passe à la question suivante ou termine le quiz si toutes les questions sont répondues
+  const nextQuestion = () => {
+    setSelectedOption(null);
+    if (currentQuestionIndex + 1 < quizData.length) {
+      setCurrentQuestionIndex(prev => prev + 1);
+      if (mode === 'timer') setQuestionStartTime(new Date());
+    } else {
+      setQuizFinished(true);
+      navigate('/result', {
+        state: mode === '2players'
+          ? { scores, total: quizData.length, player1Name, player2Name, category, mode }
+          : { score, total: quizData.length, category, mode },
+      });
+    }
+  };
+
+  // Fonction déclenchée quand le temps est écoulé en mode timer
+  const handleTimeUp = () => {
+    setQuizFinished(true);
+    navigate('/result', { state: { score, total: quizData.length, category, mode } });
+  };
+
+  // Si les données ne sont pas encore chargées
   if (quizData.length === 0) return <p>Chargement du quiz...</p>;
+
+  // Si le quiz est terminé
   if (quizFinished) return null;
 
+  // Saisie des noms des joueurs pour le mode 2 joueurs
   if (mode === '2players' && !namesEntered) {
     return (
       <div className="quiz-container">
         <h2>Entrez les noms des joueurs</h2>
-        <input type="text" placeholder="Nom Joueur 1" value={player1Name} onChange={(e) => setPlayer1Name(e.target.value)} className="input-name" />
-        <input type="text" placeholder="Nom Joueur 2" value={player2Name} onChange={(e) => setPlayer2Name(e.target.value)} className="input-name" />
-        <button onClick={() => { if (player1Name.trim() && player2Name.trim()) setNamesEntered(true); else alert('Veuillez entrer les deux noms'); }} className="start-button">
-          Commencer le quiz
-        </button>
+        <input value={player1Name} onChange={(e) => setPlayer1Name(e.target.value)} placeholder="Joueur 1" />
+        <input value={player2Name} onChange={(e) => setPlayer2Name(e.target.value)} placeholder="Joueur 2" />
+        <button onClick={() => { if (player1Name && player2Name) setNamesEntered(true); }}>Commencer</button>
       </div>
     );
   }
 
+  // Récupération de la question actuelle
+  const currentQuestion = quizData[currentQuestionIndex];
+
+  // Rendu principal du quiz
   return (
     <div className="quiz-container">
       <h1>Quiz : {category}</h1>
-      <p>Mode sélectionné : <strong>{mode === 'timer' ? 'Contre-la-montre' : mode === '2players' ? 'Joueur 1 vs Joueur 2' : 'Classique'}</strong></p>
 
-      {mode === 'timer' && (
-        <>
-          <Timer duration={60} onTimeUp={handleTimeUp} isPaused={isPaused} />
-          <button className="pause-button" onClick={() => setIsPaused(!isPaused)}>{isPaused ? 'Reprendre' : 'Pause'}</button>
-        </>
-      )}
+      {mode === 'timer' && <Timer duration={60} onTimeUp={handleTimeUp} isPaused={isPaused} />}
 
       {mode === '2players' && (
-        <>
-          <h3 className="player-turn">👉 {currentPlayer === 1 ? player1Name : player2Name}, à toi de répondre !</h3>
-          <div className="scores">
-            <p>🟦 {player1Name}: {scores[1]} pts</p>
-            <p>🟥 {player2Name}: {scores[2]} pts</p>
-          </div>
-        </>
-      )}
-
-      {consecutiveCorrect >= 2 && (
-        <p className="combo-message">🔥 {consecutiveCorrect} bonnes réponses consécutives !</p>
-      )}
-
-      <div className={`quiz-card ${isPaused ? 'disabled' : ''}`}>
-        <h2>Question {currentQuestionIndex + 1} / {quizData.length}</h2>
-        <p>{currentQuestion.question}</p>
-        <div className="quiz-options">
-          {currentQuestion.answers.map((option, index) => {
-            let optionClass = 'quiz-option';
-            if (mode === '2players') {
-              if ((currentPlayer === 1 && selectedOptionP1 === option) || (currentPlayer === 2 && selectedOptionP2 === option)) {
-                if (option === currentQuestion.correctAnswer) optionClass += ' correct';
-                else optionClass += ' wrong';
-              }
-            } else if (selectedOption) {
-              if (option === currentQuestion.correctAnswer) optionClass += ' correct';
-              else if (option === selectedOption) optionClass += ' wrong';
-            }
-            if (isPaused) optionClass += ' paused';
-            return (
-              <button
-                key={index}
-                onClick={() => handleAnswer(option)}
-                className={optionClass}
-                disabled={
-                  isPaused ||
-                  (mode === '2players' && ((currentPlayer === 1 && hasPlayer1Answered) || (currentPlayer === 2 && hasPlayer2Answered))) ||
-                  (mode !== '2players' && selectedOption !== null)
-                }
-              >
-                {option}
-              </button>
-            );
-          })}
+        <div>
+          <h3>À toi {currentPlayer === 1 ? player1Name : player2Name}</h3>
+          <p>{player1Name}: {Math.floor(scores[1])} pts | {player2Name}: {Math.floor(scores[2])} pts</p>
         </div>
+      )}
+
+      <h2>{currentQuestion.question}</h2>
+
+      <div>
+        {currentQuestion.answers.map((option, idx) => (
+          <button key={idx} onClick={() => handleAnswer(option)} disabled={selectedOption !== null || isPaused}>
+            {option}
+          </button>
+        ))}
       </div>
 
-      <div className="next-button-container">
-        <button
-          className="next-button"
-          onClick={() => {
-            if (isPaused) return;
-            if (currentQuestionIndex + 1 < quizData.length) {
-              setCurrentQuestionIndex((prev) => prev + 1);
-              setSelectedOption(null);
-              setSelectedOptionP1(null);
-              setSelectedOptionP2(null);
-              setConsecutiveCorrect(0);
-              if (mode === '2players') {
-                setCurrentPlayer(1);
-                setHasPlayer1Answered(false);
-                setHasPlayer2Answered(false);
-              }
-              if (mode === 'timer') setQuestionStartTime(new Date());
-            } else {
-              setQuizFinished(true);
-              navigate('/result', {
-                state: mode === '2players'
-                  ? { scores, total: quizData.length, player1Name, player2Name, category, mode }
-                  : { score, total: quizData.length, category, mode },
-              });
-            }
-          }}
-          disabled={isPaused}
-        >
-          Question suivante
-        </button>
-      </div>
-
-      {mode === 'classic' && <p>Score actuel : <strong>{score}</strong></p>}
-      {mode === 'timer' && <p>Score actuel : <strong>{Math.floor(score)}</strong></p>}
+      {mode !== '2players' && <p>Score: {Math.floor(score)}</p>}
     </div>
   );
 };
