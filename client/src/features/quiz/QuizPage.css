@@ -1,9 +1,45 @@
+:root {
+  --power-black: #1a1a1a;
+  --power-red: #d72631;
+  --metallic-steel: #4a4e69;
+  --off-white: #f5f5f5;
+  --highlight-yellow: #ffd400;
+  --correct-green-light: #d4edda;
+  --correct-green: #28a745;
+  --correct-green-dark: #155724;
+  --wrong-red-light: #f8d7da;
+  --wrong-red: #dc3545;
+  --wrong-red-dark: #721c24;
+  --background-light: #f9f9f9;
+}
+
 /* Conteneur principal du quiz */
 .quiz-container {
   max-width: 900px;
-  margin: 0 auto;
-  padding: 2rem;
+  margin: 2rem auto;
+  padding: 2rem 1rem;
+  background-color: var(--off-white);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(26, 26, 26, 0.1);
   text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--power-black);
+}
+
+/* Titres */
+.quiz-container h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--power-red);
+  margin-bottom: 1rem;
+}
+
+.quiz-container h2,
+.quiz-container h3 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--metallic-steel);
+  margin-bottom: 1rem;
 }
 
 /* Nom des joueurs (2 joueurs) */
@@ -11,24 +47,28 @@
   display: block;
   width: 80%;
   max-width: 300px;
-  margin: 0.5rem auto 1rem auto;
-  padding: 0.5rem 1rem;
+  margin: 0.5rem auto 1.5rem;
+  padding: 0.8rem 1rem;
   font-size: 1rem;
-  border: 2px solid #ccc;
+  border: 2px solid var(--metallic-steel);
   border-radius: 8px;
   outline-offset: 2px;
   transition: border-color 0.3s ease;
+  color: var(--power-black);
+  font-family: inherit;
 }
 
 .input-name:focus {
-  border-color: #4a90e2;
+  border-color: var(--power-red);
+  outline: none;
 }
 
 /* Titre du tour */
 .player-turn {
-  font-weight: bold;
-  font-size: 1.2rem;
+  font-weight: 700;
+  font-size: 1.3rem;
   margin-bottom: 1rem;
+  color: var(--power-black);
 }
 
 /* Scores */
@@ -37,15 +77,16 @@
   justify-content: space-around;
   margin: 1rem 0 2rem 0;
   font-weight: 600;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
+  color: var(--metallic-steel);
 }
 
 /* Carte quiz */
 .quiz-card {
-  background-color: #f9f9f9;
+  background-color: var(--background-light);
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(26, 26, 26, 0.1);
   margin-top: 1rem;
 }
 
@@ -59,32 +100,43 @@
 
 /* Boutons options */
 .quiz-option {
-  padding: 1rem 1.5rem;
-  font-size: 1.1rem;
-  border: 2px solid #ccc;
-  border-radius: 10px;
+  margin: 0 auto 1.5rem auto;       /* Centré horizontalement avec marge en bas */
+  display: block;                   /* Le bouton s’affiche en block (prend toute la largeur possible) */
+  border-radius: 30px;             /* Bord arrondi plus marqué */
+  padding: 0.85rem 3rem;           /* Espacements internes */
+  box-shadow: 0 7px 15px rgba(215, 38, 49, 0.45);  /* Ombre plus douce */
+  font-size: 1.3rem;               /* Taille texte */
+  width: 100%;                    /* Largeur 100% */
+  max-width: 300px;                /* Max largeur limitée à 300px */
+  border: 2px solid #ccc;          /* Garde la bordure */
   background-color: white;
   cursor: pointer;
   transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
   user-select: none;
-  width: 100%;
-  max-width: 500px;
-  text-align: left;
-  margin-left: auto;
-  margin-right: auto;
+  text-align: center;
+  font-family: inherit;
+  color: var(--power-black);
 }
 
 .quiz-option:hover:not(:disabled) {
-  background-color: #e0e7ff;
-  border-color: #4a90e2;
+  background-color: var(--highlight-yellow);
+  border-color: var(--power-red);
+  box-shadow: 0 9px 20px rgba(255, 212, 0, 0.4);
+}
+
+.quiz-option:disabled {
+  cursor: not-allowed;
+  opacity: 0.8;
+  box-shadow: none;
+  background-color: #eee;
+  color: #888;
 }
 
 /* Option correcte */
 .correct {
-  background-color: #d4edda; /* vert clair */
-  border-color: #28a745; /* vert */
-  color: #155724;
+  background-color: var(--correct-green-light);
+  border-color: var(--correct-green);
+  color: var(--correct-green-dark);
   cursor: default;
   box-shadow: 0 0 15px 3px rgba(40, 167, 69, 0.7);
   animation: correct-pulse 1s ease forwards;
@@ -92,24 +144,18 @@
 
 /* Option incorrecte */
 .wrong {
-  background-color: #f8d7da; /* rouge clair */
-  border-color: #dc3545; /* rouge */
-  color: #721c24;
+  background-color: var(--wrong-red-light);
+  border-color: var(--wrong-red);
+  color: var(--wrong-red-dark);
   cursor: default;
   box-shadow: 0 0 15px 3px rgba(220, 53, 69, 0.7);
   animation: wrong-shake 0.5s ease forwards;
 }
 
-/* Boutons désactivés */
-.quiz-option:disabled {
-  cursor: not-allowed;
-  opacity: 0.8;
-}
-
 /* Animation pour combo de bonnes réponses */
 .combo-flash {
   animation: combo-flash 1.2s ease forwards;
-  box-shadow: 0 0 25px 6px #ffd600;
+  box-shadow: 0 0 25px 6px var(--highlight-yellow);
   border-color: #ffca28 !important;
   background-color: #fff59d !important;
   color: #5d4037 !important;
@@ -149,17 +195,17 @@
 /* Flash jaune vif pour combo */
 @keyframes combo-flash {
   0% {
-    box-shadow: 0 0 0 0 #ffd600;
+    box-shadow: 0 0 0 0 var(--highlight-yellow);
     background-color: #fff59d;
     color: #5d4037;
   }
   50% {
-    box-shadow: 0 0 40px 12px #ffd600;
+    box-shadow: 0 0 40px 12px var(--highlight-yellow);
     background-color: #fff176;
     color: #3e2723;
   }
   100% {
-    box-shadow: 0 0 0 0 #ffd600;
+    box-shadow: 0 0 0 0 var(--highlight-yellow);
     background-color: #fff59d;
     color: #5d4037;
   }
@@ -167,7 +213,7 @@
 
 /* Texte du score combo (optionnel) */
 .combo-message {
-  color: #ffd600;
+  color: var(--highlight-yellow);
   font-weight: 700;
   font-size: 1.3rem;
   text-align: center;
@@ -187,5 +233,32 @@
   100% {
     opacity: 0;
     transform: translateY(-10px);
+  }
+}
+
+/* Responsive simple */
+@media (max-width: 600px) {
+  .quiz-container {
+    margin: 1rem;
+    padding: 1.5rem 1rem;
+  }
+  
+  .quiz-container h1 {
+    font-size: 2rem;
+  }
+  
+  .quiz-container h2,
+  .quiz-container h3 {
+    font-size: 1.5rem;
+  }
+  
+  .quiz-option {
+    font-size: 1rem;
+    padding: 0.8rem 1.2rem;
+    max-width: 100%;
+  }
+  
+  .input-name {
+    max-width: 100%;
   }
 }

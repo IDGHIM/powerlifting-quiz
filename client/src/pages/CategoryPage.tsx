@@ -57,17 +57,17 @@ const CategoryPage: React.FC = () => {
             <div className="mode-buttons">
               <Button
                 text="🎯 Classique"
-                className="mode-button classic"
+                className="mode-button"
                 onClick={() => handleModeSelect('classic')}
               />
               <Button
                 text="⏱️ Contre-la-montre"
-                className="mode-button timer"
+                className="mode-button"
                 onClick={() => handleModeSelect('timer')}
               />
               <Button
                 text="👥 2 Joueurs"
-                className="mode-button two-players"
+                className="mode-button"
                 onClick={() => handleModeSelect('2players')}
               />
             </div>

@@ -1,15 +1,34 @@
 .custom-button {
-  background-color: #e10600; /* couleur SBD */
-  color: #fff;
-  border: none;
-  padding: 1rem 2rem;
-  font-size: 1.2rem;
+  margin: 0 auto 1.5rem auto;                     /* Centré horizontalement avec marge en bas */
+  display: block;                                 /* Le bouton s’affiche en block (prend toute la largeur possible) */
+  border-radius: 30px;                            /* Bord arrondi plus marqué */
+  padding: 0.85rem 3rem;                          /* Espacements internes */
+  box-shadow: 0 7px 15px rgba(215, 38, 49, 0.45); /* Ombre plus douce */
+  font-size: 1.3rem;                             /* Taille texte */
+  width: 100%;                                   /* Largeur 100% */
+  max-width: 300px;                              /* Max largeur limitée à 300px */
+  border: 2px solid #ccc;                        /* Garde la bordure */
+  background-color: white;
+  color: var(--power-black);
   cursor: pointer;
-  border-radius: 0.5rem;
-  margin: 1rem 0;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  user-select: none;
+  text-align: center;
+  font-family: inherit;
 }
 
+/* Effet au survol */
 .custom-button:hover {
-  background-color: #a50000; /* couleur plus foncée au survol */
+  background-color: #f9f9f9;
+  border-color: #d72631;
+  box-shadow: 0 9px 20px rgba(215, 38, 49, 0.65);
+}
+
+/* Optionnel : bouton désactivé */
+.custom-button:disabled {
+  background-color: #a0a0a0;
+  cursor: not-allowed;
+  box-shadow: none;
+  border-color: #888;
+  color: #eee;
 }

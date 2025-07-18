@@ -8,21 +8,22 @@
 
 .category-button {
   padding: 0.75rem 1.5rem;
-  background-color: #e0e0e0;
+  background-color: #4a90e2; /* bouton bleu */
   border: none;
   border-radius: 8px;
   font-size: 1rem;
   cursor: pointer;
+  color: white;
+  font-weight: normal;
   transition: background-color 0.3s ease;
 }
 
 .category-button:hover {
-  background-color: #d0d0d0;
+  background-color: #357abd; /* bleu foncé au survol */
 }
 
 .category-button.active {
-  background-color: #4a90e2;
-  color: white;
+  background-color: #2c5aa0; /* bleu plus foncé pour actif */
   font-weight: bold;
 }
 
@@ -41,31 +42,11 @@
   cursor: pointer;
   font-size: 1rem;
   transition: background-color 0.3s ease;
-}
-
-.mode-button.classic {
-  background-color: #6ab04c;
+  background-color: #4a90e2; /* même bleu */
   color: white;
+  font-weight: normal;
 }
 
-.mode-button.classic:hover {
-  background-color: #4e8a30;
-}
-
-.mode-button.timer {
-  background-color: #f39c12;
-  color: white;
-}
-
-.mode-button.timer:hover {
-  background-color: #b2700b;
-}
-
-.mode-button.two-players {
-  background-color: #2980b9;
-  color: white;
-}
-
-.mode-button.two-players:hover {
-  background-color: #1b4f72;
+.mode-button:hover {
+  background-color: #357abd; /* même bleu foncé au survol */
 }

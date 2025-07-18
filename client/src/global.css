@@ -15,36 +15,36 @@
   --highlight-yellow: #ffd400;
 }
 
-/* Reset & base */
+/* Reset & styles de base */
 body {
   margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: var(--off-white);
-  color: var(--power-black);
-  line-height: 1.6;
+  background-color: var(--off-white); /* Fond clair neutre */
+  color: var(--power-black);          /* Texte sombre */
+  line-height: 1.6;                   /* Espacement entre lignes pour lisibilité */
 }
 
-/* Sections communes */
+/* Conteneurs de sections communes */
 .section-presentation,
 .section-quiz,
 .category-section,
 .section-about {
-  max-width: 900px;
-  margin: 2rem auto;
-  padding: 2rem 1rem;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(26, 26, 26, 0.1);
-  text-align: center;
+  max-width: 900px;                   /* Largeur maximale */
+  margin: 2rem auto;                  /* Centrage horizontal avec marge verticale */
+  padding: 2rem 1rem;                 /* Espacement interne */
+  background-color: white;            /* Fond blanc */
+  border-radius: 8px;                 /* Bords arrondis */
+  box-shadow: 0 4px 12px rgba(26, 26, 26, 0.1); /* Ombre légère */
+  text-align: center;                 /* Texte centré */
 }
 
-/* Titres */
+/* Titres principaux */
 .title,
 .category-title,
 .section-about .title {
   font-size: 2.5rem;
   font-weight: 700;
-  color: var(--power-red);
+  color: var(--power-red);            /* Couleur rouge dynamique */
   margin-bottom: 1rem;
 }
 
@@ -53,7 +53,7 @@ body {
 .mode-title {
   font-size: 1.8rem;
   font-weight: 600;
-  color: var(--metallic-steel);
+  color: var(--metallic-steel);       /* Couleur métallique */
   margin-bottom: 1rem;
 }
 
@@ -61,14 +61,14 @@ body {
 .description,
 .section-about .description {
   font-size: 1.1rem;
-  color: var(--charcoal-black);
-  max-width: 700px;
-  margin: 0 auto 2rem auto;
+  color: var(--charcoal-black);       /* Gris foncé */
+  max-width: 700px;                   /* Limite largeur texte */
+  margin: 0 auto 2rem auto;           /* Centré horizontalement avec marge en bas */
   line-height: 1.6;
-  white-space: pre-line;
+  white-space: pre-line;              /* Respect des sauts de ligne */
 }
 
-/* Conteneurs texte / boutons */
+/* Conteneurs de texte et boutons */
 .content-text {
   max-width: 720px;
   margin: 0 auto 2.5rem auto;
@@ -78,19 +78,19 @@ body {
 .content-buttons {
   display: flex;
   justify-content: center;
-  flex-wrap: wrap;
-  gap: 1rem;
+  flex-wrap: wrap;                   /* Permet d’aller à la ligne si espace insuffisant */
+  gap: 1rem;                        /* Espacement entre boutons */
   margin-top: 1rem;
 }
 
-/* Boutons communs */
+/* Styles communs aux boutons */
 .start-button,
 .category-button,
 .mode-button,
 form button[type="submit"] {
   display: inline-block;
   border: none;
-  border-radius: 25px;
+  border-radius: 25px;               /* Boutons arrondis */
   padding: 0.75rem 2.5rem;
   font-size: 1.25rem;
   font-weight: 700;
@@ -98,26 +98,27 @@ form button[type="submit"] {
   transition: background-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
   box-shadow: 0 6px 12px rgba(215, 38, 49, 0.4);
   text-align: center;
-  user-select: none;
+  user-select: none;                 /* Empêche la sélection du texte au clic */
   margin: 0.3rem;
   min-width: 180px;
-  background-color: var(--power-red);
+  background-color: var(--power-red); /* Rouge par défaut */
   color: var(--off-white);
 }
 
-/* Bouton démarrer quiz & AboutPage & Login */
+/* Bouton démarrer quiz et boutons formulaire */
 .start-button,
 form button[type="submit"] {
-  margin: 0 auto 1.5rem auto;
-  display: block;
-  border-radius: 30px;
+  margin: 0 auto 1.5rem auto;       /* Centré horizontalement avec marge en bas */
+  display: block;                   /* Prend toute la largeur possible */
+  border-radius: 30px;             /* Plus arrondi */
   padding: 0.85rem 3rem;
   box-shadow: 0 7px 15px rgba(215, 38, 49, 0.45);
   font-size: 1.3rem;
   width: 100%;
-  max-width: 300px;
+  max-width: 300px;                /* Limite la largeur max */
 }
 
+/* Effet hover/focus sur ces boutons */
 .start-button:hover,
 .start-button:focus,
 form button[type="submit"]:hover,
@@ -130,13 +131,14 @@ form button[type="submit"]:focus {
 
 /* Boutons catégories */
 .category-button {
-  background-color: var(--metallic-steel);
+  background-color: var(--metallic-steel); /* Couleur métallique */
   color: var(--off-white);
   box-shadow: 0 4px 8px rgba(74, 78, 105, 0.5);
   min-width: 200px;
   padding: 0.75rem 1.5rem;
 }
 
+/* Effet hover/focus boutons catégories */
 .category-button:hover,
 .category-button:focus {
   background-color: var(--power-red);
@@ -145,13 +147,14 @@ form button[type="submit"]:focus {
   outline: none;
 }
 
+/* Bouton catégorie active (sélectionnée) */
 .category-button.active {
   background-color: var(--highlight-yellow);
   color: var(--power-black);
   box-shadow: 0 6px 12px rgba(255, 212, 0, 0.8);
 }
 
-/* Boutons modes */
+/* Boutons modes de jeu */
 .mode-button {
   color: var(--off-white);
   box-shadow: 0 4px 10px rgba(26, 26, 26, 0.3);
@@ -159,6 +162,7 @@ form button[type="submit"]:focus {
   padding: 0.75rem 1.5rem;
 }
 
+/* Styles spécifiques aux différents modes */
 .mode-button.classic {
   background-color: var(--power-red);
 }
@@ -172,13 +176,14 @@ form button[type="submit"]:focus {
   background-color: var(--metallic-steel);
 }
 
+/* Hover/focus sur les boutons modes */
 .mode-button:hover,
 .mode-button:focus {
   filter: brightness(1.1);
   outline: none;
 }
 
-/* Category & Mode buttons containers */
+/* Conteneurs des boutons catégories et modes */
 .category-buttons,
 .mode-buttons {
   display: flex;
@@ -188,7 +193,7 @@ form button[type="submit"]:focus {
   margin-bottom: 2rem;
 }
 
-/* LoginPage specific styles */
+/* Styles spécifiques à la page de connexion (LoginPage) */
 form {
   max-width: 400px;
   margin: 3rem auto;
@@ -201,6 +206,7 @@ form {
   align-items: center;
 }
 
+/* Titre du formulaire */
 form h2 {
   color: var(--power-red);
   font-size: 2.2rem;
@@ -208,6 +214,7 @@ form h2 {
   font-weight: 700;
 }
 
+/* Champs input */
 form input {
   width: 100%;
   padding: 0.8rem 1rem;
@@ -219,11 +226,13 @@ form input {
   transition: border-color 0.3s ease;
 }
 
+/* Focus sur input */
 form input:focus {
   border-color: var(--power-red);
   outline: none;
 }
 
+/* Texte d'erreur ou info sous formulaire */
 form p {
   margin-top: 1rem;
   color: var(--power-red);
@@ -232,7 +241,7 @@ form p {
   text-align: center;
 }
 
-/* Animation au clic */
+/* Animation au clic sur les boutons */
 button:active,
 .start-button:active,
 .category-button:active,
@@ -241,6 +250,7 @@ form button[type="submit"]:active {
   animation: click-scale 0.2s ease forwards;
 }
 
+/* Animation click-scale : effet de réduction et retour */
 @keyframes click-scale {
   0% {
     transform: scale(1);
@@ -256,7 +266,7 @@ form button[type="submit"]:active {
   }
 }
 
-/* Responsive */
+/* Responsive - adaptations pour petits écrans */
 @media (max-width: 600px) {
   .section-presentation,
   .section-quiz,
@@ -294,6 +304,7 @@ form button[type="submit"]:active {
   }
 }
 
+/* Responsive encore plus petit écran */
 @media (max-width: 480px) {
   form {
     margin: 2rem 1rem;
@@ -314,8 +325,9 @@ form button[type="submit"]:active {
   }
 }
 
-/* RESULT PAGE CSS - Intégré sans modification */
+/* --- PAGE RESULTATS (Result Page) --- */
 
+/* Conteneur principal des résultats */
 .result-container {
   max-width: 700px;
   margin: 3rem auto 2rem auto;
@@ -327,6 +339,7 @@ form button[type="submit"]:active {
   color: var(--power-black);
 }
 
+/* Titre résultat */
 .result-container h1 {
   font-size: 2.4rem;
   font-weight: 700;
@@ -334,6 +347,7 @@ form button[type="submit"]:active {
   margin-bottom: 1.5rem;
 }
 
+/* Score affiché en gros */
 .result-score {
   font-size: 4rem;
   font-weight: 900;
@@ -341,6 +355,7 @@ form button[type="submit"]:active {
   margin: 1rem 0 2rem 0;
 }
 
+/* Message complémentaire sous score */
 .result-message {
   font-size: 1.3rem;
   font-weight: 600;
@@ -348,6 +363,7 @@ form button[type="submit"]:active {
   margin-bottom: 2rem;
 }
 
+/* Conteneur des boutons sous résultats */
 .result-buttons {
   display: flex;
   justify-content: center;
@@ -355,6 +371,7 @@ form button[type="submit"]:active {
   flex-wrap: wrap;
 }
 
+/* Boutons sur la page résultat */
 .result-buttons button {
   background-color: var(--power-red);
   color: var(--off-white);
@@ -369,6 +386,7 @@ form button[type="submit"]:active {
   min-width: 180px;
 }
 
+/* Hover/focus boutons résultats */
 .result-buttons button:hover,
 .result-buttons button:focus {
   background-color: var(--highlight-yellow);
@@ -377,6 +395,7 @@ form button[type="submit"]:active {
   outline: none;
 }
 
+/* Responsive page résultats */
 @media (max-width: 600px) {
   .result-container {
     margin: 2rem 1rem 1.5rem 1rem;

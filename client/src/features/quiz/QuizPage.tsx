@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Timer from '../../components/Timer.tsx';
-//import './QuizPage.css';
+import './QuizPage.css';
 import { Question } from '../../../../types/Quiz.ts';
 
 // Fonction utilitaire pour mélanger un tableau (questions ou réponses)
@@ -16,11 +16,8 @@ const calculateScore = (
   consecutive: number
 ) => {
   const baseScore = 10;
-  // Si mode timer, pénalise en fonction du temps écoulé
   const timeScore = timeTakenMs !== null ? Math.max(0, baseScore - timeTakenMs / 1000) : baseScore;
-  // Multiplicateur selon la difficulté
   const difficultyMultiplier = difficulty === 'easy' ? 1 : difficulty === 'medium' ? 2 : 3;
-  // Bonus pour bonnes réponses consécutives
   const comboBonus = consecutive > 1 ? consecutive - 1 : 0;
   return (timeScore + comboBonus) * difficultyMultiplier;
 };
@@ -57,6 +54,15 @@ const QuizPage: React.FC = () => {
   const [consecutiveCorrectP2, setConsecutiveCorrectP2] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
+  // Nouvel état pour stocker les réponses de l'utilisateur
+  const [userAnswers, setUserAnswers] = useState<{
+    question: string;
+    correctAnswer: string;
+    userAnswer: string;
+    isCorrect: boolean;
+    player?: 1 | 2;
+  }[]>([]);
+
   // Effet qui récupère les questions au chargement de la page
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -81,15 +87,35 @@ const QuizPage: React.FC = () => {
     }
   }, [currentQuestionIndex, quizData, quizFinished, mode]);
 
+  // Si currentQuestionIndex dépasse quizData.length, terminer le quiz
+  useEffect(() => {
+    if (currentQuestionIndex >= quizData.length && quizData.length > 0) {
+      setQuizFinished(true);
+    }
+  }, [currentQuestionIndex, quizData]);
+
   // Gère la logique de réponse à une question
   const handleAnswer = (option: string) => {
     if (selectedOption || isPaused) return;
     const currentQuestion = quizData[currentQuestionIndex];
+    if (!currentQuestion) return; // Sécurité supplémentaire
+
     const isCorrect = option === currentQuestion.correctAnswer;
     const now = new Date();
     const timeTaken = questionStartTime ? now.getTime() - questionStartTime.getTime() : null;
 
-    // Gestion spécifique du mode 2 joueurs
+    // Stocke la réponse dans le state avec indication du joueur (mode 2 joueurs)
+    setUserAnswers(prev => [
+      ...prev,
+      {
+        question: currentQuestion.question,
+        correctAnswer: currentQuestion.correctAnswer,
+        userAnswer: option,
+        isCorrect,
+        player: mode === '2players' ? currentPlayer : undefined,
+      },
+    ]);
+
     if (mode === '2players') {
       if (currentPlayer === 1) {
         if (isCorrect) {
@@ -141,15 +167,69 @@ const QuizPage: React.FC = () => {
   // Passe à la question suivante ou termine le quiz si toutes les questions sont répondues
   const nextQuestion = () => {
     setSelectedOption(null);
+
     if (currentQuestionIndex + 1 < quizData.length) {
       setCurrentQuestionIndex(prev => prev + 1);
       if (mode === 'timer') setQuestionStartTime(new Date());
     } else {
       setQuizFinished(true);
+
+      // Construire tableau questions avec réponses formatées pour la ResultPage
+      let questionsForResult: {
+        question: string;
+        correct_answer: string;
+        user_answer?: string;
+        user_answers?: { 1: string; 2: string };
+      }[] = [];
+
+      if (mode === '2players') {
+        questionsForResult = quizData.map(q => {
+          // Trouver réponses des deux joueurs pour cette question
+          const p1AnswerObj = userAnswers.find(
+            ua => ua.question === q.question && ua.player === 1
+          );
+          const p2AnswerObj = userAnswers.find(
+            ua => ua.question === q.question && ua.player === 2
+          );
+          return {
+            question: q.question,
+            correct_answer: q.correctAnswer,
+            user_answers: {
+              1: p1AnswerObj?.userAnswer ?? 'Non répondu',
+              2: p2AnswerObj?.userAnswer ?? 'Non répondu',
+            },
+          };
+        });
+      } else {
+        questionsForResult = quizData.map(q => {
+          const answerObj = userAnswers.find(ua => ua.question === q.question);
+          return {
+            question: q.question,
+            correct_answer: q.correctAnswer,
+            user_answer: answerObj?.userAnswer ?? 'Non répondu',
+          };
+        });
+      }
+
       navigate('/result', {
-        state: mode === '2players'
-          ? { scores, total: quizData.length, player1Name, player2Name, category, mode }
-          : { score, total: quizData.length, category, mode },
+        state:
+          mode === '2players'
+            ? {
+                scores,
+                total: quizData.length,
+                player1Name,
+                player2Name,
+                category,
+                mode,
+                questions: questionsForResult,
+              }
+            : {
+                score,
+                total: quizData.length,
+                category,
+                mode,
+                questions: questionsForResult,
+              },
       });
     }
   };
@@ -157,7 +237,20 @@ const QuizPage: React.FC = () => {
   // Fonction déclenchée quand le temps est écoulé en mode timer
   const handleTimeUp = () => {
     setQuizFinished(true);
-    navigate('/result', { state: { score, total: quizData.length, category, mode } });
+    navigate('/result', {
+      state: {
+        score,
+        total: quizData.length,
+        category,
+        mode,
+        questions: quizData.map(q => ({
+          question: q.question,
+          correct_answer: q.correctAnswer,
+          user_answer:
+            userAnswers.find(ua => ua.question === q.question)?.userAnswer ?? 'Non répondu',
+        })),
+      },
+    });
   };
 
   // Si les données ne sont pas encore chargées
@@ -171,15 +264,33 @@ const QuizPage: React.FC = () => {
     return (
       <div className="quiz-container">
         <h2>Entrez les noms des joueurs</h2>
-        <input value={player1Name} onChange={(e) => setPlayer1Name(e.target.value)} placeholder="Joueur 1" />
-        <input value={player2Name} onChange={(e) => setPlayer2Name(e.target.value)} placeholder="Joueur 2" />
-        <button onClick={() => { if (player1Name && player2Name) setNamesEntered(true); }}>Commencer</button>
+        <input
+          value={player1Name}
+          onChange={(e) => setPlayer1Name(e.target.value)}
+          placeholder="Joueur 1"
+          className="input-name"
+        />
+        <input
+          value={player2Name}
+          onChange={(e) => setPlayer2Name(e.target.value)}
+          placeholder="Joueur 2"
+          className="input-name"
+        />
+        <button
+          onClick={() => {
+            if (player1Name && player2Name) setNamesEntered(true);
+          }}
+          className="start-button"
+        >
+          Commencer
+        </button>
       </div>
     );
   }
 
-  // Récupération de la question actuelle
+  // Récupération sécurisée de la question actuelle
   const currentQuestion = quizData[currentQuestionIndex];
+  if (!currentQuestion) return <p>Chargement de la question...</p>;
 
   // Rendu principal du quiz
   return (
@@ -191,21 +302,37 @@ const QuizPage: React.FC = () => {
       {mode === '2players' && (
         <div>
           <h3>À toi {currentPlayer === 1 ? player1Name : player2Name}</h3>
-          <p>{player1Name}: {Math.floor(scores[1])} pts | {player2Name}: {Math.floor(scores[2])} pts</p>
+          <p>
+            {player1Name}: {Math.floor(scores[1])} pts | {player2Name}: {Math.floor(scores[2])} pts
+          </p>
         </div>
       )}
 
       <h2>{currentQuestion.question}</h2>
 
-      <div>
-        {currentQuestion.answers.map((option, idx) => (
-          <button key={idx} onClick={() => handleAnswer(option)} disabled={selectedOption !== null || isPaused}>
-            {option}
-          </button>
-        ))}
-      </div>
+      <div className="quiz-options">
+        {currentQuestion.answers.map((option, idx) => {
+          const isCorrect = option === currentQuestion.correctAnswer;
+          const isSelected = option === selectedOption;
 
-      {mode !== '2players' && <p>Score: {Math.floor(score)}</p>}
+          let className = 'quiz-option';
+          if (selectedOption) {
+            if (isCorrect) className += ' correct';
+            else if (isSelected && !isCorrect) className += ' wrong';
+          }
+
+          return (
+            <button
+              key={idx}
+              className={className}
+              onClick={() => handleAnswer(option)}
+              disabled={!!selectedOption || isPaused}
+            >
+              {option}
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 };
