@@ -124,7 +124,7 @@ const ResultPage: React.FC = () => {
     <>
       <div className="result-container">
         <h1>Résultats : {category}</h1>
-        <p>Tu as obtenu {score} points</p>
+        <p>Tu as obtenu {score} </p>
         <Badges scorePercentage={percentage} />
 
         {/* Correction des questions */}
