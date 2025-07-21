@@ -8,7 +8,6 @@ import quizRoutes from 'routes/quizRoutes';
 const app = express();
 const port = process.env.PORT || 5000;
 const mongoUri = process.env.MONGO_URI || 'mongodb://localhost:27017/quizapp';
-const JWT_SECRET = process.env.JWT_SECRET || 'secret_jwt_clé';
 
 dotenv.config();
 // Connect to MongoDB
@@ -19,7 +18,6 @@ mongoose.connect(mongoUri)
   })
   .catch(err => console.error('❌ Erreur connexion MongoDB', err));
 
-app.use(cors());
 app.use(express.json());
 
 // Logging
