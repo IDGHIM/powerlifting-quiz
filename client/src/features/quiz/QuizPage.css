@@ -132,6 +132,30 @@
   color: #888;
 }
 
+/* Boutons secondaires (ex: "Passer" et "Pause") */
+quiz-controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+quiz-controls {
+  background-color: var(--metallic-steel);
+  color: var(--off-white);
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+quiz-controls:hover {
+  background-color: var(--power-black);
+}
+
 /* Option correcte */
 .correct {
   background-color: var(--correct-green-light);

@@ -15,3 +15,4 @@ const QuestionSchema: Schema = new Schema({
 });
 
 export const Question = mongoose.model<IQuestion>('Question', QuestionSchema);
+

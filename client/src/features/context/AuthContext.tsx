@@ -61,7 +61,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Fonction de connexion : envoie les identifiants à l'API et récupère le token
   const login = async (username: string, password: string) => {
-    const response = await axios.post('http://localhost:5000/login', { username, password });
+    const response = await axios.post('http://localhost:5000/api/login', { username, password });
     const token = response.data.token;
     // Stockage du token dans le localStorage
     localStorage.setItem('token', token);
