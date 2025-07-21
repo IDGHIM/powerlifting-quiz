@@ -17,72 +17,64 @@ interface AuthContextType {
   logout: () => void;
 }
 
-// Création du contexte AuthContext
+// Création du contexte
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Fournisseur du contexte d'authentification
+// Fournisseur du contexte
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // État du token, initialisé depuis localStorage pour maintenir la connexion après un rafraîchissement
   const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
-  // État des informations utilisateur
   const [user, setUser] = useState<User | null>(null);
-  // État du rôle utilisateur (facultatif mais pratique pour des vérifications rapides)
   const [role, setRole] = useState<string | null>(null);
 
-  // Fonction qui décode un token JWT pour extraire les informations de l'utilisateur
+  // Fonction pour décoder un JWT
   const decodeToken = (token: string): User | null => {
     try {
-      // Décodage de la partie payload du JWT
       const payload = JSON.parse(atob(token.split('.')[1]));
       return {
         username: payload.username,
         role: payload.role,
       };
     } catch (err) {
-      console.error("Erreur de décodage du token", err);
+      console.error("Erreur lors du décodage du token :", err);
       return null;
     }
   };
 
-  // Effet qui s'exécute lorsqu'on reçoit un nouveau token : on décode et initialise l'utilisateur
+  // Effet : on recharge l'utilisateur depuis le token au chargement
   useEffect(() => {
     if (token) {
-      const decoded = decodeToken(token);
-      if (decoded) {
-        setUser(decoded);
-        setRole(decoded.role);
+      const decodedUser = decodeToken(token);
+      if (decodedUser) {
+        setUser(decodedUser);
+        setRole(decodedUser.role);
       }
     } else {
-      // Si pas de token, on réinitialise tout
       setUser(null);
       setRole(null);
     }
   }, [token]);
 
-  // Fonction de connexion : envoie les identifiants à l'API et récupère le token
+  // Fonction login
   const login = async (username: string, password: string) => {
     const response = await axios.post('http://localhost:5000/api/login', { username, password });
     const token = response.data.token;
-    // Stockage du token dans le localStorage
     localStorage.setItem('token', token);
-    // Mise à jour du state React
     setToken(token);
 
-    // Décodage immédiat du token pour récupérer l'utilisateur et son rôle
-    const decoded = decodeToken(token);
-    if (decoded) {
-      setUser(decoded);
-      setRole(decoded.role);
+    const decodedUser = decodeToken(token);
+    if (decodedUser) {
+      setUser(decodedUser);
+      setRole(decodedUser.role);
     }
   };
 
-  // Fonction d'inscription : enregistre un utilisateur via l'API
+  // Fonction register
   const register = async (username: string, password: string, role: 'user' | 'admin' = 'user') => {
     await axios.post('http://localhost:5000/api/register', { username, password, role });
-    // Pas de connexion automatique après inscription
+    // Pas de connexion automatique après l'inscription
   };
 
-  // Fonction de déconnexion : supprime les informations d'authentification
+  // Fonction logout
   const logout = () => {
     setToken(null);
     setUser(null);
@@ -90,7 +82,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.removeItem('token');
   };
 
-  // Fournisseur qui met à disposition l'état et les méthodes d'authentification aux composants enfants
   return (
     <AuthContext.Provider value={{ user, token, role, login, register, logout }}>
       {children}
@@ -98,9 +89,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   );
 };
 
-// Hook personnalisé pour accéder facilement au contexte d'authentification
+// Hook personnalisé
 export const useAuth = () => {
-  const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error('useAuth must be used inside AuthProvider');
-  return ctx;
+  const context = useContext(AuthContext);
+  if (!context) throw new Error('useAuth doit être utilisé dans un AuthProvider');
+  return context;
 };

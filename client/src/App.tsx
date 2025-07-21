@@ -14,9 +14,7 @@ import DashboardPage from './pages/DashboardPage.tsx';
 
 import Layout from './components/Layout.tsx';
 
-import { AuthProvider } from './features/context/AuthContext.tsx';
-import PrivateRoute from './components/PrivateRoute.tsx';
-import AdminRoute from './components/AdminRoute.tsx';
+import { AuthProvider } from '../src/features/context/authContext.tsx';
 
 const App: React.FC = () => {
   return (
@@ -35,23 +33,17 @@ const App: React.FC = () => {
             <Route path="/register" element={<RegisterPage />} />
 
             {/* 🔐 Routes protégées */}
-            <Route
+          {/*  <Route
               path="/dashboard"
               element={
-                <PrivateRoute>
-                  <DashboardPage />
-                </PrivateRoute>
               }
-            />
+            />*/}
 
-            <Route
+           {/* <Route
               path="/admin"
               element={
-                <AdminRoute>
-                  <AdminPage />
-                </AdminRoute>
               }
-            />
+            /> */}
 
             {/* ❌ Route par défaut */}
             <Route path="*" element={<div>Page non trouvée</div>} />

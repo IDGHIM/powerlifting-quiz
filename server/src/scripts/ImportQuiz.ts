@@ -1,8 +1,5 @@
-import dotenv from 'dotenv';
-dotenv.config();
-
 import connectDB from '../config/db';
-import { Question } from '../models/Question';
+import { Question } from '../models/questionModel';
 import { quizDatabase } from '../data/quizData';
 
 const importData = async () => {

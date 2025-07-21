@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useAuth } from '../context/AuthContext.tsx';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../../server/src/controllers/authController'
 
 const RegisterPage: React.FC = () => {
   const { register } = useAuth();
