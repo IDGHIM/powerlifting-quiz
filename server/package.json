@@ -2,13 +2,13 @@
   "name": "quizapp-backend",
   "version": "1.0.0",
   "private": true,
-  "main": "dist/index.ts",
+  "main": "dist/index.js",
   "scripts": {
-    "start": "ts-node --project tsconfig.json src/index.ts",
-    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "start": "ts-node --project tsconfig.json src/server.ts",
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "import": "ts-node --project tsconfig.json src/scripts/ImportQuiz.ts",
     "build": "tsc",
-    "prod": "node dist/index.ts",
+    "prod": "node dist/server.js",
     "export-users": "ts-node src/scripts/ExportUser.ts"
   },
   "dependencies": {

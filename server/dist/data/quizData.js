@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.quizDatabase = void 0;
+exports.auth = exports.quizDatabase = void 0;
 exports.quizDatabase = {
     culture: [
         { question: "Qui est considéré comme le 'GOAT' (Greatest Of All Time) du powerlifting ?", answers: ["Ed Coan", "Ray Williams", "John Haack"], correctAnswer: "Ed Coan", difficulty: 'medium', category: "culture" },
@@ -144,7 +144,7 @@ exports.quizDatabase = {
         { question: "Quel mouvement articulaire est dominant dans le deadlift ?", answers: ["Extension de hanche", "Flexion du genou", "Rotation externe du bras"], correctAnswer: "Extension de hanche", difficulty: "easy", category: "biomecanique" },
         { question: "Quel muscle stabilise les genoux pendant le squat ?", answers: ["Adducteurs", "Biceps", "Deltoïdes"], correctAnswer: "Adducteurs", difficulty: "medium", category: "biomecanique" },
         { question: "Quel muscle est essentiel pour initier la poussée dans le deadlift ?", answers: ["Quadriceps", "Triceps", "Deltoïdes"], correctAnswer: "Quadriceps", difficulty: "medium", category: "biomecanique" },
-        { question: "Quel muscle prévient l’effondrement des épaules dans le deadlift ?", answers: ["Trapèzes", "Pectoraux", "Quadriceps"], correctAnswer: "Trapèzes", difficulty: "biomecanique", category: "biomecanique" },
+        { question: "Quel muscle prévient l’effondrement des épaules dans le deadlift ?", answers: ["Trapèzes", "Pectoraux", "Quadriceps"], correctAnswer: "Trapèzes", difficulty: "medium", category: "biomecanique" },
         { question: "Quel est le principal risque biomécanique d’un dos arrondi au deadlift ?", answers: ["Augmentation de la pression discale", "Diminution de l’amplitude de mouvement", "Faible activation des triceps"], correctAnswer: "Augmentation de la pression discale", difficulty: "hard", category: "biomecanique" },
         { question: "Quel muscle est prioritairement ciblé dans le bench press prise serrée ?", answers: ["Triceps", "Pectoraux", "Deltoïdes postérieurs"], correctAnswer: "Triceps", difficulty: "medium", category: "biomecanique" },
         { question: "Quel muscle est le plus sollicité lors d’une déviation des genoux vers l’intérieur pendant le squat ?", answers: ["Adducteurs", "Quadriceps", "Ischio-jambiers"], correctAnswer: "Adducteurs", difficulty: "medium", category: "biomecanique" },
@@ -158,4 +158,9 @@ exports.quizDatabase = {
         { question: "Quel muscle travaille en synergie avec les quadriceps pendant la poussée du squat ?", answers: ["Grand fessier", "Triceps", "Deltoïdes"], correctAnswer: "Grand fessier", difficulty: "medium", category: "biomecanique" }
         // ➕ Ajoute ici toutes les questions de biomécanique
     ],
+    // ➕ Tu peux ajouter d'autres catégories : équipement, historique, etc.
+};
+exports.auth = {
+    username: "admin",
+    password: "admin",
 };
