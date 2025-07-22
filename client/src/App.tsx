@@ -9,8 +9,8 @@ import AboutPage from './pages/AboutPage.tsx';
 import RankPage from './features/ranking/RankPage.tsx';
 import LoginPage from './features/auth/LoginPage.tsx';
 import RegisterPage from './features/auth/RegisterPage.tsx';
-import AdminPage from './pages/AdminPage.tsx';
 import DashboardPage from './pages/DashboardPage.tsx';
+import AdminPage from './pages/AdminPage.tsx';
 
 import Layout from './components/Layout.tsx';
 
@@ -30,6 +30,7 @@ const App: React.FC = () => {
             <Route path="/result" element={<ResultPage />} />
             <Route path="/ranking" element={<RankPage />} />
             <Route path="/login" element={<LoginPage />} />
+           <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/register" element={<RegisterPage />} />
 
             {/* 🔐 Routes protégées */}

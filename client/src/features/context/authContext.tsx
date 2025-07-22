@@ -56,7 +56,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Fonction login
   const login = async (username: string, password: string) => {
-    const response = await axios.post('http://localhost:5000/api/login', { username, password });
+    const response = await axios.post('http://localhost:5001/api/login', { username, password });
     const token = response.data.token;
     localStorage.setItem('token', token);
     setToken(token);
@@ -70,7 +70,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Fonction register
   const register = async (username: string, password: string, role: 'user' | 'admin' = 'user') => {
-    await axios.post('http://localhost:5000/api/register', { username, password, role });
+    await axios.post('http://localhost:5001/api/register', { username, password, role });
     // Pas de connexion automatique après l'inscription
   };
 

@@ -8,7 +8,7 @@ import quizRoutes from './routes/quizRoutes';
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 const mongoUri = process.env.MONGO_URI || 'mongodb://localhost:27017/quizapp';
 
 // Middlewares globaux avant les routes
@@ -36,9 +36,14 @@ app.use('/api', authRoutes);
 app.use('/api', quizRoutes);
 
 // Connexion à MongoDB puis lancement serveur
+console.log('Démarrage du script server.ts');
+
 mongoose.connect(mongoUri)
   .then(() => {
     console.log('✅ MongoDB connecté');
-    app.listen(port, () => console.log(`🚀 Serveur sur http://localhost:${port}`));
+    console.log(`🔵 Démarrage du serveur sur le port ${port}...`);
+    app.listen(5001, '0.0.0.0', () => console.log(`🚀 Serveur sur http://localhost:5001`));
   })
   .catch(err => console.error('❌ Erreur connexion MongoDB', err));
+
+
