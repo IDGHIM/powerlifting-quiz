@@ -47,8 +47,9 @@ export const login = async (req: Request<{}, {}, AuthRequestBody>, res: Response
       process.env.JWT_SECRET as string,
       { expiresIn: '1h' }
     );
-
-    return res.json({ token });
+    
+    return res.json({ token }),
+    console.log(token);
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: 'Error logging in' });

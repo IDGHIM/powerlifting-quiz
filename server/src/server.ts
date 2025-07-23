@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import authRoutes from './routes/authRoutes';
 import quizRoutes from './routes/quizRoutes';
+import scoreRoutes from './routes/scoreRoutes';
 
 dotenv.config();
 
@@ -34,6 +35,7 @@ app.get('/', (req, res) => {
 // Routes API
 app.use('/api', authRoutes);
 app.use('/api', quizRoutes);
+app.use('/api', scoreRoutes);
 
 // Connexion à MongoDB puis lancement serveur
 console.log('Démarrage du script server.ts');

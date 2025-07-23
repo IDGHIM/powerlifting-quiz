@@ -3,33 +3,48 @@ import './RankPage.css';
 
 // Composant principal pour afficher la page de classement
 const RankPage: React.FC = () => {
-  // État pour la catégorie sélectionnée (par défaut : Culture)
+  // États de filtre
   const [selectedCategory, setSelectedCategory] = useState("Culture");
+  const [selectedMode, setSelectedMode] = useState("classic");
 
-  // État pour le mode de jeu sélectionné (par défaut : Classique)
-  const [selectedMode, setSelectedMode] = useState("Classique");
-
-  // État pour stocker la liste des utilisateurs (classement)
+  // Données récupérées
   const [users, setUsers] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // Hook useEffect pour charger les données à chaque fois que la catégorie ou le mode change
+  // Appel API pour récupérer les classements filtrés
   useEffect(() => {
-    // TODO: Remplacer cette partie par un vrai appel API pour récupérer les classements
-    // Exemple d'appel API à implémenter plus tard :
-    // fetch(`/api/rankings?category=${selectedCategory}&mode=${selectedMode}`)
-    //   .then(res => res.json())
-    //   .then(data => setUsers(data));
+    setLoading(true);
 
-    // Actuellement, on vide la liste car il n'y a pas encore de backend
-    setUsers([]);
+    const fetchRankings = async () => {
+      try {
+        const res = await fetch(
+          `http://localhost:5001/api/ranking?category=${encodeURIComponent(
+            selectedCategory
+          )}&mode=${encodeURIComponent(selectedMode)}`
+        );
+
+        if (!res.ok) throw new Error("Erreur récupération classement");
+        const data = await res.json();
+        // Tri décroissant des scores
+        const sorted = data.sort((a: any, b: any) => b.points - a.points);
+        setUsers(sorted);
+      } catch (err) {
+        console.error(err);
+        setUsers([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRankings();
   }, [selectedCategory, selectedMode]);
 
   return (
     <div className="rank-page">
       <h1>Classement des Joueurs</h1>
 
-      {/* Sélection de la catégorie */}
-      <div>
+      {/* Filtres */}
+      <div className="filters">
         <label>
           Catégorie:
           <select
@@ -42,21 +57,20 @@ const RankPage: React.FC = () => {
           </select>
         </label>
 
-        {/* Sélection du mode de jeu */}
         <label>
           Mode de Jeu:
           <select
             value={selectedMode}
             onChange={(e) => setSelectedMode(e.target.value)}
           >
-            <option value="Classique">Classique</option>
-            <option value="Contre la Montre">Contre la Montre</option>
-            <option value="2 Joueurs">2 Joueurs</option>
+            <option value="classic">Classique</option>
+            <option value="timer">Contre la Montre</option>
+            <option value="2players">2 Joueurs</option>
           </select>
         </label>
       </div>
 
-      {/* Tableau pour afficher les résultats */}
+      {/* Classement */}
       <table>
         <thead>
           <tr>
@@ -66,20 +80,18 @@ const RankPage: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {users.length > 0 ? (
-            // Affichage des utilisateurs s'il y en a
+          {loading ? (
+            <tr><td colSpan={3}>Chargement...</td></tr>
+          ) : users.length > 0 ? (
             users.map((user, index) => (
-              <tr key={user.id}>
+              <tr key={user._id || index}>
                 <td>{index + 1}</td>
-                <td>{user.name}</td>
-                <td>{user.score}</td>
+                <td>{user.username}</td>
+                <td>{Math.floor(user.points)}</td>
               </tr>
             ))
           ) : (
-            // Message par défaut s'il n'y a pas d'utilisateur
-            <tr>
-              <td colSpan={3}>Aucun joueur trouvé</td>
-            </tr>
+            <tr><td colSpan={3}>Aucun joueur trouvé</td></tr>
           )}
         </tbody>
       </table>

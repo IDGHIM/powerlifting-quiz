@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Badges from '../components/Badges.tsx';
 import './ResultPage.css';
@@ -39,6 +39,55 @@ const ResultPage: React.FC = () => {
     questions = [],
   } = (location.state || {}) as LocationState;
 
+  const [published, setPublished] = useState(false);
+  const [isPublishing, setIsPublishing] = useState(false);
+
+  const handlePublish = async () => {
+    setIsPublishing(true);
+
+    const payload = mode === '2players'
+      ? [
+          {
+            username: player1Name,
+            points: Math.floor(scores![1]),
+            mode,
+            category,
+          },
+          {
+            username: player2Name,
+            points: Math.floor(scores![2]),
+            mode,
+            category,
+          },
+        ]
+      : [
+          {
+            username: 'Utilisateur', // Remplace par un vrai nom si disponible
+            points: Math.floor(score!),
+            mode,
+            category,
+          },
+        ];
+
+    try {
+      const res = await fetch('http://localhost:5001/api/ranking', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (res.ok) {
+        setPublished(true);
+      } else {
+        alert('Erreur lors de la publication du score.');
+      }
+    } catch (err) {
+      console.error('Erreur lors de la publication :', err);
+    } finally {
+      setIsPublishing(false);
+    }
+  };
+
   // Vérification de la présence des données essentielles
   if (
     (mode === '2players' && (!scores || total === undefined)) ||
@@ -67,8 +116,8 @@ const ResultPage: React.FC = () => {
     const winnerText = player1Score === player2Score
       ? 'Égalité !'
       : player1Score > player2Score
-      ? `${player1Name} à gagné(e) ! 🎉`
-      : `${player2Name} à gagné(e) ! 🎉`;
+      ? `${player1Name} a gagné(e) ! 🎉`
+      : `${player2Name} a gagné(e) ! 🎉`;
 
     return (
       <>
@@ -111,6 +160,13 @@ const ResultPage: React.FC = () => {
           </div>
         </div>
         <div className="outside-button">
+          {!published ? (
+            <button className="quiz-option" onClick={handlePublish} disabled={isPublishing}>
+              {isPublishing ? 'Publication...' : 'Publier les scores'}
+            </button>
+          ) : (
+            <p>✅ Scores publiés avec succès !</p>
+          )}
           <button className="quiz-option" onClick={() => navigate('/')}>Rejouer</button>
         </div>
       </>
@@ -124,7 +180,7 @@ const ResultPage: React.FC = () => {
     <>
       <div className="result-container">
         <h1>Résultats : {category}</h1>
-        <p>Tu as obtenu {score} </p>
+        <p>Tu as obtenu {score} points</p>
         <Badges scorePercentage={percentage} />
 
         {/* Correction des questions */}
@@ -147,6 +203,13 @@ const ResultPage: React.FC = () => {
         </div>
       </div>
       <div className="outside-button">
+        {!published ? (
+          <button className="quiz-option" onClick={handlePublish} disabled={isPublishing}>
+            {isPublishing ? 'Publication...' : 'Publier mon score'}
+          </button>
+        ) : (
+          <p>✅ Score publié avec succès !</p>
+        )}
         <button className="quiz-option" onClick={() => navigate('/categories')}>Rejouer</button>
       </div>
     </>
