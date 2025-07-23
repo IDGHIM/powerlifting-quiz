@@ -18,7 +18,7 @@ router.post('/', async (req, res) => {
     res.status(201).json(created);
   } catch (err) {
     console.error('Erreur POST /api/ranking', err);
-    res.status(500).json({ error: 'Erreur lors de l\'enregistrement des scores' });
+    res.status(500).json({ error: 'Erreur lors de la publication du score.' });
   }
 });
 

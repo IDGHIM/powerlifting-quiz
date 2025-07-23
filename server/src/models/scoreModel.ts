@@ -13,3 +13,4 @@ const scoreSchema = new mongoose.Schema(
 );
 
 export const Score = mongoose.model('Score', scoreSchema);
+export default Score;

@@ -62,7 +62,7 @@ const ResultPage: React.FC = () => {
         ]
       : [
           {
-            username: 'Utilisateur', // Remplace par un vrai nom si disponible
+            username: 'admin', // Remplace par un vrai nom si disponible
             points: Math.floor(score!),
             mode,
             category,

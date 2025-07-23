@@ -21,6 +21,7 @@ const Navbar = () => {
 
       {/* Espace auth */}
       <div className="nav-auth">
+        <Link to="/dashboard">Mon profil</Link>
         <Link to="/login" title="Se connecter">
           <LogIn size={20} />
         </Link>

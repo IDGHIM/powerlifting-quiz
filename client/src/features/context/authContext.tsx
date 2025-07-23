@@ -7,83 +7,68 @@ interface User {
   role: string;
 }
 
-// Interface du contexte d'authentification avec les méthodes exposées
+// Interface du contexte d'authentification
 interface AuthContextType {
   user: User | null;
-  token: string | null;
   role: string | null;
   login: (username: string, password: string) => Promise<void>;
   register: (username: string, password: string, role?: 'user' | 'admin') => Promise<void>;
-  logout: () => void;
+  logout: () => Promise<void>;
 }
 
 // Création du contexte
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// Configuration globale d'Axios
+axios.defaults.withCredentials = true; // ✅ Active l'envoi automatique des cookies
+
 // Fournisseur du contexte
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
   const [user, setUser] = useState<User | null>(null);
   const [role, setRole] = useState<string | null>(null);
 
-  // Fonction pour décoder un JWT
-  const decodeToken = (token: string): User | null => {
-    try {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      return {
-        username: payload.username,
-        role: payload.role,
-      };
-    } catch (err) {
-      console.error("Erreur lors du décodage du token :", err);
-      return null;
-    }
-  };
-
-  // Effet : on recharge l'utilisateur depuis le token au chargement
+  // Charger l'utilisateur connecté au chargement de l'app
   useEffect(() => {
-    if (token) {
-      const decodedUser = decodeToken(token);
-      if (decodedUser) {
-        setUser(decodedUser);
-        setRole(decodedUser.role);
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get('http://localhost:5001/api/me');
+        const { username, role } = response.data;
+        setUser({ username, role });
+        setRole(role);
+      } catch (err) {
+        setUser(null);
+        setRole(null);
       }
-    } else {
-      setUser(null);
-      setRole(null);
-    }
-  }, [token]);
+    };
+
+    fetchUser();
+  }, []);
 
   // Fonction login
   const login = async (username: string, password: string) => {
-    const response = await axios.post('http://localhost:5001/api/login', { username, password });
-    const token = response.data.token;
-    localStorage.setItem('token', token);
-    setToken(token);
+    await axios.post('http://localhost:5001/api/login', { username, password });
 
-    const decodedUser = decodeToken(token);
-    if (decodedUser) {
-      setUser(decodedUser);
-      setRole(decodedUser.role);
-    }
+    const response = await axios.get('http://localhost:5001/api/me');
+    const { username: name, role: userRole } = response.data;
+    setUser({ username: name, role: userRole });
+    setRole(userRole);
   };
 
   // Fonction register
   const register = async (username: string, password: string, role: 'user' | 'admin' = 'user') => {
     await axios.post('http://localhost:5001/api/register', { username, password, role });
-    // Pas de connexion automatique après l'inscription
+    // L'utilisateur devra se connecter manuellement après
   };
 
   // Fonction logout
-  const logout = () => {
-    setToken(null);
+  const logout = async () => {
+    await axios.post('http://localhost:5001/api/logout');
     setUser(null);
     setRole(null);
-    localStorage.removeItem('token');
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, role, login, register, logout }}>
+    <AuthContext.Provider value={{ user, role, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   );
