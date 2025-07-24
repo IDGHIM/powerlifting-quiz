@@ -16,7 +16,7 @@ interface User {
 const RankPage: React.FC = () => {
   // États de filtre - utilisez les mêmes valeurs qu'en base de données
   const [selectedCategory, setSelectedCategory] = useState("biomecanique");
-  const [selectedMode, setSelectedMode] = useState("classic");
+  const [selectedMode, setSelectedMode] = useState("timer");
   
   // Données récupérées
   const [users, setUsers] = useState<User[]>([]);
