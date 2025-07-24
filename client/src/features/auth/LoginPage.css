@@ -1,0 +1,116 @@
+/* Formulaire */
+form {
+  background-color: rgba(33, 37, 41, 0.95); /* var(--charcoal-black) avec opacité */
+  max-width: 420px;
+  margin: 15vh auto 0;
+  padding: 3rem 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
+  animation: fadeIn 0.6s ease-out;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+/* Titre */
+form h2 {
+  text-align: center;
+  color: var(--off-white);
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+}
+
+/* Champs input */
+form input {
+  padding: 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: var(--metallic-steel);
+  color: var(--off-white);
+  transition: box-shadow 0.3s ease;
+}
+
+form input::placeholder {
+  color: var(--silver-gray);
+}
+
+form input:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--steel-blue);
+}
+
+/* Bouton de connexion (style global) */
+form button {
+  margin-top: 1rem;
+}
+
+.start-button {
+  background: linear-gradient(135deg, var(--power-red) 0%, var(--muscle-orange) 100%);
+  border: none;
+  padding: 1.2rem 3rem;
+  border-radius: 50px;
+  color: var(--off-white);
+  font-size: 1.3rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 8px 25px rgba(230, 57, 70, 0.4);
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.start-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.start-button:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 15px 35px rgba(230, 57, 70, 0.6);
+  background: linear-gradient(135deg, var(--muscle-orange) 0%, var(--power-red) 100%);
+}
+
+.start-button:hover::before {
+  left: 100%;
+}
+
+.start-button:active {
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 5px 15px rgba(230, 57, 70, 0.4);
+}
+
+.start-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Message d'erreur */
+form p {
+  text-align: center;
+  color: var(--power-red);
+  font-size: 0.95rem;
+  margin-top: 0.5rem;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

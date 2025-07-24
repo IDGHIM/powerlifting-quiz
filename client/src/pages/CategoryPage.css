@@ -1,52 +1,71 @@
-/* Boutons de catégorie */
-.category-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
+/* Styles spécifiques supplémentaires pour catégories/modes (non présents dans le CSS global) */
+
+/* Version alternative des boutons catégorie avec style bleu uniforme */
+.category-button.blue-style {
+  background: linear-gradient(135deg, #4a90e2, #357abd);
+  color: white;
+  font-weight: 400;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  box-shadow: 
+    0 4px 12px rgba(74, 144, 226, 0.3),
+    0 2px 4px rgba(74, 144, 226, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.category-button.blue-style::before {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+}
+
+.category-button.blue-style:hover {
+  background: linear-gradient(135deg, #357abd, #2c5aa0);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 6px 16px rgba(53, 122, 189, 0.4),
+    0 3px 8px rgba(53, 122, 189, 0.3);
+}
+
+.category-button.blue-style.active {
+  background: linear-gradient(135deg, #2c5aa0, #1e4080);
+  font-weight: 700;
+  transform: translateY(-1px);
+  box-shadow: 
+    0 6px 16px rgba(44, 90, 160, 0.5),
+    0 3px 8px rgba(44, 90, 160, 0.4);
+}
+
+/* Version alternative des boutons mode avec style bleu uniforme */
+.mode-button.blue-style {
+  background: linear-gradient(135deg, #4a90e2, #357abd);
+  color: white;
+  font-weight: 400;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  box-shadow: 
+    0 4px 12px rgba(74, 144, 226, 0.3),
+    0 2px 4px rgba(74, 144, 226, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mode-button.blue-style::before {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+}
+
+.mode-button.blue-style:hover {
+  background: linear-gradient(135deg, #357abd, #2c5aa0);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 6px 16px rgba(53, 122, 189, 0.4),
+    0 3px 8px rgba(53, 122, 189, 0.3);
+}
+
+/* Ajustement spécifique pour les conteneurs si margin différent souhaité */
+.category-buttons.compact {
   margin-bottom: 1.5rem;
 }
 
-.category-button {
-  padding: 0.75rem 1.5rem;
-  background-color: #4a90e2; /* bouton bleu */
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  cursor: pointer;
-  color: white;
-  font-weight: normal;
-  transition: background-color 0.3s ease;
-}
-
-.category-button:hover {
-  background-color: #357abd; /* bleu foncé au survol */
-}
-
-.category-button.active {
-  background-color: #2c5aa0; /* bleu plus foncé pour actif */
-  font-weight: bold;
-}
-
-/* Boutons de mode */
-.mode-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
+.mode-buttons.compact {
   margin-top: 1rem;
-}
-
-.mode-button {
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s ease;
-  background-color: #4a90e2; /* même bleu */
-  color: white;
-  font-weight: normal;
-}
-
-.mode-button:hover {
-  background-color: #357abd; /* même bleu foncé au survol */
 }

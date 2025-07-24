@@ -1,187 +1,82 @@
-:root {
-  /* Couleurs fortes & dynamiques */
-  --power-black: #1a1a1a;
-  --power-red: #d72631;
+/* Styles spécifiques supplémentaires pour les résultats (non présents dans le CSS global) */
 
-  /* Tons métalliques & gris */
-  --metallic-steel: #4a4e69;
-  --silver-gray: #9a8c98;
-
-  /* Couleurs neutres pour équilibre */
-  --off-white: #f5f5f5;
-  --charcoal-black: #22223b;
-
-  /* Accent compétition */
-  --highlight-yellow: #ffd400;
-}
-
-/* Container principal */
-.result-container {
-  max-width: 800px;
-  margin: 2rem auto;
-  padding: 1.5rem 2rem;
-  background-color: var(--off-white);
-  border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
-  color: var(--charcoal-black);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-/* Titres principaux */
-.result-container h1 {
-  font-size: 2.8rem;
-  margin-bottom: 1.25rem;
-  color: var(--metallic-steel);
-  font-weight: 700;
-  text-align: center;
-  letter-spacing: 0.05em;
-}
-
+/* Titre H2 spécifique aux résultats */
 .result-container h2 {
-  font-size: 1.8rem;
-  margin: 2rem 0 1.5rem;
+  font-size: 2rem;
+  margin: 2.5rem 0 2rem;
   font-weight: 700;
   color: var(--metallic-steel);
   text-align: center;
   text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: relative;
 }
 
-/* Titres secondaires */
+.result-container h2::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--power-red), var(--highlight-yellow));
+  border-radius: 2px;
+}
+
+/* Titre H3 spécifique aux résultats */
 .result-container h3 {
-  font-size: 1.4rem;
-  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  margin-bottom: 1.2rem;
   color: var(--silver-gray);
-  border-bottom: 2px solid var(--power-red);
-  padding-bottom: 0.3rem;
+  border-bottom: 3px solid var(--power-red);
+  padding-bottom: 0.5rem;
+  font-weight: 600;
+  position: relative;
 }
 
-/* Paragraphes */
-.result-container p {
-  font-size: 1.15rem;
-  margin-bottom: 1rem;
-  line-height: 1.45;
-  color: var(--charcoal-black);
+.result-container h3::before {
+  content: '📊';
+  margin-right: 0.5rem;
+  font-size: 0.8em;
 }
 
-/* Section score par joueur */
+/* Section score par joueur - styles spécifiques */
 .result-container > div {
-  margin-top: 1.75rem;
-  margin-bottom: 1.75rem;
-  padding: 1rem 1.5rem;
-  background-color: #e7e9fc; 
-  border-radius: 10px;
-  box-shadow: inset 0 0 6px rgba(74,144,226,0.2);
-}
-
-/* Corrections - conteneur */
-.corrections {
   margin-top: 2rem;
+  margin-bottom: 2rem;
+  padding: 1.5rem 2rem;
+  background: linear-gradient(135deg, rgba(116, 185, 255, 0.1), rgba(116, 185, 255, 0.05));
+  border-radius: 12px;
+  border: 1px solid rgba(116, 185, 255, 0.2);
+  box-shadow: 
+    inset 0 1px 3px rgba(116, 185, 255, 0.1),
+    0 2px 8px rgba(116, 185, 255, 0.1);
+  position: relative;
 }
 
-/* Chaque question */
-.question-correction {
-  background-color: white;
-  border-left: 5px solid var(--power-red);
-  padding: 1rem 1.5rem;
-  margin-bottom: 1.25rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(215, 38, 49, 0.1);
-  transition: background-color 0.3s ease;
+.result-container > div::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--steel-blue), var(--power-red));
+  border-radius: 0 2px 2px 0;
 }
 
-.question-correction:hover {
-  background-color: #eef4ff; 
-}
-
-/* Question texte */
-.question-correction p:first-child {
-  font-weight: 600;
-  font-size: 1.2rem;
-  color: var(--metallic-steel);
-  margin-bottom: 0.5rem;
-}
-
-/* Correct answer */
-.question-correction p:nth-child(2) {
-  font-weight: 600;
-  color: #22863a; 
-}
-
-/* Réponses joueurs */
-.question-correction p:nth-child(n+3) {
-  font-weight: 500;
-  color: var(--charcoal-black);
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-size: 1rem;
-}
-
-/* Emoji ✅ ou ❌ */
-.question-correction p span.correct {
-  color: #22863a; 
-  font-weight: 700;
-}
-
-.question-correction p span.incorrect {
-  color: var(--power-red);
-  font-weight: 700;
-}
-
-/* Boutons hors container */
-.outside-button {
-  display: flex;
-  justify-content: center;
-  margin: 2rem 0;
-}
-
-/* Uniformité boutons */
-.quiz-option {
-  margin: 0 auto 1.5rem auto;
-  display: block;
-  border-radius: 30px;
-  padding: 0.85rem 3rem;
-  box-shadow: 0 7px 15px rgba(215, 38, 49, 0.45);
-  font-size: 1.3rem;
-  width: 100%;
-  max-width: 300px;
-  border: 2px solid var(--silver-gray);
-  background-color: white;
-  cursor: pointer;
-  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-  user-select: none;
-  text-align: center;
-  font-family: inherit;
-  color: var(--power-black);
-}
-
-.quiz-option:hover {
-  background-color: var(--power-red);
-  box-shadow: 0 8px 18px rgba(215, 38, 49, 0.6);
-}
-
-/* Responsive - petites résolutions */
+/* Responsive spécifique aux éléments uniques */
 @media (max-width: 600px) {
-  .result-container {
-    padding: 1rem 1.25rem;
-    margin: 1rem;
-  }
-
-  .result-container h1 {
-    font-size: 2rem;
-  }
-
   .result-container h2 {
+    font-size: 1.6rem;
+  }
+  
+  .result-container h3 {
     font-size: 1.3rem;
   }
-
-  .question-correction {
-    padding: 0.75rem 1rem;
-  }
-
-  .outside-button button {
-    width: 100%;
-    padding: 1rem;
-    font-size: 1.1rem;
+  
+  .result-container > div {
+    padding: 1rem 1.5rem;
   }
 }

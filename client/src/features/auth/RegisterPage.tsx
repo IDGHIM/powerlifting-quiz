@@ -7,13 +7,14 @@ const RegisterPage: React.FC = () => {
   const navigate = useNavigate();
 
   const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await register(username, password);
+      await register(username, email, password);
       setMessage('Compte créé ! Vous pouvez maintenant vous connecter.');
       setTimeout(() => navigate('/login'), 1500);
     } catch (error: any) {
@@ -25,13 +26,31 @@ const RegisterPage: React.FC = () => {
   return (
     <form onSubmit={handleSubmit}>
       <h2>Créer un compte</h2>
-      <input value={username} onChange={e => setUsername(e.target.value)} placeholder="Nom d'utilisateur" />
-      <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Mot de passe" />
-      <button type="submit">S'inscrire</button>
+      <input
+        type="text"
+        value={username}
+        onChange={e => setUsername(e.target.value)}
+        placeholder="Nom d'utilisateur"
+        required
+      />
+      <input
+        type="email"
+        value={email}
+        onChange={e => setEmail(e.target.value)}
+        placeholder="Adresse email"
+        required
+      />
+      <input
+        type="password"
+        value={password}
+        onChange={e => setPassword(e.target.value)}
+        placeholder="Mot de passe"
+        required
+      />
+      <button type="submit" className="start-button">S'inscrire</button>
       {message && <p>{message}</p>}
     </form>
   );
 };
-
 
 export default RegisterPage;
