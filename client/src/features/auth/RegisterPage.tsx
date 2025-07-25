@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/authContext.tsx';
+import './RegisterPage.css';
 
 const RegisterPage: React.FC = () => {
   const { register } = useAuth();

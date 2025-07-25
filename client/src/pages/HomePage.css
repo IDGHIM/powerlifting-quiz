@@ -1,93 +1,98 @@
-/* ==========================================
-   HomePage - Powerlifting Quiz
-   ========================================== */
+/* HomePage.css */
 
 /* Container principal */
-.homepage {
-  min-height: 100vh;
-  background: linear-gradient(135deg, var(--power-black) 0%, var(--iron-dark) 50%, var(--charcoal-black) 100%);
-  padding: 2rem 1rem;
+.homepage-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  position: relative;
+  z-index: 1;
 }
 
 /* Section de présentation */
 .section-presentation {
-  max-width: 800px;
-  margin: 0 auto 4rem auto;
   text-align: center;
-  padding: 3rem 2rem;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 20px;
-  border: 1px solid rgba(116, 185, 255, 0.2);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  padding: 4rem 0 6rem;
   position: relative;
-  overflow: hidden;
 }
 
 .section-presentation::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--power-red), var(--highlight-yellow), var(--steel-blue));
-  animation: shimmer 2s ease-in-out infinite;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, var(--power-red) 0%, transparent 70%);
+  opacity: 0.1;
+  border-radius: 50%;
+  animation: rotate 20s linear infinite;
 }
 
-@keyframes shimmer {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 1; }
+@keyframes rotate {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-/* Titre principal */
 .title {
   font-size: clamp(2.5rem, 5vw, 4rem);
   font-weight: 900;
-  color: var(--off-white);
-  margin-bottom: 1.5rem;
-  background: linear-gradient(135deg, var(--steel-blue), var(--muscle-orange));
+  background: linear-gradient(135deg, var(--power-red), var(--highlight-yellow), var(--steel-blue));
+  background-size: 300% 300%;
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  letter-spacing: -0.02em;
-  line-height: 1.1;
-}
-
-/* Description */
-.description {
-  font-size: 1.2rem;
-  color: var(--silver-gray);
-  line-height: 1.8;
-  margin: 0;
-  max-width: 700px;
-  margin: 0 auto;
-  font-weight: 400;
-}
-
-/* Section quiz */
-.section-quiz {
-  max-width: 800px;
-  margin: 0 auto 4rem auto;
-  text-align: center;
-  padding: 3rem 2rem;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 20px;
-  border: 1px solid rgba(116, 185, 255, 0.2);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  position: relative;
-  overflow: hidden;
-}
-
-/* Sous-titre */
-.subtitle {
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--iron-dark);
+  -webkit-text-fill-color: transparent;
   margin-bottom: 2rem;
   position: relative;
+  z-index: 2;
+  animation: gradientShift 4s ease-in-out infinite alternate;
+  text-shadow: 0 0 30px rgba(230, 57, 70, 0.3);
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+.description {
+  font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+  line-height: 1.7;
+  color: var(--silver-gray);
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+  opacity: 0;
+  animation: fadeInUp 1s ease-out 0.5s forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Section Quiz */
+.section-quiz {
+  text-align: center;
+  padding: 4rem 0;
+  position: relative;
+}
+
+.subtitle {
+  font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+  font-weight: 700;
+  color: var(--off-white);
+  margin-bottom: 3rem;
+  position: relative;
+  opacity: 0;
+  animation: fadeInUp 1s ease-out 1s forwards;
 }
 
 .subtitle::after {
@@ -97,27 +102,38 @@
   left: 50%;
   transform: translateX(-50%);
   width: 80px;
-  height: 3px;
+  height: 4px;
   background: linear-gradient(90deg, var(--power-red), var(--highlight-yellow));
   border-radius: 2px;
+  animation: expandLine 1.5s ease-out 1.2s forwards;
+  transform-origin: center;
+  scale: 0;
 }
 
-/* Bouton de démarrage */
+@keyframes expandLine {
+  to { scale: 1; }
+}
+
+/* Bouton Start */
 .start-button {
-  background: linear-gradient(135deg, var(--power-red) 0%, var(--muscle-orange) 100%);
+  background: linear-gradient(135deg, var(--power-red), var(--muscle-orange));
+  color: var(--off-white);
   border: none;
   padding: 1.2rem 3rem;
-  border-radius: 50px;
-  color: var(--off-white);
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 700;
+  border-radius: 50px;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  box-shadow: 0 8px 25px rgba(230, 57, 70, 0.4);
   position: relative;
   overflow: hidden;
+  transition: all 0.3s ease;
   text-transform: uppercase;
   letter-spacing: 1px;
+  box-shadow: 
+    0 10px 30px rgba(230, 57, 70, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  opacity: 0;
+  animation: fadeInUp 1s ease-out 1.5s forwards;
 }
 
 .start-button::before {
@@ -128,72 +144,117 @@
   width: 100%;
   height: 100%;
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.5s;
-}
-
-.start-button:hover {
-  transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 15px 35px rgba(230, 57, 70, 0.6);
-  background: linear-gradient(135deg, var(--muscle-orange) 0%, var(--power-red) 100%);
+  transition: left 0.5s ease;
 }
 
 .start-button:hover::before {
   left: 100%;
 }
 
+.start-button:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 
+    0 15px 40px rgba(230, 57, 70, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
 .start-button:active {
   transform: translateY(-1px) scale(1.02);
-  box-shadow: 0 5px 15px rgba(230, 57, 70, 0.4);
+}
+
+/* Effets de particules */
+.section-presentation::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(2px 2px at 20px 30px, var(--highlight-yellow), transparent),
+    radial-gradient(2px 2px at 40px 70px, var(--steel-blue), transparent),
+    radial-gradient(1px 1px at 90px 40px, var(--power-red), transparent),
+    radial-gradient(1px 1px at 130px 80px, var(--muscle-orange), transparent);
+  background-repeat: repeat;
+  background-size: 200px 200px;
+  opacity: 0.4;
+  animation: sparkle 3s linear infinite;
+}
+
+@keyframes sparkle {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.1; }
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  .homepage-container {
+    padding: 1rem;
+  }
+  
   .section-presentation {
-    margin-bottom: 2rem;
-    padding: 2rem 1.5rem;
-    border-radius: 15px;
+    padding: 2rem 0 4rem;
   }
   
-  .title {
-    font-size: 2.2rem;
-    margin-bottom: 1rem;
-  }
-  
-  .description {
-    font-size: 1.1rem;
-    line-height: 1.6;
-  }
-  
-  .subtitle {
-    font-size: 1.6rem;
-    margin-bottom: 1.5rem;
+  .section-quiz {
+    padding: 2rem 0;
   }
   
   .start-button {
-    padding: 1rem 2.5rem;
-    font-size: 1.1rem;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+  }
+  
+  .description {
+    font-size: 1rem;
+    padding: 0 1rem;
   }
 }
 
 @media (max-width: 480px) {
-  .homepage {
-    padding: 1rem 0.5rem;
-  }
-  
-  .section-presentation {
-    padding: 1.5rem 1rem;
-  }
-  
   .title {
-    font-size: 1.8rem;
+    font-size: 2rem;
   }
   
-  .description {
-    font-size: 1rem;
+  .subtitle {
+    font-size: 1.5rem;
   }
   
   .start-button {
-    padding: 0.9rem 2rem;
-    font-size: 1rem;
+    width: 100%;
+    max-width: 280px;
   }
+}
+
+/* Animation d'entrée globale */
+@keyframes pageLoad {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.homepage-container {
+  animation: pageLoad 0.8s ease-out;
+}
+
+/* Amélioration de l'accessibilité */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus states pour l'accessibilité */
+.start-button:focus {
+  outline: 3px solid var(--highlight-yellow);
+  outline-offset: 3px;
 }

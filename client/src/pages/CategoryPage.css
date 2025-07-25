@@ -1,71 +1,387 @@
-/* Styles spécifiques supplémentaires pour catégories/modes (non présents dans le CSS global) */
+/* CategoryPage.css */
 
-/* Version alternative des boutons catégorie avec style bleu uniforme */
-.category-button.blue-style {
-  background: linear-gradient(135deg, #4a90e2, #357abd);
-  color: white;
-  font-weight: 400;
-  border-radius: 8px;
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-  box-shadow: 
-    0 4px 12px rgba(74, 144, 226, 0.3),
-    0 2px 4px rgba(74, 144, 226, 0.2);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+/* Container principal */
+.category-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
 }
 
-.category-button.blue-style::before {
+/* Effet de fond animé spécifique à cette page */
+.category-page::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 15% 25%, var(--power-red) 0%, transparent 60%),
+    radial-gradient(circle at 85% 75%, var(--steel-blue) 0%, transparent 60%),
+    radial-gradient(circle at 50% 10%, var(--highlight-yellow) 0%, transparent 50%);
+  opacity: 0.04;
+  z-index: -1;
+  animation: floatBackground 12s ease-in-out infinite alternate;
+}
+
+@keyframes floatBackground {
+  0% { 
+    opacity: 0.04; 
+    transform: scale(1) rotate(0deg); 
+  }
+  100% { 
+    opacity: 0.08; 
+    transform: scale(1.1) rotate(5deg); 
+  }
+}
+
+/* Section principale */
+.category-section {
+  max-width: 900px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  animation: slideInFromBottom 0.8s ease-out;
+}
+
+@keyframes slideInFromBottom {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Titre principal */
+.category-title {
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--power-red), var(--highlight-yellow), var(--steel-blue));
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 3rem;
+  position: relative;
+  animation: gradientFlow 4s ease-in-out infinite alternate;
+  text-shadow: 0 0 20px rgba(230, 57, 70, 0.2);
+}
+
+@keyframes gradientFlow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+.category-title::after {
+  content: '';
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--power-red), var(--highlight-yellow));
+  border-radius: 2px;
+  animation: expandUnderline 1s ease-out 0.5s forwards;
+  transform-origin: center;
+  scale: 0;
+}
+
+@keyframes expandUnderline {
+  to { scale: 1; }
+}
+
+/* Container des boutons catégories */
+.category-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+  opacity: 0;
+  animation: fadeInScale 0.8s ease-out 0.3s forwards;
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Boutons catégories */
+.category-button {
+  background: linear-gradient(135deg, var(--metallic-steel), var(--iron-dark));
+  color: var(--off-white);
+  border: 2px solid var(--silver-gray);
+  padding: 1.5rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 15px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 
+    0 8px 25px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transform: translateY(0);
+}
+
+/* Effet de brillance au survol */
+.category-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+  transition: left 0.6s ease;
 }
 
-.category-button.blue-style:hover {
-  background: linear-gradient(135deg, #357abd, #2c5aa0);
-  transform: translateY(-2px);
+.category-button:hover::before {
+  left: 100%;
+}
+
+.category-button:hover {
+  transform: translateY(-5px) scale(1.02);
+  border-color: var(--highlight-yellow);
   box-shadow: 
-    0 6px 16px rgba(53, 122, 189, 0.4),
-    0 3px 8px rgba(53, 122, 189, 0.3);
+    0 12px 35px rgba(0, 0, 0, 0.4),
+    0 0 20px rgba(255, 183, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
-.category-button.blue-style.active {
-  background: linear-gradient(135deg, #2c5aa0, #1e4080);
+/* État actif des boutons catégories */
+.category-button.active {
+  background: linear-gradient(135deg, var(--power-red), var(--muscle-orange));
+  border-color: var(--highlight-yellow);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 
+    0 15px 40px rgba(230, 57, 70, 0.4),
+    0 0 25px rgba(255, 183, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  animation: activeGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes activeGlow {
+  0% { box-shadow: 0 15px 40px rgba(230, 57, 70, 0.4), 0 0 25px rgba(255, 183, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3); }
+  100% { box-shadow: 0 15px 40px rgba(230, 57, 70, 0.6), 0 0 35px rgba(255, 183, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.4); }
+}
+
+/* Titre des modes */
+.mode-title {
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
   font-weight: 700;
-  transform: translateY(-1px);
-  box-shadow: 
-    0 6px 16px rgba(44, 90, 160, 0.5),
-    0 3px 8px rgba(44, 90, 160, 0.4);
+  color: var(--off-white);
+  margin-bottom: 2rem;
+  position: relative;
+  opacity: 0;
+  animation: slideInFromRight 0.6s ease-out 0.2s forwards;
 }
 
-/* Version alternative des boutons mode avec style bleu uniforme */
-.mode-button.blue-style {
-  background: linear-gradient(135deg, #4a90e2, #357abd);
-  color: white;
-  font-weight: 400;
-  border-radius: 8px;
-  padding: 0.75rem 1.5rem;
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.mode-title::before {
+  content: '🎮';
+  position: absolute;
+  left: -50px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.5rem;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(-50%); }
+  50% { transform: translateY(-70%); }
+}
+
+/* Container des boutons modes */
+.mode-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.2rem;
+  opacity: 0;
+  animation: fadeInUp 0.6s ease-out 0.4s forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Boutons modes */
+.mode-button {
+  background: linear-gradient(135deg, var(--steel-blue), var(--muscle-orange));
+  color: var(--off-white);
+  border: none;
+  padding: 1.3rem 1.8rem;
   font-size: 1rem;
+  font-weight: 600;
+  border-radius: 12px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
   box-shadow: 
-    0 4px 12px rgba(74, 144, 226, 0.3),
-    0 2px 4px rgba(74, 144, 226, 0.2);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    0 6px 20px rgba(116, 185, 255, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transform: translateY(0);
 }
 
-.mode-button.blue-style::before {
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+.mode-button::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.3s ease;
 }
 
-.mode-button.blue-style:hover {
-  background: linear-gradient(135deg, #357abd, #2c5aa0);
-  transform: translateY(-2px);
+.mode-button:hover::after {
+  width: 300px;
+  height: 300px;
+}
+
+.mode-button:hover {
+  transform: translateY(-4px) scale(1.05);
   box-shadow: 
-    0 6px 16px rgba(53, 122, 189, 0.4),
-    0 3px 8px rgba(53, 122, 189, 0.3);
+    0 10px 30px rgba(116, 185, 255, 0.4),
+    0 0 20px rgba(253, 121, 168, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
-/* Ajustement spécifique pour les conteneurs si margin différent souhaité */
-.category-buttons.compact {
-  margin-bottom: 1.5rem;
+.mode-button:active {
+  transform: translateY(-2px) scale(1.02);
 }
 
-.mode-buttons.compact {
-  margin-top: 1rem;
+/* Effets de particules pour la page */
+.category-section::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(1px 1px at 25px 15px, var(--highlight-yellow), transparent),
+    radial-gradient(1px 1px at 75px 45px, var(--steel-blue), transparent),
+    radial-gradient(1px 1px at 125px 25px, var(--power-red), transparent),
+    radial-gradient(1px 1px at 175px 65px, var(--muscle-orange), transparent);
+  background-repeat: repeat;
+  background-size: 250px 250px;
+  opacity: 0.6;
+  animation: twinkle 4s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.6; }
+  25% { opacity: 0.2; }
+  50% { opacity: 0.8; }
+  75% { opacity: 0.3; }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .category-page {
+    padding: 1rem;
+  }
+  
+  .category-buttons {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .mode-buttons {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .category-button,
+  .mode-button {
+    padding: 1.2rem 1.5rem;
+    font-size: 1rem;
+  }
+  
+  .mode-title::before {
+    left: -35px;
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .category-section {
+    padding: 1rem;
+  }
+  
+  .category-title {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+  }
+  
+  .mode-title {
+    font-size: 1.4rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .category-button,
+  .mode-button {
+    padding: 1rem 1.2rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* États de focus pour l'accessibilité */
+.category-button:focus,
+.mode-button:focus {
+  outline: 3px solid var(--highlight-yellow);
+  outline-offset: 3px;
+}
+
+/* Réduction des animations si demandée */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

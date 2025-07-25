@@ -20,25 +20,39 @@
   --muscle-orange: #fd79a8;
 }
 
-/* Fond global avec blur */
-body,
-html {
-  height: 100%;
+/* Reset et base */
+* {
   margin: 0;
   padding: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  position: relative;
+  box-sizing: border-box;
 }
 
+body {
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, var(--power-black) 0%, var(--iron-dark) 50%, var(--charcoal-black) 100%);
+  color: var(--off-white);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
 
-/* Overlay blur */
+/* Animation de fond dynamique */
 body::before {
   content: '';
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background : url(../src/assets/font_1.png);
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 80%, var(--power-red) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, var(--steel-blue) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, var(--highlight-yellow) 0%, transparent 70%);
+  opacity: 0.03;
   z-index: -1;
+  animation: pulseBackground 8s ease-in-out infinite alternate;
+}
+
+@keyframes pulseBackground {
+  0% { opacity: 0.03; transform: scale(1); }
+  100% { opacity: 0.06; transform: scale(1.05); }
 }

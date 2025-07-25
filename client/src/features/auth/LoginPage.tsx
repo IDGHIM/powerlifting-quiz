@@ -7,7 +7,7 @@ const LoginPage: React.FC = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const [identifier, setIdentifier] = useState(''); // <-- modifié
+  const [identifier, setIdentifier] = useState(''); 
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);

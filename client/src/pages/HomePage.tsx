@@ -10,7 +10,7 @@ const HomePage: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="homepage-container">
 
       {/* Section de présentation */}
       <section id="powerlifting" className="section-presentation">

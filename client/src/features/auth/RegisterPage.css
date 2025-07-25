@@ -1,0 +1,422 @@
+/* RegisterPage.css */
+
+/* Container principal du formulaire */
+form {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  position: relative;
+  z-index: 1;
+  max-width: 450px;
+  margin: 0 auto;
+  animation: formSlideIn 0.8s ease-out;
+}
+
+@keyframes formSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Effet de fond animé spécifique à la page register */
+form::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 30% 20%, var(--steel-blue) 0%, transparent 50%),
+    radial-gradient(circle at 70% 80%, var(--power-red) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, var(--highlight-yellow) 0%, transparent 60%);
+  opacity: 0.06;
+  z-index: -1;
+  animation: registerBackgroundFloat 15s ease-in-out infinite alternate;
+}
+
+@keyframes registerBackgroundFloat {
+  0% { 
+    opacity: 0.06; 
+    transform: scale(1) rotate(0deg); 
+  }
+  100% { 
+    opacity: 0.12; 
+    transform: scale(1.1) rotate(3deg); 
+  }
+}
+
+/* Titre d'inscription */
+h2 {
+  font-size: clamp(2.2rem, 4vw, 3rem);
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--steel-blue), var(--highlight-yellow), var(--power-red));
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 3rem;
+  text-align: center;
+  position: relative;
+  animation: titleGradientFlow 4s ease-in-out infinite alternate;
+  text-shadow: 0 0 25px rgba(116, 185, 255, 0.3);
+}
+
+@keyframes titleGradientFlow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+/* Effet de soulignement animé */
+h2::after {
+  content: '';
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--steel-blue), var(--highlight-yellow));
+  border-radius: 2px;
+  animation: underlineExpand 1.2s ease-out 0.5s both;
+}
+
+@keyframes underlineExpand {
+  from {
+    width: 0;
+    opacity: 0;
+  }
+  to {
+    width: 120px;
+    opacity: 1;
+  }
+}
+
+/* Styles des inputs */
+input {
+  width: 100%;
+  max-width: 350px;
+  padding: 1.3rem 1.8rem;
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  border: 2px solid var(--silver-gray);
+  border-radius: 15px;
+  background: linear-gradient(135deg, var(--iron-dark), var(--charcoal-black));
+  color: var(--off-white);
+  transition: all 0.3s ease;
+  box-shadow: 
+    0 6px 20px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: inputSlideIn 0.6s ease-out forwards;
+}
+
+/* Animation décalée pour chaque input */
+input:nth-of-type(1) {
+  animation-delay: 0.2s;
+}
+
+input:nth-of-type(2) {
+  animation-delay: 0.4s;
+}
+
+input:nth-of-type(3) {
+  animation-delay: 0.6s;
+}
+
+@keyframes inputSlideIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* États de focus et hover des inputs */
+input:focus {
+  outline: none;
+  border-color: var(--steel-blue);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.4),
+    0 0 20px rgba(116, 185, 255, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+input:hover:not(:focus) {
+  border-color: var(--highlight-yellow);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 25px rgba(0, 0, 0, 0.35),
+    0 0 15px rgba(255, 183, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+/* Placeholder styling */
+input::placeholder {
+  color: var(--silver-gray);
+  font-weight: 400;
+  transition: color 0.3s ease;
+}
+
+input:focus::placeholder {
+  color: rgba(173, 181, 189, 0.7);
+}
+
+/* Effet de brillance sur les inputs */
+input::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.6s ease;
+}
+
+input:focus::before {
+  left: 100%;
+}
+
+/* Bouton d'inscription */
+.start-button {
+  background: linear-gradient(135deg, var(--steel-blue), var(--muscle-orange));
+  color: var(--off-white);
+  border: none;
+  padding: 1.4rem 3rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  border-radius: 15px;
+  cursor: pointer;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+  width: 100%;
+  max-width: 350px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 
+    0 10px 30px rgba(116, 185, 255, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  opacity: 0;
+  transform: translateY(20px);
+  animation: buttonSlideIn 0.6s ease-out 0.8s forwards;
+}
+
+@keyframes buttonSlideIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Effet de brillance du bouton */
+.start-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+  transition: left 0.5s ease;
+}
+
+.start-button:hover::before {
+  left: 100%;
+}
+
+/* États du bouton */
+.start-button:hover:not(:disabled) {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 
+    0 15px 40px rgba(116, 185, 255, 0.5),
+    0 0 25px rgba(253, 121, 168, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.start-button:active:not(:disabled) {
+  transform: translateY(-2px) scale(1.02);
+}
+
+/* Message de succès et d'erreur */
+p {
+  padding: 1rem 1.5rem;
+  border-radius: 10px;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-align: center;
+  max-width: 350px;
+  width: 100%;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  animation: messageSlideIn 0.4s ease-out;
+}
+
+@keyframes messageSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Message de succès (détecté par le contenu) */
+p:not(:empty):not([class]):has-text("Compte créé"),
+p:not(:empty):not([class]):contains("Compte créé") {
+  color: #22c55e;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  box-shadow: 0 4px 15px rgba(34, 197, 94, 0.2);
+  animation: messageSlideIn 0.4s ease-out, successGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes successGlow {
+  0% { box-shadow: 0 4px 15px rgba(34, 197, 94, 0.2); }
+  100% { box-shadow: 0 6px 20px rgba(34, 197, 94, 0.3); }
+}
+
+/* Style par défaut pour les messages (incluant les erreurs) */
+p {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.2);
+}
+
+/* Animation spéciale pour les messages d'erreur */
+p:not(:empty):contains("Erreur") {
+  animation: messageSlideIn 0.4s ease-out, errorShake 0.6s ease-out;
+}
+
+@keyframes errorShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-8px); }
+  75% { transform: translateX(8px); }
+}
+
+/* Effet de particules pour la page */
+form::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(1px 1px at 30px 20px, var(--steel-blue), transparent),
+    radial-gradient(1px 1px at 80px 60px, var(--highlight-yellow), transparent),
+    radial-gradient(1px 1px at 140px 30px, var(--power-red), transparent),
+    radial-gradient(1px 1px at 200px 80px, var(--muscle-orange), transparent);
+  background-repeat: repeat;
+  background-size: 300px 300px;
+  opacity: 0.5;
+  animation: particlesFloat 6s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes particlesFloat {
+  0%, 100% { opacity: 0.5; }
+  25% { opacity: 0.2; }
+  50% { opacity: 0.8; }
+  75% { opacity: 0.3; }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  form {
+    padding: 1.5rem;
+    max-width: 100%;
+  }
+  
+  h2 {
+    font-size: 2rem;
+    margin-bottom: 2.5rem;
+  }
+  
+  input,
+  .start-button {
+    max-width: 100%;
+    padding: 1.2rem 1.5rem;
+    font-size: 1rem;
+  }
+  
+  .start-button {
+    padding: 1.3rem 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  form {
+    padding: 1rem;
+  }
+  
+  h2 {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+  }
+  
+  input {
+    padding: 1rem 1.3rem;
+    margin-bottom: 1.2rem;
+    font-size: 0.95rem;
+  }
+  
+  .start-button {
+    padding: 1.1rem 1.5rem;
+    font-size: 1rem;
+  }
+  
+  p {
+    font-size: 0.9rem;
+    padding: 0.8rem 1.2rem;
+  }
+}
+
+/* États de focus pour l'accessibilité */
+.start-button:focus {
+  outline: 3px solid var(--highlight-yellow);
+  outline-offset: 3px;
+}
+
+input:focus {
+  outline: 3px solid var(--highlight-yellow);
+  outline-offset: 2px;
+}
+
+/* Réduction des animations si demandée */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Amélioration de l'auto-completion */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px var(--iron-dark) inset !important;
+  -webkit-text-fill-color: var(--off-white) !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
