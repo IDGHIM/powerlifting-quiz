@@ -38,7 +38,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get('http://localhost:5001/api/me');
+        const response = await axios.get('http://localhost:5001/api/me', {
+          withCredentials: true, // 🔐 Important : inclure le cookie JWT
+        });
         const { username, email, role } = response.data;
         setUser({ username, email, role });
         setRole(role);
@@ -53,9 +55,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Fonction de connexion avec identifiant (email ou username)
   const login = async (identifier: string, password: string) => {
-    await axios.post('http://localhost:5001/api/login', { identifier, password });
+    await axios.post(
+      'http://localhost:5001/api/login',
+      { identifier, password },
+      { withCredentials: true } // 🔐 Assure que le cookie est stocké
+    );
 
-    const response = await axios.get('http://localhost:5001/api/me');
+    const response = await axios.get(
+      'http://localhost:5001/api/me',
+      { withCredentials: true } // 🔐 Nécessaire pour que le serveur reconnaisse la session
+    );
+
     const { username, email, role } = response.data;
     setUser({ username, email, role });
     setRole(role);
@@ -78,7 +88,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Fonction de déconnexion
   const logout = async () => {
-    await axios.post('http://localhost:5001/api/logout');
+    await axios.post('http://localhost:5001/api/logout', null, {
+      withCredentials: true, // 🔐 Important pour supprimer le cookie côté serveur
+    });
     setUser(null);
     setRole(null);
   };

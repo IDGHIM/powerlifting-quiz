@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { HomeIcon, ListIcon, TrophyIcon, InfoIcon, UserIcon, LogIn, UserPlus, LogOut } from 'lucide-react';
+import { HomeIcon, ListIcon, TrophyIcon, InfoIcon, Calculator, UserIcon, LogIn, UserPlus, LogOut } from 'lucide-react';
 import logo from '../assets/logo.png';
 import '../components/Navbar.css';
 import { useAuth } from '../features/context/authContext.tsx';
@@ -24,6 +24,7 @@ const Navbar = () => {
     <Link to="/" title="Accueil"><HomeIcon /><span className="tooltip">Accueil</span></Link>
     <Link to="/categories" title="Quiz"><ListIcon /><span className="tooltip">Quiz</span></Link>
     <Link to="/ranking" title="Classement"><TrophyIcon /><span className="tooltip">Classement</span></Link>
+    <Link to="/indice" title="Indice"><Calculator /><span className="tooltip">Calcul de son indice</span></Link>
     <Link to="/about" title="À propos"><InfoIcon /><span className="tooltip">À propos</span></Link>
   </div>
 
