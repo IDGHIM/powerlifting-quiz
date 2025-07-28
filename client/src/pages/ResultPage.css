@@ -1,82 +1,380 @@
-/* Styles spécifiques supplémentaires pour les résultats (non présents dans le CSS global) */
+/* ResultPage.css */
 
-/* Titre H2 spécifique aux résultats */
-.result-container h2 {
-  font-size: 2rem;
-  margin: 2.5rem 0 2rem;
-  font-weight: 700;
-  color: var(--metallic-steel);
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+/* Container principal */
+.result-container {
+  min-height: 100vh;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+  padding-top: 4rem;
+  padding-bottom: 6rem;
   position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: slideInResult 0.8s ease-out;
 }
 
-.result-container h2::after {
+@keyframes slideInResult {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Effet de fond spécifique aux résultats */
+.result-container::before {
   content: '';
-  position: absolute;
-  bottom: -8px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 30%, var(--power-red) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, var(--steel-blue) 0%, transparent 50%),
+    radial-gradient(circle at 50% 90%, var(--highlight-yellow) 0%, transparent 40%),
+    radial-gradient(circle at 90% 20%, var(--muscle-orange) 0%, transparent 45%);
+  opacity: 0.06;
+  z-index: -1;
+  animation: resultBackgroundPulse 12s ease-in-out infinite alternate;
+}
+
+@keyframes resultBackgroundPulse {
+  0% { 
+    opacity: 0.06; 
+    transform: scale(1) rotate(0deg); 
+  }
+  100% { 
+    opacity: 0.12; 
+    transform: scale(1.08) rotate(3deg); 
+  }
+}
+
+/* Titre principal */
+.result-container h1 {
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  font-weight: 900;
+  text-align: center;
+  background: linear-gradient(135deg, var(--power-red), var(--highlight-yellow), var(--steel-blue));
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 2.5rem;
+  animation: titleGradientShift 5s ease-in-out infinite alternate;
+  text-shadow: 0 0 25px rgba(230, 57, 70, 0.4);
+}
+
+@keyframes titleGradientShift {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+/* Titre du gagnant */
+.result-container h2 {
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  font-weight: 800;
+  text-align: center;
+  color: var(--highlight-yellow);
+  margin: 2rem 0;
+  padding: 1.2rem 2rem;
+  background: linear-gradient(135deg, var(--iron-dark), var(--charcoal-black));
+  border-radius: 15px;
+  border: 3px solid var(--highlight-yellow);
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.4),
+    0 0 20px rgba(255, 183, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  animation: winnerGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes winnerGlow {
+  0% { 
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 183, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+  100% { 
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 183, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+}
+
+/* Paragraphes de score */
+.result-container > div > p {
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--off-white);
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, var(--metallic-steel), var(--iron-dark));
+  border-radius: 12px;
+  border: 2px solid var(--silver-gray);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  animation: scoreAppear 0.6s ease-out;
+}
+
+@keyframes scoreAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Section des corrections */
+.corrections {
+  width: 100%;
+  max-width: 800px;
+  margin-top: 3rem;
+  animation: correctionsSlideIn 0.8s ease-out 0.3s both;
+}
+
+@keyframes correctionsSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.corrections h3 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  text-align: center;
+  color: var(--off-white);
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, var(--power-red), var(--muscle-orange));
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(230, 57, 70, 0.3);
+}
+
+/* Question individuelle dans les corrections */
+.question-correction {
+  background: linear-gradient(135deg, var(--iron-dark), var(--charcoal-black));
+  border: 2px solid var(--silver-gray);
+  border-radius: 15px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 
+    0 8px 25px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  animation: questionSlideIn 0.6s ease-out;
+}
+
+@keyframes questionSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.question-correction:hover {
+  transform: translateY(-3px);
+  border-color: var(--highlight-yellow);
+  box-shadow: 
+    0 12px 35px rgba(0, 0, 0, 0.5),
+    0 0 15px rgba(255, 183, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.question-correction p {
+  margin: 0.8rem 0;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--off-white);
+}
+
+.question-correction p strong {
+  color: var(--highlight-yellow);
+  font-weight: 700;
+}
+
+/* Styling spécifique pour les réponses */
+.question-correction p:nth-child(2) {
+  color: #22c55e;
+  font-weight: 600;
+}
+
+.question-correction p:nth-child(n+3) {
+  color: var(--silver-gray);
+  font-weight: 500;
+}
+
+/* Container pour les boutons en dehors */
+.outside-button {
+  position: fixed;
+  bottom: 2rem;
   left: 50%;
   transform: translateX(-50%);
-  width: 80px;
-  height: 3px;
-  background: linear-gradient(90deg, var(--power-red), var(--highlight-yellow));
-  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  z-index: 1000;
+  animation: buttonsAppear 0.8s ease-out 0.5s both;
 }
 
-/* Titre H3 spécifique aux résultats */
-.result-container h3 {
-  font-size: 1.5rem;
-  margin-bottom: 1.2rem;
-  color: var(--silver-gray);
-  border-bottom: 3px solid var(--power-red);
-  padding-bottom: 0.5rem;
+@keyframes buttonsAppear {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* Style des boutons (reprend le style des quiz-option) */
+.outside-button .quiz-option {
+  background: linear-gradient(135deg, var(--power-red), var(--muscle-orange));
+  color: var(--off-white);
+  border: 2px solid var(--power-red);
+  padding: 1rem 2rem;
+  font-size: 1rem;
   font-weight: 600;
-  position: relative;
-}
-
-.result-container h3::before {
-  content: '📊';
-  margin-right: 0.5rem;
-  font-size: 0.8em;
-}
-
-/* Section score par joueur - styles spécifiques */
-.result-container > div {
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-  padding: 1.5rem 2rem;
-  background: linear-gradient(135deg, rgba(116, 185, 255, 0.1), rgba(116, 185, 255, 0.05));
   border-radius: 12px;
-  border: 1px solid rgba(116, 185, 255, 0.2);
-  box-shadow: 
-    inset 0 1px 3px rgba(116, 185, 255, 0.1),
-    0 2px 8px rgba(116, 185, 255, 0.1);
-  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  min-width: 200px;
+  text-align: center;
+  box-shadow: 0 6px 20px rgba(230, 57, 70, 0.3);
 }
 
-.result-container > div::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 4px;
-  height: 100%;
-  background: linear-gradient(180deg, var(--steel-blue), var(--power-red));
-  border-radius: 0 2px 2px 0;
+.outside-button .quiz-option:hover:not(:disabled) {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 10px 30px rgba(230, 57, 70, 0.4);
+  background: linear-gradient(135deg, var(--muscle-orange), var(--power-red));
 }
 
-/* Responsive spécifique aux éléments uniques */
-@media (max-width: 600px) {
+.outside-button .quiz-option:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  background: linear-gradient(135deg, var(--metallic-steel), var(--silver-gray));
+}
+
+/* Message de succès de publication */
+.outside-button p {
+  color: #22c55e;
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-align: center;
+  padding: 0.8rem 1.5rem;
+  background: rgba(34, 197, 94, 0.1);
+  border: 2px solid #22c55e;
+  border-radius: 8px;
+  animation: successPulse 1s ease-out;
+}
+
+@keyframes successPulse {
+  0% { 
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  50% { 
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  100% { 
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .result-container {
+    padding: 1rem;
+    padding-top: 3rem;
+    padding-bottom: 8rem;
+  }
+  
+  .corrections {
+    margin-top: 2rem;
+  }
+  
+  .question-correction {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .outside-button {
+    bottom: 1rem;
+    gap: 0.8rem;
+  }
+  
+  .outside-button .quiz-option {
+    padding: 0.8rem 1.5rem;
+    font-size: 0.9rem;
+    min-width: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  .result-container h1 {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+  }
+  
   .result-container h2 {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
+    padding: 1rem;
+    margin: 1.5rem 0;
   }
   
-  .result-container h3 {
-    font-size: 1.3rem;
+  .corrections h3 {
+    font-size: 1.4rem;
+    margin-bottom: 1.5rem;
   }
   
-  .result-container > div {
-    padding: 1rem 1.5rem;
+  .question-correction {
+    padding: 0.8rem;
+  }
+  
+  .question-correction p {
+    font-size: 0.9rem;
+  }
+  
+  .outside-button .quiz-option {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.85rem;
+    min-width: 160px;
+  }
+}
+
+/* États de focus pour l'accessibilité */
+.outside-button .quiz-option:focus {
+  outline: 3px solid var(--highlight-yellow);
+  outline-offset: 3px;
+}
+
+/* Réduction des animations si demandée */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

@@ -253,12 +253,12 @@
 
 /* RÉPONSE INCORRECTE - ROUGE */
 .quiz-option.wrong {
-  background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+  background: linear-gradient(135deg, var(--power-red), #dc2626) !important;
   border-color: #b91c1c !important;
   color: white !important;
   transform: translateY(-3px) scale(1.02) !important;
   box-shadow: 
-    0 12px 35px rgba(239, 68, 68, 0.4) !important;
+    0 12px 35px rgba(230, 57, 70, 0.4) !important;
   animation: wrongShake 0.6s ease-out !important;
 }
 
@@ -298,7 +298,7 @@
 /* Bouton Passer */
 .skip-button {
   background: linear-gradient(135deg, var(--silver-gray), var(--metallic-steel));
-  color: var(--charcoal-black);
+  color: var(--power-black);
   border: 2px solid var(--silver-gray);
   padding: 0.8rem 1.5rem;
   font-size: 0.9rem;
@@ -325,8 +325,8 @@
 
 /* Bouton Pause */
 .pause-button {
-  background: linear-gradient(135deg, var(--highlight-yellow), #ffa000);
-  color: var(--charcoal-black);
+  background: linear-gradient(135deg, var(--highlight-yellow), var(--muscle-orange));
+  color: var(--power-black);
   border: 2px solid var(--highlight-yellow);
   padding: 0.8rem 1.5rem;
   font-size: 0.9rem;
@@ -342,7 +342,7 @@
 .pause-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(255, 183, 0, 0.4);
-  background: linear-gradient(135deg, #ffc107, var(--highlight-yellow));
+  background: linear-gradient(135deg, var(--muscle-orange), var(--highlight-yellow));
 }
 
 /* Styles pour le mode 2 joueurs - Page d'entrée des noms */

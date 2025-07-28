@@ -1,30 +1,37 @@
 .footer {
   position: fixed;
   bottom: 0;
-  left: 0;
-  background-color: var(--power-black); 
-  border-top: 2px solid var(--highlight-yellow);
-  color: var(--off-white); 
-  text-align: center;
-  padding: 1.2rem 2rem;
-  font-size: 0.9rem;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 45px;
+  background: linear-gradient(135deg, var(--charcoal-black) 0%, var(--iron-dark) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1.5rem;
   border-radius: 12px 12px 0 0;
-  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.3);
-  z-index: 999;
-  width: 100%;
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.25);
+  z-index: 1000;
+  min-width: 300px;
 }
 
 .footer p {
+  color: var(--silver-gray);
+  font-size: 0.8rem;
   margin: 0;
-  font-weight: 500;
-  letter-spacing: 0.5px;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.05); 
+  text-align: center;
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
 }
 
-/* Responsive */
+.footer:hover p {
+  opacity: 1;
+  color: var(--off-white);
+}
+
+/* Responsive : cache le footer sur mobile comme la navbar */
 @media (max-width: 768px) {
   .footer {
-    font-size: 0.8rem;
-    padding: 1rem;
+    display: none;
   }
 }

@@ -253,65 +253,6 @@ input:focus::before {
   transform: translateY(-2px) scale(1.02);
 }
 
-/* Message de succès et d'erreur */
-p {
-  padding: 1rem 1.5rem;
-  border-radius: 10px;
-  margin-top: 1rem;
-  font-size: 0.95rem;
-  font-weight: 500;
-  text-align: center;
-  max-width: 350px;
-  width: 100%;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  animation: messageSlideIn 0.4s ease-out;
-}
-
-@keyframes messageSlideIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Message de succès (détecté par le contenu) */
-p:not(:empty):not([class]):has-text("Compte créé"),
-p:not(:empty):not([class]):contains("Compte créé") {
-  color: #22c55e;
-  background: rgba(34, 197, 94, 0.1);
-  border: 1px solid rgba(34, 197, 94, 0.3);
-  box-shadow: 0 4px 15px rgba(34, 197, 94, 0.2);
-  animation: messageSlideIn 0.4s ease-out, successGlow 2s ease-in-out infinite alternate;
-}
-
-@keyframes successGlow {
-  0% { box-shadow: 0 4px 15px rgba(34, 197, 94, 0.2); }
-  100% { box-shadow: 0 6px 20px rgba(34, 197, 94, 0.3); }
-}
-
-/* Style par défaut pour les messages (incluant les erreurs) */
-p {
-  color: #ef4444;
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.2);
-}
-
-/* Animation spéciale pour les messages d'erreur */
-p:not(:empty):contains("Erreur") {
-  animation: messageSlideIn 0.4s ease-out, errorShake 0.6s ease-out;
-}
-
-@keyframes errorShake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-8px); }
-  75% { transform: translateX(8px); }
-}
-
 /* Effet de particules pour la page */
 form::after {
   content: '';
