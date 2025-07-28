@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Badges from '../components/Badges.tsx';
+import { useAuth } from '../features/context/authContext.tsx';
 import './ResultPage.css';
 
 // Interface pour typer une question et ses réponses
@@ -24,10 +25,10 @@ interface LocationState {
 }
 
 const ResultPage: React.FC = () => {
+  const { user } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Récupération des données envoyées dans state
   const {
     score,
     scores,
@@ -62,7 +63,7 @@ const ResultPage: React.FC = () => {
         ]
       : [
           {
-            username: 'admin', // Remplace par un vrai nom si disponible
+            username: user?.username || 'Invité',
             points: Math.floor(score!),
             mode,
             category,
@@ -88,7 +89,6 @@ const ResultPage: React.FC = () => {
     }
   };
 
-  // Vérification de la présence des données essentielles
   if (
     (mode === '2players' && (!scores || total === undefined)) ||
     ((mode === 'classic' || mode === 'timer') && (score === undefined || total === undefined))
@@ -105,7 +105,6 @@ const ResultPage: React.FC = () => {
     );
   }
 
-  // Affichage spécifique au mode 2 joueurs
   if (mode === '2players' && scores) {
     const player1Score = scores[1];
     const player2Score = scores[2];
@@ -136,7 +135,6 @@ const ResultPage: React.FC = () => {
 
           <h2>{winnerText}</h2>
 
-          {/* Affichage des questions et corrections */}
           <div className="corrections">
             <h3>Correction des questions :</h3>
             {questions.length === 0 ? (
@@ -173,7 +171,6 @@ const ResultPage: React.FC = () => {
     );
   }
 
-  // Affichage pour mode solo (classic ou timer)
   const percentage = (score! / total) * 100;
 
   return (
@@ -183,7 +180,6 @@ const ResultPage: React.FC = () => {
         <p>Tu as obtenu {score} points</p>
         <Badges scorePercentage={percentage} />
 
-        {/* Correction des questions */}
         <div className="corrections">
           <h3>Correction des questions :</h3>
           {questions.length === 0 ? (
