@@ -146,13 +146,6 @@ const DashboardPage: React.FC = () => {
             >
               {isEditing ? '✅' : '✏️'}
             </button>
-            <button
-              className="logout-button"
-              onClick={handleLogout}
-              title="Déconnexion"
-            >
-              ⏻
-            </button>
           </div>
         </div>
       </section>
