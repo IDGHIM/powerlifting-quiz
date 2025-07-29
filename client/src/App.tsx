@@ -42,11 +42,11 @@ const App: React.FC = () => {
               }
             />*/}
 
-           {/* <Route
+           { <Route
               path="/admin"
-              element={
+              element={<AdminPage />
               }
-            /> */}
+            /> }
 
             {/* ❌ Route par défaut */}
             <Route path="*" element={<div>Page non trouvée</div>} />
