@@ -13,7 +13,7 @@
 
   /* Accent compétition */
   --highlight-yellow: #ffb700;
-  
+
   /* Nouvelles couleurs pour powerlifting */
   --iron-dark: #2d3436;
   --steel-blue: #74b9ff;
@@ -29,7 +29,12 @@
 
 body {
   font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, var(--power-black) 0%, var(--iron-dark) 50%, var(--charcoal-black) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--power-black) 0%,
+    var(--iron-dark) 50%,
+    var(--charcoal-black) 100%
+  );
   color: var(--off-white);
   min-height: 100vh;
   overflow-x: hidden;
@@ -50,9 +55,61 @@ body::before {
   opacity: 0.03;
   z-index: -1;
   animation: pulseBackground 8s ease-in-out infinite alternate;
+  background-size: 200px 200px;
 }
 
+/* Keyframes communs utilisés sur plusieurs pages */
 @keyframes pulseBackground {
   0% { opacity: 0.03; transform: scale(1); }
   100% { opacity: 0.06; transform: scale(1.05); }
+}
+
+@keyframes slideInFromBottom {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInFromRight {
+  from { opacity: 0; transform: translateX(30px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes expandUnderline {
+  to { scale: 1; }
+}
+
+@keyframes activeGlow {
+  0%   { box-shadow: 0 0 10px var(--power-red); }
+  100% { box-shadow: 0 0 20px var(--highlight-yellow); }
+}
+
+@keyframes gradientFlow {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+@keyframes floatBackground {
+  0%   { opacity: 0.04; transform: scale(1); }
+  100% { opacity: 0.06; transform: scale(1.05); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(-50%) translateX(0); }
+  50%      { transform: translateY(-50%) translateX(5px); }
+}
+
+/* Réduction des animations si demandée */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

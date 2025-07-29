@@ -1,57 +1,84 @@
 import { Request, Response } from 'express';
-import User from '../models/userModel';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+import Profile from '../models/userModel';
 
-// Typage du corps de la requête
-interface AuthRequestBody {
+// Interface pour le corps de la requête de création/mise à jour de profil
+interface ProfileRequestBody {
   username: string;
-  password: string;
-  role?: 'user' | 'admin';
+  name: string;
+  weightClass: string;
+  squat: string;
+  bench: string;
+  deadlift: string;
+  profileImage?: string;
 }
 
-export const register = async (req: Request<{}, {}, AuthRequestBody>, res: Response) => {
-  const { username, password, role } = req.body;
+// Récupérer le profil d'un utilisateur
+export const getProfile = async (req: Request, res: Response) => {
   try {
-    const existingUser = await User.findOne({ username });
-    if (existingUser) {
-      return res.status(400).json({ message: 'Username already taken' });
+    const { username } = req.params;
+    
+    let profile = await Profile.findOne({ username });
+    
+    // Si le profil n'existe pas, on retourne 404
+    if (!profile) {
+      return res.status(404).json({ message: 'Profil non trouvé' });
     }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new User({ username, password: hashedPassword, role });
-    await user.save();
-
-    return res.status(201).json({ message: 'User registered successfully' });
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ message: 'Error registering user' });
+    
+    res.json(profile);
+  } catch (error) {
+    console.error('Erreur lors de la récupération du profil:', error);
+    res.status(500).json({ message: 'Erreur serveur' });
   }
 };
 
-export const login = async (req: Request<{}, {}, AuthRequestBody>, res: Response) => {
-  const { username, password } = req.body;
+// Créer un nouveau profil
+export const createProfile = async (req: Request<{}, {}, ProfileRequestBody>, res: Response) => {
   try {
-    const user = await User.findOne({ username });
-    if (!user) {
-      return res.status(400).json({ message: 'Invalid credentials' });
+    const { username, name, weightClass, squat, bench, deadlift, profileImage } = req.body;
+    
+    // Vérifier si un profil existe déjà pour cet utilisateur
+    const existingProfile = await Profile.findOne({ username });
+    if (existingProfile) {
+      return res.status(400).json({ message: 'Un profil existe déjà pour cet utilisateur' });
     }
+    
+    const profile = new Profile({
+      username,
+      name,
+      weightClass,
+      squat,
+      bench,
+      deadlift,
+      profileImage
+    });
+    
+    const savedProfile = await profile.save();
+    res.status(201).json(savedProfile);
+  } catch (error) {
+    console.error('Erreur lors de la création du profil:', error);
+    res.status(500).json({ message: 'Erreur serveur' });
+  }
+};
 
-    const isValid = await bcrypt.compare(password, user.password);
-    if (!isValid) {
-      return res.status(400).json({ message: 'Invalid credentials' });
-    }
-
-    const token = jwt.sign(
-      { username: user.username, role: user.role },
-      process.env.JWT_SECRET as string,
-      { expiresIn: '1h' }
+// Mettre à jour un profil existant
+export const updateProfile = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { name, weightClass, squat, bench, deadlift, profileImage } = req.body;
+    
+    const profile = await Profile.findByIdAndUpdate(
+      id,
+      { name, weightClass, squat, bench, deadlift, profileImage },
+      { new: true, runValidators: true }
     );
     
-    return res.json({ token }),
-    console.log(token);
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ message: 'Error logging in' });
+    if (!profile) {
+      return res.status(404).json({ message: 'Profil non trouvé' });
+    }
+    
+    res.json(profile);
+  } catch (error) {
+    console.error('Erreur lors de la mise à jour du profil:', error);
+    res.status(500).json({ message: 'Erreur serveur' });
   }
 };

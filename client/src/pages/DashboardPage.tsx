@@ -3,9 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../features/context/authContext.tsx';
 import './DashboardPage.css';
 
-const PROFILE_KEY = 'profileData';
-
 interface ProfileData {
+  id?: number;
   name: string;
   weightClass: string;
   Squat: string;
@@ -28,39 +27,111 @@ const DashboardPage: React.FC = () => {
   });
 
   const [isEditing, setIsEditing] = useState(false);
-  const [theme, setTheme] = useState<'clair' | 'sombre'>('clair');
-  const [isPublic, setIsPublic] = useState(true);
-  const [quizProgress, setQuizProgress] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
 
+  // Fonction pour charger le profil depuis la base de données
+  const loadProfile = async () => {
+    try {
+      setLoading(true);
+      // Utilisation du username comme identifiant unique
+      const response = await fetch(`/api/profile/${user?.username}`, {
+        credentials: 'include', // Important pour inclure les cookies
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const profileData = await response.json();
+        setProfile(profileData);
+      } else if (response.status === 404) {
+        // Profil n'existe pas encore, on garde les valeurs par défaut
+        console.log('Profil non trouvé, création d\'un nouveau profil');
+      } else {
+        throw new Error('Erreur lors du chargement du profil');
+      }
+    } catch (error) {
+      console.error('Erreur lors du chargement du profil:', error);
+      // En cas d'erreur, on peut charger depuis localStorage comme fallback
+      const storedProfile = localStorage.getItem('profileData');
+      if (storedProfile) {
+        setProfile(JSON.parse(storedProfile));
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Fonction pour sauvegarder le profil en base de données
+  const saveProfile = async (profileData: ProfileData) => {
+    try {
+      setSaveStatus('saving');
+      
+      const method = profileData.id ? 'PUT' : 'POST';
+      const url = profileData.id ? `/api/profile/${profileData.id}` : '/api/profile';
+      
+      const response = await fetch(url, {
+        method,
+        credentials: 'include', // Important pour inclure les cookies
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...profileData,
+          username: user?.username, // Utilisation du username au lieu d'un userId
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Erreur lors de la sauvegarde du profil');
+      }
+
+      const savedProfile = await response.json();
+      setProfile(savedProfile);
+      
+      // Sauvegarde également en localStorage comme cache
+      localStorage.setItem('profileData', JSON.stringify(savedProfile));
+      
+      setSaveStatus('saved');
+      setTimeout(() => setSaveStatus('idle'), 2000);
+      
+    } catch (error) {
+      console.error('Erreur lors de la sauvegarde:', error);
+      setSaveStatus('error');
+      setTimeout(() => setSaveStatus('idle'), 3000);
+      
+      // En cas d'erreur, sauvegarde au moins en localStorage
+      localStorage.setItem('profileData', JSON.stringify(profileData));
+    }
+  };
+
+  // Fonction pour sauvegarder les paramètres utilisateur
+  const saveUserSettings = async (settings: UserSettings) => {
+    try {
+      await fetch(`/api/user/settings/${user?.id}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${user?.token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(settings),
+      });
+    } catch (error) {
+      console.error('Erreur lors de la sauvegarde des paramètres:', error);
+      // Fallback vers localStorage
+      localStorage.setItem('theme', settings.theme);
+      localStorage.setItem('privacy', settings.isPublic ? 'public' : 'private');
+      localStorage.setItem('quizProgress', settings.quizProgress.toString());
+    }
+  };
+
+  // Chargement initial des données
   useEffect(() => {
-    const storedProfile = localStorage.getItem(PROFILE_KEY);
-    if (storedProfile) {
-      setProfile(JSON.parse(storedProfile));
+    if (user?.username) {
+      loadProfile();
     }
-
-    const storedTheme = localStorage.getItem('theme');
-    if (storedTheme === 'sombre' || storedTheme === 'clair') {
-      setTheme(storedTheme);
-    }
-
-    const storedPrivacy = localStorage.getItem('privacy');
-    if (storedPrivacy === 'private') {
-      setIsPublic(false);
-    }
-
-    const storedProgress = localStorage.getItem('quizProgress');
-    if (storedProgress) {
-      setQuizProgress(parseInt(storedProgress, 10));
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
-    localStorage.setItem('privacy', isPublic ? 'public' : 'private');
-    localStorage.setItem('quizProgress', quizProgress.toString());
-  }, [profile, theme, isPublic, quizProgress]);
+  }, [user?.username]);
 
   const handleLogout = () => {
     if (window.confirm('Voulez-vous vraiment vous déconnecter ?')) {
@@ -84,6 +155,41 @@ const DashboardPage: React.FC = () => {
       reader.readAsDataURL(file);
     }
   };
+
+  const handleSaveProfile = async () => {
+    if (isEditing) {
+      await saveProfile(profile);
+    }
+    setIsEditing(!isEditing);
+  };
+
+  const getSaveButtonText = () => {
+    switch (saveStatus) {
+      case 'saving': return '💾';
+      case 'saved': return '✅';
+      case 'error': return '❌';
+      default: return isEditing ? '✅' : '✏️';
+    }
+  };
+
+  const getSaveButtonTitle = () => {
+    switch (saveStatus) {
+      case 'saving': return 'Sauvegarde en cours...';
+      case 'saved': return 'Profil sauvegardé !';
+      case 'error': return 'Erreur lors de la sauvegarde';
+      default: return isEditing ? 'Sauvegarder le profil' : 'Éditer le profil';
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="dashboard-container">
+        <div style={{ textAlign: 'center', padding: '2rem' }}>
+          <p>Chargement du profil...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="dashboard-container">
@@ -141,58 +247,20 @@ const DashboardPage: React.FC = () => {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginLeft: 'auto' }}>
             <button
               className="logout-button"
-              onClick={() => setIsEditing(!isEditing)}
-              title="Éditer le profil"
+              onClick={handleSaveProfile}
+              title={getSaveButtonTitle()}
+              disabled={saveStatus === 'saving'}
             >
-              {isEditing ? '✅' : '✏️'}
+              {getSaveButtonText()}
             </button>
           </div>
         </div>
-      </section>
-
-      {/* Progression Quiz */}
-      <section className="quiz-section">
-        <h2>Progression Quiz</h2>
-        <div className="quiz-progress">
-          <div className="progress-bar">
-            <div className="progress-fill" style={{ width: `${quizProgress}%` }} />
+        
+        {saveStatus === 'error' && (
+          <div style={{ color: 'red', marginTop: '10px', fontSize: '0.9em' }}>
+            Erreur lors de la sauvegarde. Les données ont été sauvegardées localement.
           </div>
-          <p>{quizProgress}% de questions répondues</p>
-        </div>
-      </section>
-
-      {/* Paramètres */}
-      <section className="settings-section">
-        <h2>Paramètres</h2>
-        <div className="settings-options">
-          <div>
-            <label>Thème :</label>{' '}
-            <select value={theme} onChange={(e) => setTheme(e.target.value as 'clair' | 'sombre')}>
-              <option value="clair">Clair</option>
-              <option value="sombre">Sombre</option>
-            </select>
-          </div>
-          <div>
-            <label>Confidentialité :</label>{' '}
-            <select
-              value={isPublic ? 'public' : 'privé'}
-              onChange={(e) => setIsPublic(e.target.value === 'public')}
-            >
-              <option value="public">Public</option>
-              <option value="privé">Privé</option>
-            </select>
-          </div>
-          <div>
-            <label>Modifier progression quiz :</label>{' '}
-            <input
-              type="number"
-              min={0}
-              max={100}
-              value={quizProgress}
-              onChange={(e) => setQuizProgress(Math.max(0, Math.min(100, Number(e.target.value))))}
-            /> %
-          </div>
-        </div>
+        )}
       </section>
     </div>
   );
