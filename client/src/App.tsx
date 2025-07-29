@@ -12,6 +12,8 @@ import LoginPage from './features/auth/LoginPage.tsx';
 import RegisterPage from './features/auth/RegisterPage.tsx';
 import DashboardPage from './pages/DashboardPage.tsx';
 import AdminPage from './pages/AdminPage.tsx';
+import ForgotPasswordPage from './pages/ForgotPasswordPage.tsx';
+import ResetPasswordPage from './pages/ResetPasswordPage.tsx';
 
 import Layout from './components/Layout.tsx';
 
@@ -32,9 +34,10 @@ const App: React.FC = () => {
             <Route path="/ranking" element={<RankPage />} />
             <Route path="/indice" element={<IPFCalculator />} />
             <Route path="/login" element={<LoginPage />} />
-           <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/register" element={<RegisterPage />} />
-
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
             {/* 🔐 Routes protégées */}
           {/*  <Route
               path="/dashboard"

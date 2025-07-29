@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/authContext.tsx';
-import { useNavigate } from 'react-router-dom';
-import './LoginPage.css'
+import { useNavigate, Link } from 'react-router-dom';
+import './LoginPage.css';
 
 const LoginPage: React.FC = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const [identifier, setIdentifier] = useState(''); 
+  const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -27,7 +27,7 @@ const LoginPage: React.FC = () => {
 
     try {
       setLoading(true);
-      await login(identifier, password); // <-- login avec identifier
+      await login(identifier, password);
       navigate('/dashboard');
     } catch (err) {
       console.error("Erreur de connexion :", err);
@@ -38,7 +38,7 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="login-form">
       <h2>Connexion</h2>
       <input
         value={identifier}
@@ -54,7 +54,12 @@ const LoginPage: React.FC = () => {
       <button type="submit" disabled={loading} className="start-button">
         {loading ? 'Connexion...' : 'Se connecter'}
       </button>
-      {error && <p>{error}</p>}
+      {error && <p className="error-message">{error}</p>}
+
+      {/* 🔗 Lien vers la page mot de passe oublié */}
+      <div className="forgot-password-link">
+        <Link to="/forgot-password">Mot de passe oublié ?</Link>
+      </div>
     </form>
   );
 };

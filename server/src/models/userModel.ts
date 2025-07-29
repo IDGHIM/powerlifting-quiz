@@ -5,6 +5,8 @@ export interface IUser extends Document {
   email: string;
   password: string;
   role: 'user' | 'admin';
+  resetToken?: string;
+  resetTokenExpiration?: Date;
 }
 
 const userSchema: Schema<IUser> = new mongoose.Schema({
