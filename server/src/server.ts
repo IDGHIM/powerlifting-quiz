@@ -9,6 +9,7 @@ import bcrypt from 'bcrypt';
 import authRoutes from './routes/authRoutes';
 import quizRoutes from './routes/quizRoutes';
 import scoreRoutes from './routes/scoreRoutes';
+import profileRoutes from './routes/profileRoutes'; // 🆕 AJOUTÉ
 import User from './models/userModel';
 
 dotenv.config();
@@ -21,7 +22,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'votre_secret_jwt';
 // Middleware globaux
 app.use(cors({
   origin: ['http://localhost:3000', 'http://192.168.10.5:3000'],
-  methods: ['GET', 'POST', 'DELETE', 'OPTIONS', 'PATCH'],
+  methods: ['GET', 'POST', 'DELETE', 'OPTIONS', 'PATCH', 'PUT'], // 🆕 AJOUTÉ PUT pour les updates
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
 }));
@@ -62,7 +63,7 @@ app.post('/api/register', async (req, res) => {
   try {
     const existing = await User.findOne({ $or: [{ username }, { email }] });
     if (existing) {
-      return res.status(409).json({ error: 'Nom d’utilisateur ou email déjà utilisé.' });
+      return res.status(409).json({ error: 'Nom dutilisateur ou email déjà utilisé.' });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -138,6 +139,7 @@ app.get('/api/me', authenticate, (req, res) => {
 app.use('/api', authRoutes);
 app.use('/api', quizRoutes);
 app.use('/api/ranking', scoreRoutes);
+app.use('/api/profile', profileRoutes); // 🆕 AJOUTÉ
 
 // Connexion MongoDB + lancement serveur
 mongoose.connect(mongoUri)

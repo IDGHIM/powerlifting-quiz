@@ -4,13 +4,22 @@ import { useAuth } from '../features/context/authContext.tsx';
 import './DashboardPage.css';
 
 interface ProfileData {
-  id?: number;
+  _id?: string; // MongoDB utilise _id comme string
+  username?: string;
   name: string;
   weightClass: string;
-  Squat: string;
-  Bench: string;
-  Deadlift: string;
+  squat: string; // Cohérent avec le backend
+  bench: string; // Cohérent avec le backend
+  deadlift: string; // Cohérent avec le backend
   profileImage?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+interface UserSettings {
+  theme: string;
+  isPublic: boolean;
+  quizProgress: number;
 }
 
 const DashboardPage: React.FC = () => {
@@ -20,9 +29,9 @@ const DashboardPage: React.FC = () => {
   const [profile, setProfile] = useState<ProfileData>({
     name: user?.username || '',
     weightClass: '',
-    Squat: '',
-    Bench: '',
-    Deadlift: '',
+    squat: '',
+    bench: '',
+    deadlift: '',
     profileImage: '',
   });
 
@@ -34,6 +43,8 @@ const DashboardPage: React.FC = () => {
   const loadProfile = async () => {
     try {
       setLoading(true);
+      console.log('🔍 Chargement du profil pour:', user?.username);
+      
       // Utilisation du username comme identifiant unique
       const response = await fetch(`/api/profile/${user?.username}`, {
         credentials: 'include', // Important pour inclure les cookies
@@ -42,22 +53,37 @@ const DashboardPage: React.FC = () => {
         },
       });
 
+      console.log('📡 Réponse API:', response.status, response.statusText);
+
       if (response.ok) {
         const profileData = await response.json();
+        console.log('✅ Données reçues:', profileData);
         setProfile(profileData);
       } else if (response.status === 404) {
         // Profil n'existe pas encore, on garde les valeurs par défaut
-        console.log('Profil non trouvé, création d\'un nouveau profil');
+        console.log('❌ Profil non trouvé, utilisation des valeurs par défaut');
+        setProfile({
+          name: user?.username || '',
+          weightClass: '',
+          squat: '',
+          bench: '',
+          deadlift: '',
+          profileImage: '',
+        });
       } else {
         throw new Error('Erreur lors du chargement du profil');
       }
     } catch (error) {
-      console.error('Erreur lors du chargement du profil:', error);
-      // En cas d'erreur, on peut charger depuis localStorage comme fallback
-      const storedProfile = localStorage.getItem('profileData');
-      if (storedProfile) {
-        setProfile(JSON.parse(storedProfile));
-      }
+      console.error('💥 Erreur lors du chargement du profil:', error);
+      // En cas d'erreur, on réinitialise avec des valeurs vides
+      setProfile({
+        name: user?.username || '',
+        weightClass: '',
+        squat: '',
+        bench: '',
+        deadlift: '',
+        profileImage: '',
+      });
     } finally {
       setLoading(false);
     }
@@ -68,8 +94,8 @@ const DashboardPage: React.FC = () => {
     try {
       setSaveStatus('saving');
       
-      const method = profileData.id ? 'PUT' : 'POST';
-      const url = profileData.id ? `/api/profile/${profileData.id}` : '/api/profile';
+      const method = profileData._id ? 'PUT' : 'POST';
+      const url = profileData._id ? `/api/profile/${profileData._id}` : '/api/profile';
       
       const response = await fetch(url, {
         method,
@@ -109,10 +135,10 @@ const DashboardPage: React.FC = () => {
   // Fonction pour sauvegarder les paramètres utilisateur
   const saveUserSettings = async (settings: UserSettings) => {
     try {
-      await fetch(`/api/user/settings/${user?.id}`, {
+      await fetch(`/api/user/settings/${user?.username}`, {
         method: 'PUT',
+        credentials: 'include', // Utilise l'authentification par cookie
         headers: {
-          'Authorization': `Bearer ${user?.token}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(settings),
@@ -129,6 +155,10 @@ const DashboardPage: React.FC = () => {
   // Chargement initial des données
   useEffect(() => {
     if (user?.username) {
+      // Nettoyage du localStorage pour debug
+      console.log('🧹 Nettoyage des anciennes données localStorage');
+      localStorage.removeItem('profileData');
+      
       loadProfile();
     }
   }, [user?.username]);
@@ -219,15 +249,15 @@ const DashboardPage: React.FC = () => {
                 </p>
                 <p>
                   <strong>Squat :</strong>{' '}
-                  <input name="Squat" value={profile.Squat} onChange={handleProfileChange} />
+                  <input name="squat" value={profile.squat} onChange={handleProfileChange} />
                 </p>
                 <p>
                   <strong>Bench :</strong>{' '}
-                  <input name="Bench" value={profile.Bench} onChange={handleProfileChange} />
+                  <input name="bench" value={profile.bench} onChange={handleProfileChange} />
                 </p>
                 <p>
                   <strong>Deadlift :</strong>{' '}
-                  <input name="Deadlift" value={profile.Deadlift} onChange={handleProfileChange} />
+                  <input name="deadlift" value={profile.deadlift} onChange={handleProfileChange} />
                 </p>
                 <p>
                   <strong>Photo :</strong>{' '}
@@ -238,9 +268,9 @@ const DashboardPage: React.FC = () => {
               <>
                 <p><strong>Nom :</strong> {profile.name}</p>
                 <p><strong>Catégorie :</strong> {profile.weightClass}</p>
-                <p><strong>Squat :</strong> {profile.Squat}</p>
-                <p><strong>Bench :</strong> {profile.Bench}</p>
-                <p><strong>Deadlift :</strong> {profile.Deadlift}</p>
+                <p><strong>Squat :</strong> {profile.squat}</p>
+                <p><strong>Bench :</strong> {profile.bench}</p>
+                <p><strong>Deadlift :</strong> {profile.deadlift}</p>
               </>
             )}
           </div>

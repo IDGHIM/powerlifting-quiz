@@ -34,22 +34,13 @@ const App: React.FC = () => {
             <Route path="/ranking" element={<RankPage />} />
             <Route path="/indice" element={<IPFCalculator />} />
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
             <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
-            {/* 🔐 Routes protégées */}
-          {/*  <Route
-              path="/dashboard"
-              element={
-              }
-            />*/}
 
-           { <Route
-              path="/admin"
-              element={<AdminPage />
-              }
-            /> }
+            {/* 🔐 Routes protégées */}
+            {<Route path="/dashboard" element={<DashboardPage />} />}
+            {<Route path="/admin" element={<AdminPage />} /> }
 
             {/* ❌ Route par défaut */}
             <Route path="*" element={<div>Page non trouvée</div>} />

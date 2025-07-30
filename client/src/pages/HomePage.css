@@ -63,7 +63,7 @@
 .description {
   font-size: clamp(1.1rem, 2.5vw, 1.3rem);
   line-height: 1.7;
-  color: var(--silver-gray);
+  color: var(--highlight-yellow);
   max-width: 800px;
   margin: 0 auto;
   position: relative;
