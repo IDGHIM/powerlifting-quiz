@@ -4,6 +4,7 @@ import User from '../models/userModel';
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 import { transporter } from '../utils/mailer';
+import { userInfo } from 'os';
 
 const router = express.Router();
 
@@ -57,6 +58,30 @@ router.post('/forgot-password', async (req, res) => {
 
 // 🔐 Réinitialisation du mot de passe via le lien reçu
 router.post('/reset-password', async (req, res) => {
+    console.log('=== DEBUG RESET PASSWORD ===');
+  console.log('Token reçu:', req.body.token);
+  console.log('Longueur du token:', req.body.token?.length);
+  console.log('Type du token:', typeof req.body.token);
+  console.log('Nouveau mot de passe fourni:', !!req.body.newPassword);
+  
+  try {
+    // Vérifiez si le token existe dans votre base de données
+    const resetToken = await User.findOne({ 
+      resetToken: req.body.token,
+      // Vérifiez aussi l'expiration si vous en avez une
+      resetTokenExpires: { $gt: Date.now() }
+    });
+    
+    console.log('Token trouvé dans la DB:', !!resetToken);
+    if (resetToken) {
+      console.log('Token expires at:', resetToken.resetToken);
+      console.log('Current time:', Date.now());
+    }
+    
+    if (!resetToken) {
+      console.log('ERREUR: Token non trouvé ou expiré');
+      return res.status(400).json({ error: "Lien invalide ou expiré." });
+    }
   const { token, newPassword } = req.body;
   if (!token || !newPassword) {
     return res.status(400).json({ error: 'Token et nouveau mot de passe requis.' });
@@ -81,6 +106,11 @@ router.post('/reset-password', async (req, res) => {
   } catch (err) {
     console.error('Erreur reset-password :', err);
     res.status(500).json({ error: 'Erreur serveur.' });
+  }
+
+  } catch (error) {
+    console.error('Erreur serveur:', error);
+    res.status(500).json({ error: "Erreur serveur" });
   }
 });
 
