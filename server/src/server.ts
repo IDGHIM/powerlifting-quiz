@@ -5,11 +5,12 @@ import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import crypto from 'crypto'; // ✅ AJOUTÉ pour generateer les tokens
+import crypto from 'crypto'; 
 import authRoutes from './routes/authRoutes';
 import quizRoutes from './routes/quizRoutes';
 import scoreRoutes from './routes/scoreRoutes';
 import profileRoutes from './routes/profileRoutes';
+import AdminRoutes from './routes/adminRoutes';
 import User from './models/userModel';
 
 dotenv.config();
@@ -236,6 +237,7 @@ app.use('/api', authRoutes);
 app.use('/api', quizRoutes);
 app.use('/api/ranking', scoreRoutes);
 app.use('/api/profile', profileRoutes);
+app.use('/api/admin', AdminRoutes);
 
 // Connexion MongoDB + lancement serveur
 mongoose.connect(mongoUri)

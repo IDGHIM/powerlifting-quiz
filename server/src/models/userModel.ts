@@ -7,6 +7,8 @@ export interface IUser extends Document {
   role: 'user' | 'admin';
   resetToken?: string;
   resetTokenExpiration?: Date;
+  createdAt?: Date;    
+  updatedAt?: Date;    
 }
 
 const userSchema: Schema<IUser> = new mongoose.Schema({
@@ -16,6 +18,7 @@ const userSchema: Schema<IUser> = new mongoose.Schema({
   role: { type: String, enum: ['user', 'admin'], default: 'user' },
   resetToken: { type: String, default: null },
   resetTokenExpiration: { type: Date, default: null },
+  
 });
 
 const User = mongoose.model<IUser>('User', userSchema);
