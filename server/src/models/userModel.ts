@@ -1,51 +1,21 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-export interface IProfile extends Document {
+export interface IUser extends Document {
   username: string;
-  name: string;
-  weightClass: string;
-  squat: string;
-  bench: string;
-  deadlift: string;
-  profileImage?: string;
-  createdAt: Date;
-  updatedAt: Date;
+  email: string;
+  password: string;
+  role: 'user' | 'admin';
+  resetToken?: string;
+  resetTokenExpiration?: Date;
 }
 
-const profileSchema: Schema<IProfile> = new mongoose.Schema({
-  username: { 
-    type: String, 
-    required: true, 
-    unique: true,
-    ref: 'User' // Référence vers le modèle User
-  },
-  name: { 
-    type: String, 
-    default: '' 
-  },
-  weightClass: { 
-    type: String, 
-    default: '' 
-  },
-  squat: { 
-    type: String, 
-    default: '' 
-  },
-  bench: { 
-    type: String, 
-    default: '' 
-  },
-  deadlift: { 
-    type: String, 
-    default: '' 
-  },
-  profileImage: { 
-    type: String, 
-    default: '' 
-  }
-}, {
-  timestamps: true // Ajoute automatiquement createdAt et updatedAt
+const userSchema: Schema<IUser> = new mongoose.Schema({
+  username: { type: String, required: true, unique: true },
+  email:    { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  role: { type: String, enum: ['user', 'admin'], default: 'user' },
 });
 
-const Profile = mongoose.model<IProfile>('Profile', profileSchema);
-export default Profile;
+const User = mongoose.model<IUser>('User', userSchema);
+
+export default User;
