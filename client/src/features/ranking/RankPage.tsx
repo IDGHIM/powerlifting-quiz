@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import './RankPage.css';
+//import './RankPage.css';
 
 // Interface pour typer les données utilisateur
 interface User {

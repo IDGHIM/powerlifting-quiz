@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Timer from '../../components/Timer.tsx';
-import './QuizPage.css';
+//import './QuizPage.css';
 import { Question } from '../../../../types/Quiz.ts';
 
 // Fonction utilitaire pour mélanger un tableau (questions ou réponses)

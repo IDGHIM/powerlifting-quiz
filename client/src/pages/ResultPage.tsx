@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Badges from '../components/Badges.tsx';
 import { useAuth } from '../features/context/authContext.tsx';
-import './ResultPage.css';
+//import './ResultPage.css';
 
 // Interface pour typer une question et ses réponses
 interface Question {

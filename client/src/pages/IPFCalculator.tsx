@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./IPFCalculator.css";
+//import "./IPFCalculator.css";
 
 const IPFCalculator: React.FC = () => {
   const [bodyweight, setBodyweight] = useState<string>("");

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../features/context/authContext.tsx';
-import './DashboardPage.css';
+//import './DashboardPage.css';
 
 interface ProfileData {
   _id?: string; // MongoDB utilise _id comme string
