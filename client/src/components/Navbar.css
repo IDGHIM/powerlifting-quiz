@@ -1,3 +1,6 @@
+/* ----------------------- */
+/* NAVBAR DESKTOP          */
+/* ----------------------- */
 .navbar {
   position: fixed;
   top: 0;
@@ -13,6 +16,8 @@
   border-radius: 0 0 12px 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
   z-index: 1000;
+  width: calc(100% - 3rem);
+  max-width: 1200px;
 }
 
 .navbar .logo {
@@ -20,12 +25,12 @@
   margin-right: 1rem;
   transition: transform 0.2s ease-in-out;
 }
+
 .navbar .logo:hover {
   transform: scale(1.05);
 }
 
-.nav-links,
-.nav-auth {
+.nav-links, .nav-auth {
   display: flex;
   flex-direction: row;
   gap: 1.5rem;
@@ -38,6 +43,9 @@
   text-decoration: none;
   transition: color 0.3s ease, transform 0.2s ease;
   position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .navbar a:hover {
@@ -45,10 +53,36 @@
   transform: scale(1.1);
 }
 
-/* ----------------------- */
-/* TOOLTIP STYLING        */
-/* ----------------------- */
+/* Texte des liens (caché sur desktop, visible sur mobile) */
+.nav-text {
+  display: none;
+}
 
+/* ----------------------- */
+/* MENU HAMBURGER          */
+/* ----------------------- */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--off-white);
+  cursor: pointer;
+  padding: 5px;
+  z-index: 1001;
+  transition: transform 0.2s ease;
+}
+
+.menu-toggle:hover {
+  transform: scale(1.1);
+}
+
+.menu-toggle.active {
+  transform: rotate(90deg);
+}
+
+/* ----------------------- */
+/* TOOLTIP STYLING         */
+/* ----------------------- */
 .navbar a .tooltip {
   position: absolute;
   bottom: -35px;
@@ -74,44 +108,230 @@
 
 .nav-auth .logout-button {
   background-color: transparent;
-  padding: 0.5rem 0.5rem;
+  border: none;
+  color: var(--off-white);
+  padding: 0.5rem;
   border-radius: 6px;
   font-size: 0.75rem;
   cursor: pointer;
   transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .logout-button:hover {
   background-color: var(--power-red);
   color: var(--off-white);
-}
-
-.navbar-bottom a {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background-color: var(--silver-gray);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.navbar-bottom a:hover {
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 .navbar svg {
   width: 20px;
   height: 20px;
-  color: var(--off-white);
+  color: inherit;
 }
 
-/* Responsive : cache la navbar sur mobile */
-@media (max-width: 768px) {
+/* ----------------------- */
+/* RESPONSIVE MOBILE       */
+/* ----------------------- */
+@media screen and (max-width: 768px) {
   .navbar {
+    width: 100%;
+    left: 0;
+    transform: none;
+    border-radius: 0;
+    padding: 0 1rem;
+    justify-content: space-between;
+    gap: 0;
+  }
+
+  .navbar .logo {
+    margin-right: 0;
+    height: 35px;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  /* Navigation mobile */
+  .nav-links, .nav-auth {
+    position: fixed;
+    top: 65px;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(135deg, var(--power-red) 0%, var(--muscle-orange) 100%);
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 2rem 0;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    margin-right: 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  }
+
+  .nav-links.active, .nav-auth.active {
+    transform: translateX(0);
+  }
+
+  .nav-links {
+    z-index: 999;
+  }
+
+  .nav-auth {
+    top: auto;
+    bottom: 0;
+    padding: 1.5rem 0 2rem 0;
+    z-index: 998;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  /* Afficher le texte sur mobile */
+  .nav-text {
+    display: block;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  /* Cacher les tooltips sur mobile */
+  .navbar a .tooltip {
+    display: none;
+  }
+
+  /* Style des liens mobile */
+  .navbar a {
+    font-size: 1.1rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    min-width: 200px;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+
+  .navbar a:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    transform: none;
+  }
+
+  .logout-button {
+    font-size: 1rem !important;
+    padding: 0.75rem 1.5rem !important;
+    border-radius: 8px !important;
+    min-width: 200px;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+
+  .logout-button:hover {
+    background-color: rgba(255, 255, 255, 0.15) !important;
+    transform: none !important;
+  }
+
+  .navbar svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  /* Overlay mobile */
+  .mobile-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 997;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .mobile-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .navbar {
+    padding: 0 0.75rem;
+    height: 60px;
+  }
+
+  .navbar .logo {
+    height: 30px;
+  }
+
+  .nav-links, .nav-auth {
+    top: 60px;
+    padding: 1.5rem 0;
+    gap: 1.25rem;
+  }
+
+  .navbar a {
+    min-width: 180px;
+    font-size: 1rem;
+    padding: 0.6rem 1rem;
+  }
+
+  .logout-button {
+    font-size: 1rem !important;
+    padding: 0.6rem 1rem !important;
+    min-width: 180px !important;
+  }
+}
+
+/* ----------------------- */
+/* ANIMATIONS              */
+/* ----------------------- */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.nav-links.active a,
+.nav-auth.active a,
+.nav-auth.active button {
+  animation: fadeInUp 0.3s ease forwards;
+}
+
+.nav-links.active a:nth-child(1) { animation-delay: 0.1s; }
+.nav-links.active a:nth-child(2) { animation-delay: 0.15s; }
+.nav-links.active a:nth-child(3) { animation-delay: 0.2s; }
+.nav-links.active a:nth-child(4) { animation-delay: 0.25s; }
+.nav-links.active a:nth-child(5) { animation-delay: 0.3s; }
+
+/* ----------------------- */
+/* ÉTATS ACTIFS            */
+/* ----------------------- */
+.navbar a.active {
+  color: var(--highlight-yellow);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.navbar a.active::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  background-color: var(--highlight-yellow);
+  border-radius: 50%;
+}
+
+@media screen and (max-width: 768px) {
+  .navbar a.active::after {
     display: none;
   }
 }

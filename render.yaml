@@ -1,0 +1,24 @@
+services:
+  # --- FRONTEND ---
+  - type: static_site
+    name: Powerlifting Quiz Front
+    env: static
+    rootDir: client
+    buildCommand: npm install && npm run build
+    publishDir: build
+    envVars:
+      - key: REACT_APP_API_URL
+        value: https://mon-app-backend.onrender.com
+
+  # --- BACKEND ---
+  - type: web
+    name: Powerlifting Quiz Back
+    env: node
+    rootDir: server
+    buildCommand: npm install && npm run build
+    startCommand: npm run prod
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: FRONTEND_URL
+        value: https://mon-app-frontend.onrender.com
