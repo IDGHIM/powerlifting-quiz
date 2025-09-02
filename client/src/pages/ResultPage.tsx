@@ -71,7 +71,7 @@ const ResultPage: React.FC = () => {
         ];
 
     try {
-      const res = await fetch('http://localhost:5001/api/ranking', {
+      const res = await fetch('http://https://powerlifting-quiz-2.onrender.com/api/ranking', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

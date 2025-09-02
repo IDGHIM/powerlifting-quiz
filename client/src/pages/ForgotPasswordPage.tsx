@@ -18,7 +18,7 @@ const ForgotPasswordPage: React.FC = () => {
     }
 
     try {
-      await axios.post('http://localhost:5001/api/forgot-password', { email });
+      await axios.post('http://https://powerlifting-quiz-2.onrender.com/api/forgot-password', { email });
       setMessage("Un lien de réinitialisation vous a été envoyé.");
       setEmail('');
     } catch (err) {

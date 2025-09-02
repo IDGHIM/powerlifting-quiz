@@ -33,7 +33,7 @@ const RankPage: React.FC = () => {
         console.log('Récupération des données pour:', { selectedCategory, selectedMode });
         
         const res = await fetch(
-          `http://localhost:5001/api/ranking?category=${encodeURIComponent(
+          `http://https://powerlifting-quiz-2.onrender.com/api/ranking?category=${encodeURIComponent(
             selectedCategory
           )}&mode=${encodeURIComponent(selectedMode)}`
         );
