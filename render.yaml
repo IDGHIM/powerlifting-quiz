@@ -3,7 +3,6 @@ services:
   - type: web
     name: mon-app-frontend
     env: static
-    plan: free   # ✅ reste sur le plan gratuit
     rootDir: client
     buildCommand: npm install && npm run build
     staticPublishPath: build
@@ -15,7 +14,6 @@ services:
   - type: web
     name: mon-app-backend
     env: node
-    plan: free   # ✅ reste sur le plan gratuit
     rootDir: server
     buildCommand: npm install && npm run build
     startCommand: npm run prod
