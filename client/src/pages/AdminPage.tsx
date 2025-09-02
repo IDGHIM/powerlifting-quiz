@@ -138,7 +138,7 @@ const AdminPage: React.FC = () => {
         setCurrentUser(mockCurrentUser);
 
         // Appel API pour récupérer les utilisateurs
-        const usersResponse = await fetch('http://https://powerlifting-quiz-2.onrender.com/api/users');
+        const usersResponse = await fetch('https://powerlifting-quiz-2.onrender.com/api/users');
         if (usersResponse.ok) {
           const usersData = await usersResponse.json();
           // Adapter les données pour correspondre au format attendu par l'interface
@@ -152,7 +152,7 @@ const AdminPage: React.FC = () => {
         }
 
         // Appel API pour récupérer toutes les questions pour la sélection
-        const questionsResponse = await fetch('http://https://powerlifting-quiz-2.onrender.com/api/questions');
+        const questionsResponse = await fetch('https://powerlifting-quiz-2.onrender.com/api/questions');
         if (questionsResponse.ok) {
           const questionsData = await questionsResponse.json();
           const adaptedAllQuestions: Question[] = questionsData.map((question: any) => ({
@@ -195,7 +195,7 @@ const AdminPage: React.FC = () => {
       window.confirm("Êtes-vous sûr de vouloir supprimer cet utilisateur ?")
     ) {
       try {
-        const response = await fetch(`http://https://powerlifting-quiz-2.onrender.com/api/users/${userId}`, {
+        const response = await fetch(`https://powerlifting-quiz-2.onrender.com/api/users/${userId}`, {
           method: 'DELETE',
         });
 
@@ -238,7 +238,7 @@ const AdminPage: React.FC = () => {
           role: userForm.role
         };
 
-        const response = await fetch(`http://https://powerlifting-quiz-2.onrender.com/api/users/${editingUser.id}`, {
+        const response = await fetch(`https://powerlifting-quiz-2.onrender.com/api/users/${editingUser.id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -279,7 +279,7 @@ const AdminPage: React.FC = () => {
           role: userForm.role
         };
 
-        const response = await fetch('http://https://powerlifting-quiz-2.onrender.com/api/users', {
+        const response = await fetch('https://powerlifting-quiz-2.onrender.com/api/users', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -361,7 +361,7 @@ const AdminPage: React.FC = () => {
     if (window.confirm("Êtes-vous sûr de vouloir supprimer ce quiz ? Toutes les questions de ce quiz seront supprimées.")) {
       try {
         // Appeler l'API pour supprimer le quiz (qui supprimera aussi ses questions)
-        const response = await fetch(`http://https://powerlifting-quiz-2.onrender.com/api/quizzes/${quizId}`, {
+        const response = await fetch(`https://powerlifting-quiz-2.onrender.com/api/quizzes/${quizId}`, {
           method: 'DELETE',
         });
 
@@ -380,7 +380,7 @@ const AdminPage: React.FC = () => {
   const handleDuplicateQuiz = async (quiz: Quiz): Promise<void> => {
     try {
       // Appeler l'API pour dupliquer le quiz
-      const response = await fetch(`http://https://powerlifting-quiz-2.onrender.com/api/quizzes/${quiz.id}/duplicate`, {
+      const response = await fetch(`https://powerlifting-quiz-2.onrender.com/api/quizzes/${quiz.id}/duplicate`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -446,7 +446,7 @@ const AdminPage: React.FC = () => {
             quizId: quizForm.id
           };
 
-          const response = await fetch('http://https://powerlifting-quiz-2.onrender.com/api/questions', {
+          const response = await fetch('https://powerlifting-quiz-2.onrender.com/api/questions', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -507,7 +507,7 @@ const AdminPage: React.FC = () => {
     } else {
       // Si c'est une question sauvegardée, la supprimer du serveur
       try {
-        const response = await fetch(`http://https://powerlifting-quiz-2.onrender.com/api/questions/${questionId}`, {
+        const response = await fetch(`https://powerlifting-quiz-2.onrender.com/api/questions/${questionId}`, {
           method: 'DELETE',
         });
 
@@ -559,7 +559,7 @@ const AdminPage: React.FC = () => {
         };
 
         // Envoyer la mise à jour au serveur
-        const response = await fetch(`http://https://powerlifting-quiz-2.onrender.com/api/questions/${editingQuestion.id}`, {
+        const response = await fetch(`https://powerlifting-quiz-2.onrender.com/api/questions/${editingQuestion.id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -688,7 +688,7 @@ const AdminPage: React.FC = () => {
           quizId: quizForm.id
         };
 
-        return fetch(`http://https://powerlifting-quiz-2.onrender.com/api/questions/${question.id}`, {
+        return fetch(`https://powerlifting-quiz-2.onrender.com/api/questions/${question.id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -758,7 +758,7 @@ const AdminPage: React.FC = () => {
   const reloadData = async (): Promise<void> => {
     try {
       // Recharger toutes les questions
-      const questionsResponse = await fetch('http://https://powerlifting-quiz-2.onrender.com/api/questions');
+      const questionsResponse = await fetch('https://powerlifting-quiz-2.onrender.com/api/questions');
       if (questionsResponse.ok) {
         const questionsData = await questionsResponse.json();
         const adaptedAllQuestions: Question[] = questionsData.map((question: any) => ({
@@ -790,7 +790,7 @@ const AdminPage: React.FC = () => {
           isAutoGenerated: false
         };
 
-        const response = await fetch('http://https://powerlifting-quiz-2.onrender.com/api/quizzes', {
+        const response = await fetch('https://powerlifting-quiz-2.onrender.com/api/quizzes', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -814,7 +814,7 @@ const AdminPage: React.FC = () => {
                   quizId: newQuiz.id
                 };
 
-                return fetch('http://https://powerlifting-quiz-2.onrender.com/api/questions', {
+                return fetch('https://powerlifting-quiz-2.onrender.com/api/questions', {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json',
@@ -831,7 +831,7 @@ const AdminPage: React.FC = () => {
                   quizId: newQuiz.id
                 };
 
-                return fetch(`http://https://powerlifting-quiz-2.onrender.com/api/questions/${question.id}`, {
+                return fetch(`https://powerlifting-quiz-2.onrender.com/api/questions/${question.id}`, {
                   method: 'PUT',
                   headers: {
                     'Content-Type': 'application/json',
@@ -858,7 +858,7 @@ const AdminPage: React.FC = () => {
           createdBy: currentUser ? currentUser.name : quizForm.createdBy || "Admin" // Préserver le créateur existant ou utiliser l'utilisateur connecté
         };
 
-        const response = await fetch(`http://https://powerlifting-quiz-2.onrender.com/api/quizzes/${editingQuiz.id}`, {
+        const response = await fetch(`https://powerlifting-quiz-2.onrender.com/api/quizzes/${editingQuiz.id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',

@@ -38,7 +38,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get('http://https://powerlifting-quiz-2.onrender.com/api/me', {
+        const response = await axios.get('https://powerlifting-quiz-2.onrender.com/api/me', {
           withCredentials: true, // 🔐 Important : inclure le cookie JWT
         });
         const { username, email, role } = response.data;
@@ -56,13 +56,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // Fonction de connexion avec identifiant (email ou username)
   const login = async (identifier: string, password: string) => {
     await axios.post(
-      'http://https://powerlifting-quiz-2.onrender.com/api/login',
+      'https://powerlifting-quiz-2.onrender.com/api/login',
       { identifier, password },
       { withCredentials: true } // 🔐 Assure que le cookie est stocké
     );
 
     const response = await axios.get(
-      'http://https://powerlifting-quiz-2.onrender.com/api/me',
+      'https://powerlifting-quiz-2.onrender.com/api/me',
       { withCredentials: true } // 🔐 Nécessaire pour que le serveur reconnaisse la session
     );
 
@@ -78,7 +78,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     password: string,
     role: 'user' | 'admin' = 'user'
   ) => {
-    await axios.post('http://https://powerlifting-quiz-2.onrender.com/api/register', {
+    await axios.post('https://powerlifting-quiz-2.onrender.com/api/register', {
       username,
       email,
       password,
@@ -88,7 +88,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Fonction de déconnexion
   const logout = async () => {
-    await axios.post('http://https://powerlifting-quiz-2.onrender.com/api/logout', null, {
+    await axios.post('https://powerlifting-quiz-2.onrender.com/api/logout', null, {
       withCredentials: true, // 🔐 Important pour supprimer le cookie côté serveur
     });
     setUser(null);

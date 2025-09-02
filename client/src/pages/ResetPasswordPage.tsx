@@ -33,7 +33,7 @@ const ResetPasswordPage: React.FC = () => {
     }
 
     try {
-      const response = await axios.post('http://https://powerlifting-quiz-2.onrender.com/api/reset-password', {
+      const response = await axios.post('https://powerlifting-quiz-2.onrender.com/api/reset-password', {
         token,
         newPassword,
       });

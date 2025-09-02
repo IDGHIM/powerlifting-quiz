@@ -67,7 +67,7 @@ const QuizPage: React.FC = () => {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const res = await fetch(`http://https://powerlifting-quiz-2.onrender.com/api/quiz?category=${encodeURIComponent(category)}`);
+        const res = await fetch(`https://powerlifting-quiz-2.onrender.com/api/quiz?category=${encodeURIComponent(category)}`);
         if (!res.ok) throw new Error('Erreur chargement questions');
         const data = (await res.json()) as Question[];
         // Mélange des questions et des réponses
