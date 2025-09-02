@@ -22,7 +22,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'votre_secret_jwt';
 
 // Middleware globaux
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://192.168.10.5:3000'],
+  origin: ['http://localhost:3000', 'http://192.168.10.5:3000', 'https://powerlifting-quiz-v1.onrender.com'],
   methods: ['GET', 'POST', 'DELETE', 'OPTIONS', 'PATCH', 'PUT'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
