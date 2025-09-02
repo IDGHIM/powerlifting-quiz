@@ -37,7 +37,8 @@ const login = async (req, res) => {
             return res.status(400).json({ message: 'Invalid credentials' });
         }
         const token = jsonwebtoken_1.default.sign({ username: user.username, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        return res.json({ token });
+        return res.json({ token }),
+            console.log(token);
     }
     catch (err) {
         console.error(err);
