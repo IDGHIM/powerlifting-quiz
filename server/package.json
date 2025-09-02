@@ -8,7 +8,7 @@
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "import": "ts-node --project tsconfig.json src/scripts/ImportQuiz.ts",
     "build": "tsc",
-    "prod": "node dist/server.ts",
+    "prod": "node dist/server.js",
     "export-users": "ts-node src/scripts/ExportUser.ts"
   },
   "dependencies": {
