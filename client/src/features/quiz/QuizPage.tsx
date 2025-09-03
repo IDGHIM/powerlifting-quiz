@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Timer from '../../components/Timer.tsx';
 import { Question } from '../../../../types/Quiz.ts';
+import './QuizPage.css';
 
 // Mélange un tableau
 const shuffleArray = <T,>(array: T[]): T[] => [...array].sort(() => Math.random() - 0.5);
