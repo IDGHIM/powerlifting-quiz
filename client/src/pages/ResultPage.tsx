@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Badges from '../components/Badges.tsx';
 import { useAuth } from '../features/context/authContext.tsx';
-//import './ResultPage.css';
 
 // Interface pour typer une question et ses réponses
 interface Question {
@@ -42,8 +41,16 @@ const ResultPage: React.FC = () => {
 
   const [published, setPublished] = useState(false);
   const [isPublishing, setIsPublishing] = useState(false);
+  const [guestName, setGuestName] = useState(''); // état pour le nom invité
 
   const handlePublish = async () => {
+    const usernameToSend = user?.username || guestName.trim();
+
+    if (!usernameToSend) {
+      alert('Veuillez entrer votre nom avant de publier le score.');
+      return;
+    }
+
     setIsPublishing(true);
 
     const payload = mode === '2players'
@@ -63,7 +70,7 @@ const ResultPage: React.FC = () => {
         ]
       : [
           {
-            username: user?.username || 'Invité',
+            username: usernameToSend,
             points: Math.floor(score!),
             mode,
             category,
@@ -89,6 +96,7 @@ const ResultPage: React.FC = () => {
     }
   };
 
+  // Gestion des cas où les données sont manquantes
   if (
     (mode === '2players' && (!scores || total === undefined)) ||
     ((mode === 'classic' || mode === 'timer') && (score === undefined || total === undefined))
@@ -105,6 +113,7 @@ const ResultPage: React.FC = () => {
     );
   }
 
+  // Mode deux joueurs
   if (mode === '2players' && scores) {
     const player1Score = scores[1];
     const player2Score = scores[2];
@@ -171,6 +180,7 @@ const ResultPage: React.FC = () => {
     );
   }
 
+  // Mode solo
   const percentage = (score! / total) * 100;
 
   return (
@@ -198,7 +208,20 @@ const ResultPage: React.FC = () => {
           )}
         </div>
       </div>
+
       <div className="outside-button">
+        {!published && !user?.username && (
+          <div style={{ marginBottom: '1rem' }}>
+            <input
+              type="text"
+              placeholder="Entrez votre nom"
+              value={guestName}
+              onChange={(e) => setGuestName(e.target.value)}
+              className="quiz-option"
+            />
+          </div>
+        )}
+
         {!published ? (
           <button className="quiz-option" onClick={handlePublish} disabled={isPublishing}>
             {isPublishing ? 'Publication...' : 'Publier mon score'}
@@ -206,6 +229,7 @@ const ResultPage: React.FC = () => {
         ) : (
           <p>✅ Score publié avec succès !</p>
         )}
+
         <button className="quiz-option" onClick={() => navigate('/categories')}>Rejouer</button>
       </div>
     </>
